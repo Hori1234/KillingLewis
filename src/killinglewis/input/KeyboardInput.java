@@ -1,4 +1,4 @@
-package killinglewis.Input;
+package killinglewis.input;
 
 import org.lwjgl.glfw.GLFWKeyCallback;
 import static org.lwjgl.glfw.GLFW.*;
