@@ -4,7 +4,9 @@ import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class CursorPosition extends GLFWCursorPosCallback {
 
+    /* X coordinate position of mouse. */
     public static double xpos;
+    /* Y coordinate position of mouse. */
     public static double ypos;
 
     @Override
