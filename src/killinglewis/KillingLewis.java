@@ -1,16 +1,19 @@
 package killinglewis;
 
+import killinglewis.Models.VertexArray;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
+import killinglewis.math.Matrix4f;
+import killinglewis.math.Vector3f;
 import killinglewis.utils.ShaderLoader;
+import killinglewis.utils.Texture;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -29,7 +32,14 @@ public class KillingLewis implements Runnable {
     /* Current window. */
     private long window;
     /* Shader the game is using. */
-    int shader;
+    private int shader;
+
+    private VertexArray lewis;
+
+    int viewMatrixUniform;
+
+    float moveHorizontal = 0.0f;
+    float moveVertical = 0.0f;
 
     /**
      * Initialize GLFW window.
@@ -74,15 +84,49 @@ public class KillingLewis implements Runnable {
         GL.createCapabilities();
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // enable alpha blending
+
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
-        glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        glClearColor(0.0f, 0.7f, 0.6f, 0.0f);
 
         shader = ShaderLoader.load("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
         glUseProgram(shader);
 
-        // initialize and bind vertex array object
-        int vao = glGenVertexArrays();
-        glBindVertexArray(vao);
+        float[] vertices = {
+                -0.05f, 0.15f, 0f,
+                -0.05f, -0.15f, 0f,
+                0.05f, -0.15f, 0f,
+                0.05f, -0.15f, 0f,
+                0.05f, 0.15f, 0f,
+                -0.05f, 0.15f, 0f
+        };
+
+        float[] textureCoords = {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 1,
+                1, 0,
+                0, 0
+        };
+
+        Texture lewisTexture = new Texture("textures/lewis.png");
+
+        int uniform = glGetUniformLocation(shader, "tex");
+        glActiveTexture(GL_TEXTURE0);
+        glUniform1i(uniform, 0);
+
+        viewMatrixUniform = glGetUniformLocation(shader, "view_matrix");
+        Matrix4f viewMatrix = Matrix4f.identityMatrix();
+        glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+
+        /* TO DO!! IMPLEMENT PROJECTION MATRIX. */
+//        int viewMatrixUniform = glGetUniformLocation(shader, "projection_matrix");
+//        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix();
+//        glUniformMatrix4fv(viewMatrixUniform, false, projectionMatrix.getMatrix());
+
+        lewis = new VertexArray(vertices, textureCoords, lewisTexture);
     }
 
     @Override
@@ -102,6 +146,30 @@ public class KillingLewis implements Runnable {
             glfwSetWindowShouldClose(window, true);
         }
 
+        if (KeyboardInput.keys[GLFW_KEY_D]) {
+            moveHorizontal += 0.003f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_A]) {
+            moveHorizontal -= 0.003f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_W]) {
+            moveVertical += 0.003f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_S]) {
+            moveVertical -= 0.003f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             System.out.println(CursorPosition.xpos);
         }
@@ -113,7 +181,7 @@ public class KillingLewis implements Runnable {
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        lewis.draw();
         glfwSwapBuffers(window);
     }
 

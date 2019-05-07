@@ -2,6 +2,12 @@
 
 out vec4 color;
 
+in test {
+    vec2 tCoord;
+} fromVert;
+
+uniform sampler2D tex;
+
 void main() {
-    color = vec4(0.3, 0.8, 0.7, 1.0);
+    color = texture(tex, fromVert.tCoord);
 }

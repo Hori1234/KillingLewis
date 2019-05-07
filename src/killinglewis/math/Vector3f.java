@@ -1,20 +1,19 @@
 package killinglewis.math;
-import java.util.Vector;
 
-import static java.lang.Math.*;
+import static java.lang.Math.sqrt;
 
-public class Vector3d {
+public class Vector3f {
     /* Vector components. */
-    private double x, y, z;
+    private float x, y, z;
 
     /* Normal X vector. */
-    public final static Vector3d xVector = new Vector3d(1, 0, 0);
+    public final static Vector3f xVector = new Vector3f(1, 0, 0);
     /* Normal Y vector. */
-    public final static Vector3d yVector = new Vector3d(0, 1, 0);
+    public final static Vector3f yVector = new Vector3f(0, 1, 0);
     /* Normal Z vector. */
-    public final static Vector3d zVector = new Vector3d(0, 0, 1);
+    public final static Vector3f zVector = new Vector3f(0, 0, 1);
 
-    public Vector3d(double x, double y, double z) {
+    public Vector3f(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -25,7 +24,7 @@ public class Vector3d {
      *
      * @return X coordinate
      */
-    public double getX() {
+    public float getX() {
         return x;
     }
 
@@ -34,7 +33,7 @@ public class Vector3d {
      *
      * @return Y coordinate
      */
-    public double getY() {
+    public float getY() {
         return y;
     }
 
@@ -43,7 +42,7 @@ public class Vector3d {
      *
      * @return Z coordinate
      */
-    public double getZ() {
+    public float getZ() {
         return z;
     }
 
@@ -52,8 +51,8 @@ public class Vector3d {
      *
      * @return length of vector
      */
-    public double getLength() {
-        return sqrt(x * x + y * y + z * z);
+    public float getLength() {
+        return (float) sqrt(x * x + y * y + z * z);
     }
 
     /**
@@ -62,11 +61,11 @@ public class Vector3d {
      * @param otherVector the other vector
      * @return the cross product result
      */
-    public Vector3d cross(Vector3d otherVector) {
-        double resultX = y * otherVector.getZ() - z * otherVector.getY();
-        double resultY = z * otherVector.getX() - x * otherVector.getZ();
-        double resultZ = x * otherVector.getY() - y * otherVector.getX();
-        return new Vector3d(resultX, resultY, resultZ);
+    public Vector3f cross(Vector3f otherVector) {
+        float resultX = y * otherVector.getZ() - z * otherVector.getY();
+        float resultY = z * otherVector.getX() - x * otherVector.getZ();
+        float resultZ = x * otherVector.getY() - y * otherVector.getX();
+        return new Vector3f(resultX, resultY, resultZ);
     }
 
     /**
@@ -75,8 +74,8 @@ public class Vector3d {
      * @param otherVector the other vector
      * @return the dot product result
      */
-    public Vector3d dot(Vector3d otherVector) {
-        return new Vector3d(x * otherVector.getX(), y * otherVector.getY(), z * otherVector.getZ());
+    public Vector3f dot(Vector3f otherVector) {
+        return new Vector3f(x * otherVector.getX(), y * otherVector.getY(), z * otherVector.getZ());
     }
 
     /**
@@ -85,8 +84,8 @@ public class Vector3d {
      * @param scale the scale
      * @return scaled vector
      */
-    public Vector3d scale(double scale) {
-        return new Vector3d(x * scale, y * scale, z * scale);
+    public Vector3f scale(float scale) {
+        return new Vector3f(x * scale, y * scale, z * scale);
     }
 
     /**
@@ -95,8 +94,8 @@ public class Vector3d {
      * @param otherVector the other vector
      * @return the addition result
      */
-    public Vector3d add(Vector3d otherVector) {
-        return new Vector3d(x + otherVector.getX(), y + otherVector.getY(), z + otherVector.getZ());
+    public Vector3f add(Vector3f otherVector) {
+        return new Vector3f(x + otherVector.getX(), y + otherVector.getY(), z + otherVector.getZ());
     }
 
     /**
@@ -105,8 +104,8 @@ public class Vector3d {
      * @param otherVector the other vector
      * @return the addition result
      */
-    public Vector3d subtract(Vector3d otherVector) {
-        return new Vector3d(x - otherVector.getX(), y - otherVector.getY(), z - otherVector.getZ());
+    public Vector3f subtract(Vector3f otherVector) {
+        return new Vector3f(x - otherVector.getX(), y - otherVector.getY(), z - otherVector.getZ());
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Texture {
         IntBuffer components = BufferUtils.createIntBuffer(1);
 
         // load the image data into a byte buffer using STB
-        ByteBuffer imageData = stbi_load(texturePath, width, height, components, 4);
+        ByteBuffer imageData = stbi_load(texturePath, width, height, components, STBI_rgb_alpha);
 
         this.id = glGenTextures();
         this.width = width.get();
