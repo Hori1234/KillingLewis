@@ -2,12 +2,10 @@
 
 out vec4 color;
 
-in test {
-    vec2 tCoord;
-} fromVert;
+in vec2 tc;
 
 uniform sampler2D tex;
 
 void main() {
-    color = texture(tex, fromVert.tCoord);
+    color = texture(tex, tc);
 }

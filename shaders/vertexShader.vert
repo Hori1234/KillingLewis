@@ -3,13 +3,11 @@
 layout (location = 0) in vec4 vertex;
 layout (location = 1) in vec2 tCoord;
 
-out test {
-    vec2 tCoord;
-} toFrag;
+out vec2 tc;
 
 uniform mat4 view_matrix;
 
 void main() {
     gl_Position = view_matrix * vertex;
-    toFrag.tCoord = tCoord;
+    tc = tCoord;
 }
