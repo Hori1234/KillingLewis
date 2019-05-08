@@ -10,12 +10,13 @@ import java.util.regex.Pattern;
 
 public class ModelLoader {
 
+    // Data to extract from model file
     private Vector<Float> vertices = new Vector<>();
     private Vector<Float> tCoords = new Vector<>();
     private Vector<Integer> faces = new Vector<>();
 
     public void loadModel (String filePath) {
-
+        // Clear containers before proceeding with the load of data
         vertices.clear();
         tCoords.clear();
         faces.clear();
@@ -26,22 +27,27 @@ public class ModelLoader {
             reader = new BufferedReader(new FileReader(filePath));
             String line = reader.readLine();
 
-            Pattern p = Pattern.compile("[-+]?\\d*\\.\\d+|\\d+");
-            Pattern i = Pattern.compile("([\\+-]?\\d+)([eE][\\+-]?\\d+)?");
+            Pattern p = Pattern.compile("[-+]?\\d*\\.\\d+|\\d+"); // regex for float in text
+            Pattern i = Pattern.compile("([\\+-]?\\d+)([eE][\\+-]?\\d+)?"); // regex for int in text
 
             while (line != null) {
                 if (line.length() >= 1) {
+                    // Line is containing information about vertex
                     if (line.charAt(0) == 'v' && line.charAt(1) != 't') {
                         Matcher m = p.matcher(line);
                         while (m.find()) {
                             vertices.add(Float.parseFloat(m.group()));
                         }
-                    } else if (line.charAt(0) == 'v' && line.charAt(1) == 't') {
+                    }
+                    // Line is containing information texture coordinate
+                    else if (line.charAt(0) == 'v' && line.charAt(1) == 't') {
                         Matcher m = p.matcher(line);
                         while (m.find()) {
                             tCoords.add(Float.parseFloat(m.group()));
                         }
-                    } else if (line.charAt(0) == 'f') {
+                    }
+                    // Line is containing information about faces
+                    else if (line.charAt(0) == 'f') {
                         Matcher m = i.matcher(line);
                         while (m.find()) {
                             faces.add(Integer.parseInt(m.group()));
