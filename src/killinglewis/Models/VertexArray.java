@@ -3,6 +3,7 @@ package killinglewis.Models;
 import killinglewis.utils.Texture;
 import org.lwjgl.BufferUtils;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL30.*;
@@ -15,12 +16,14 @@ public class VertexArray {
     private int vbo;
     /* Texture buffer object. */
     private int tbo;
+    /* Indeces buffer object. */
+    private int ibo;
     /* Number of triangles. */
     private int count;
     /* Texture of this object. */
     Texture texture;
 
-    public VertexArray(float[] vertices, float[] textureCoords, Texture texture) {
+    public VertexArray(float[] vertices, float[] textureCoords, byte[] indices, Texture texture) {
         this.texture = texture;
 
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
@@ -31,7 +34,11 @@ public class VertexArray {
         textureCoordsBuffer.put(textureCoords);
         textureCoordsBuffer.flip();
 
-        count = vertices.length / 3; // set the number of triangles
+        ByteBuffer indexBuffer = BufferUtils.createByteBuffer(indices.length);
+        indexBuffer.put(indices);
+        indexBuffer.flip();
+
+        count = indices.length; // set the number of triangles
 
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
@@ -46,6 +53,10 @@ public class VertexArray {
         glBufferData(GL_ARRAY_BUFFER, textureCoordsBuffer, GL_STATIC_DRAW);
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 
+        ibo = glGenBuffers();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindVertexArray(0);
@@ -57,7 +68,11 @@ public class VertexArray {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawArrays(GL_TRIANGLES, 0, count);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_BYTE, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(0);
