@@ -146,7 +146,7 @@ public class KillingLewis implements Runnable {
 
 
 
-        Texture lewisTexture = new Texture("textures/bricks.jpg");
+        Texture lewisTexture = new Texture("textures/cow.jpg");
 
         int uniform = glGetUniformLocation(shader, "tex");
         glActiveTexture(GL_TEXTURE0);
@@ -158,10 +158,14 @@ public class KillingLewis implements Runnable {
 
         /* TO DO!! IMPLEMENT PROJECTION MATRIX. */
         int projectionMatrixUniform = glGetUniformLocation(shader, "projection_matrix");
-        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, 5.0f, -5.0f);
+        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, 15.0f, -15.0f);
         glUniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.getMatrix());
 
-        lewis = new VertexArray(vertices, textureCoords, indices, lewisTexture);
+        ModelLoader ml = new ModelLoader();
+        ml.loadModel("res/cow.obj");
+
+
+        lewis = new VertexArray(ml.getVertices(), ml.getTCoords(), ml.getFaces(), lewisTexture);
     }
 
     @Override

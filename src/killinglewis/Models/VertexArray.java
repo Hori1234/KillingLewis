@@ -3,8 +3,8 @@ package killinglewis.Models;
 import killinglewis.utils.Texture;
 import org.lwjgl.BufferUtils;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -23,7 +23,7 @@ public class VertexArray {
     /* Texture of this object. */
     Texture texture;
 
-    public VertexArray(float[] vertices, float[] textureCoords, byte[] indices, Texture texture) {
+    public VertexArray(float[] vertices, float[] textureCoords, int[] indices, Texture texture) {
         this.texture = texture;
 
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
@@ -34,7 +34,7 @@ public class VertexArray {
         textureCoordsBuffer.put(textureCoords);
         textureCoordsBuffer.flip();
 
-        ByteBuffer indexBuffer = BufferUtils.createByteBuffer(indices.length);
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices.length);
         indexBuffer.put(indices);
         indexBuffer.flip();
 
@@ -70,7 +70,7 @@ public class VertexArray {
 
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_BYTE, 0);
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 

@@ -72,7 +72,7 @@ public class ModelLoader {
                 Iterator<Float> it = vertices.iterator();
 
                 while (it.hasNext()) {
-                    result[k++] = it.next();
+                    result[k++] = it.next() / 100.0f;
                 }
             }
         } catch (Exception e) {
@@ -92,7 +92,7 @@ public class ModelLoader {
                 Iterator<Float> it = tCoords.iterator();
 
                 while (it.hasNext()) {
-                    result[++k] = it.next();
+                    result[k++] = it.next();
                 }
             }
         } catch (Exception e) {
@@ -112,7 +112,8 @@ public class ModelLoader {
                 Iterator<Integer> it = faces.iterator();
 
                 while (it.hasNext()) {
-                    result[++k] = it.next();
+                    result[k++] = it.next() - 1;
+                    it.next();
                 }
             }
         } catch (Exception e) {
