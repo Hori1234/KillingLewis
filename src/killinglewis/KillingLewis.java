@@ -6,6 +6,7 @@ import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
+import killinglewis.utils.ModelLoader;
 import killinglewis.utils.ShaderLoader;
 import killinglewis.utils.Texture;
 import org.lwjgl.glfw.*;
