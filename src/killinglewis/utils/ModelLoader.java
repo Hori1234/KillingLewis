@@ -1,0 +1,117 @@
+package killinglewis.utils;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ModelLoader {
+
+    private Vector<Float> vertices = new Vector<>();
+    private Vector<Float> tCoords = new Vector<>();
+    private Vector<Integer> faces = new Vector<>();
+
+    public void loadModel (String filePath) {
+
+        vertices.clear();
+        tCoords.clear();
+        faces.clear();
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            String line = reader.readLine();
+
+            Pattern p = Pattern.compile("[-+]?\\d*\\.\\d+|\\d+");
+            Pattern i = Pattern.compile("([\\+-]?\\d+)([eE][\\+-]?\\d+)?");
+
+            while (line != null) {
+                if (line.length() >= 1) {
+                    if (line.charAt(0) == 'v' && line.charAt(1) != 't') {
+                        Matcher m = p.matcher(line);
+                        while (m.find()) {
+                            vertices.add(Float.parseFloat(m.group()));
+                        }
+                    } else if (line.charAt(0) == 'v' && line.charAt(1) == 't') {
+                        Matcher m = p.matcher(line);
+                        while (m.find()) {
+                            tCoords.add(Float.parseFloat(m.group()));
+                        }
+                    } else if (line.charAt(0) == 'f') {
+                        Matcher m = i.matcher(line);
+                        while (m.find()) {
+                            faces.add(Integer.parseInt(m.group()));
+                        }
+                    }
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public float[] getVertices () {
+        float[] result = null;
+        try {
+            if (vertices.size() == 0) {
+                throw new Exception("No model loaded.");
+            } else {
+                result = new float[vertices.size()];
+                int k = 0;
+                Iterator<Float> it = vertices.iterator();
+
+                while (it.hasNext()) {
+                    result[k++] = it.next();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public float[] getTCoords () {
+        float[] result = null;
+        try {
+            if (tCoords.size() == 0) {
+                throw new Exception("No model loaded.");
+            } else {
+                result = new float[tCoords.size()];
+                int k = 0;
+                Iterator<Float> it = tCoords.iterator();
+
+                while (it.hasNext()) {
+                    result[++k] = it.next();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int[] getFaces () {
+        int[] result = null;
+        try {
+            if (faces.size() == 0) {
+                throw new Exception("No model loaded.");
+            } else {
+                result = new int[faces.size()];
+                int k = 0;
+                Iterator<Integer> it = faces.iterator();
+
+                while (it.hasNext()) {
+                    result[++k] = it.next();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+}
