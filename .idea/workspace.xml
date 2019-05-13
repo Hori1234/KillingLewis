@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f33874b4-1684-4493-8472-2ab4ef00f4f1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/KillingLewis.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/KillingLewis.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/Models/VertexArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/Models/VertexArray.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/math/Matrix4f.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/math/Matrix4f.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/utils/ShaderLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/KillingLewis/killinglewis/utils/ShaderLoader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -108,10 +104,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/Maze.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+            <state relative-caret-position="105">
+              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#844#845#0" expanded="true" />
+                <element signature="e#884#885#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -167,10 +165,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="730" />
-    <option name="width" value="710" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="40" />
+    <option name="y" value="23" />
+    <option name="width" value="1400" />
+    <option name="height" value="803" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -310,10 +309,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="730" y="0" width="710" height="900" extended-state="0" />
+    <frame x="40" y="23" width="1400" height="803" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.55988026" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20397644" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -322,14 +321,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32883435" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.498503" weight="0.3192771" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.497006" weight="0.36146274" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32883435" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32883435" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50149703" side_tool="true" weight="0.32891566" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32883435" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.498503" weight="0.32771084" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.498503" weight="0.32770744" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.502994" side_tool="true" weight="0.3192771" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.498503" weight="0.32771084" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32771084" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
@@ -487,18 +486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/killinglewis/KillingLewis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2730">
-          <caret line="182" column="25" selection-start-line="182" selection-start-column="25" selection-end-line="182" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#6318#6319#0" expanded="true" />
-            <element signature="e#6362#6363#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/ShaderLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-299">
@@ -523,12 +510,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/Maze.java">
+    <entry file="file://$PROJECT_DIR$/src/killinglewis/KillingLewis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="16" column="27" lean-forward="true" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+        <state relative-caret-position="2730">
+          <caret line="182" column="25" selection-start-line="182" selection-start-column="25" selection-end-line="182" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6318#6319#0" expanded="true" />
+            <element signature="e#6362#6363#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/Maze.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#844#845#0" expanded="true" />
+            <element signature="e#884#885#0" expanded="true" />
           </folding>
         </state>
       </provider>
