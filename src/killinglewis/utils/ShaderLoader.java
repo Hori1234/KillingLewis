@@ -1,9 +1,6 @@
 package killinglewis.utils;
 
-import java.io.IOException;
-
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 
 public class ShaderLoader {
 

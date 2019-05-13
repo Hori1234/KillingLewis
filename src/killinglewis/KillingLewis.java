@@ -6,6 +6,7 @@ import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
+import killinglewis.utils.ModelLoader;
 import killinglewis.utils.ShaderLoader;
 import killinglewis.utils.Texture;
 import org.lwjgl.glfw.*;
@@ -40,6 +41,9 @@ public class KillingLewis implements Runnable {
 
     float moveHorizontal = 0.0f;
     float moveVertical = 0.0f;
+    float moveZ = 0.0f;
+    float rotated = 0.0f;
+    float rotatedX = 0.0f;
 
     /**
      * Initialize GLFW window.
@@ -94,24 +98,55 @@ public class KillingLewis implements Runnable {
         glUseProgram(shader);
 
         float[] vertices = {
-                -0.05f, 0.15f, 0f,
-                -0.05f, -0.15f, 0f,
-                0.05f, -0.15f, 0f,
-                0.05f, -0.15f, 0f,
-                0.05f, 0.15f, 0f,
-                -0.05f, 0.15f, 0f
+                // front
+                -1.0f, -1.0f,  0.5f,
+                1.0f, -1.0f,  0.5f,
+                1.0f,  1.0f,  0.5f,
+                -1.0f,  1.0f,  0.5f,
+                // back
+                -1.0f, -1.0f, -0.5f,
+                1.0f, -1.0f, -0.5f,
+                1.0f,  1.0f, -0.5f,
+                -1.0f,  1.0f, -0.5f
         };
+
+        byte[] indices = {
+                // front
+                0, 1, 2,
+                2, 3, 0,
+                // right
+                1, 5, 6,
+                6, 2, 1,
+                // back
+                7, 6, 5,
+                5, 4, 7,
+                // left
+                4, 0, 3,
+                3, 7, 4,
+                // bottom
+                4, 5, 1,
+                1, 0, 4,
+                // top
+                3, 2, 6,
+                6, 7, 3
+        };
+
 
         float[] textureCoords = {
                 0, 0,
                 0, 1,
                 1, 1,
-                1, 1,
                 1, 0,
-                0, 0
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0
         };
 
-        Texture lewisTexture = new Texture("textures/lewis.png");
+
+
+
+        Texture lewisTexture = new Texture("textures/cow.jpg");
 
         int uniform = glGetUniformLocation(shader, "tex");
         glActiveTexture(GL_TEXTURE0);
@@ -122,11 +157,15 @@ public class KillingLewis implements Runnable {
         glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
 
         /* TO DO!! IMPLEMENT PROJECTION MATRIX. */
-//        int viewMatrixUniform = glGetUniformLocation(shader, "projection_matrix");
-//        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix();
-//        glUniformMatrix4fv(viewMatrixUniform, false, projectionMatrix.getMatrix());
+        int projectionMatrixUniform = glGetUniformLocation(shader, "projection_matrix");
+        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, 15.0f, -15.0f);
+        glUniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.getMatrix());
 
-        lewis = new VertexArray(vertices, textureCoords, lewisTexture);
+        ModelLoader ml = new ModelLoader();
+        ml.loadModel("res/cow.obj");
+
+
+        lewis = new VertexArray(ml.getVertices(), ml.getTCoords(), ml.getFaces(), lewisTexture);
     }
 
     @Override
@@ -147,26 +186,63 @@ public class KillingLewis implements Runnable {
         }
 
         if (KeyboardInput.keys[GLFW_KEY_D]) {
-            moveHorizontal += 0.003f;
-            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            moveHorizontal += 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
             glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
         }
 
         if (KeyboardInput.keys[GLFW_KEY_A]) {
-            moveHorizontal -= 0.003f;
-            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            moveHorizontal -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
             glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
         }
 
         if (KeyboardInput.keys[GLFW_KEY_W]) {
-            moveVertical += 0.003f;
-            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            moveVertical += 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
             glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
         }
 
         if (KeyboardInput.keys[GLFW_KEY_S]) {
-            moveVertical -= 0.003f;
-            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, 0.0f));
+            moveVertical -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_S]) {
+            moveVertical -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_T]) {
+            moveZ -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_LEFT]) {
+            rotated -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_RIGHT]) {
+            rotated += 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_UP]) {
+            rotatedX += 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
+            glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
+            System.out.println(rotatedX);
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_DOWN]) {
+            rotatedX -= 0.05f;
+            Matrix4f viewMatrix = Matrix4f.translate(new Vector3f(moveHorizontal, moveVertical, moveZ)).multiply(Matrix4f.rotateY(rotated)).multiply(Matrix4f.rotateX(rotatedX));
             glUniformMatrix4fv(viewMatrixUniform, false, viewMatrix.getMatrix());
         }
 
