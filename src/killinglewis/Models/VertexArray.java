@@ -1,5 +1,9 @@
 package killinglewis.Models;
 
+import killinglewis.math.Matrix4f;
+import killinglewis.math.Vector3f;
+import killinglewis.utils.ModelLoader;
+import killinglewis.utils.Shader;
 import killinglewis.utils.Texture;
 import org.lwjgl.BufferUtils;
 
@@ -21,24 +25,39 @@ public class VertexArray {
     /* Number of triangles. */
     private int count;
     /* Texture of this object. */
-    Texture texture;
+    private Texture texture;
+    /* Transformation matrix of this model. */
+    private Matrix4f transformationMatrix;
+    /* Shader for this model. */
+    private Shader shader;
 
-    public VertexArray(float[] vertices, float[] textureCoords, int[] indices, Texture texture) {
-        this.texture = texture;
+    public VertexArray(String modelPath, String texturePath, Shader shader) {
+        transformationMatrix = Matrix4f.identityMatrix();
+        this.shader = shader;
+        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
 
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        vertexBuffer.put(vertices);
+        texture = new Texture(texturePath);
+
+        ModelLoader ml = new ModelLoader();
+        ml.loadModel(modelPath);
+
+        bindModel(ml);
+    }
+
+    private void bindModel(ModelLoader ml) {
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(ml.getVertices().length);
+        vertexBuffer.put(ml.getVertices());
         vertexBuffer.flip(); // flip the buffer for opengl
 
-        FloatBuffer textureCoordsBuffer = BufferUtils.createFloatBuffer(textureCoords.length);
-        textureCoordsBuffer.put(textureCoords);
+        FloatBuffer textureCoordsBuffer = BufferUtils.createFloatBuffer(ml.getTCoords().length);
+        textureCoordsBuffer.put(ml.getTCoords());
         textureCoordsBuffer.flip();
 
-        IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices.length);
-        indexBuffer.put(indices);
+        IntBuffer indexBuffer = BufferUtils.createIntBuffer(ml.getFaces().length);
+        indexBuffer.put(ml.getFaces());
         indexBuffer.flip();
 
-        count = indices.length; // set the number of triangles
+        count = ml.getFaces().length; // set the number of triangles
 
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
@@ -57,12 +76,16 @@ public class VertexArray {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
 
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindVertexArray(0);
     }
 
     public void draw() {
+        glActiveTexture(GL_TEXTURE0);
+        shader.setUniform1i("tex", 0);
         texture.bind();
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
@@ -78,5 +101,25 @@ public class VertexArray {
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
         texture.unbind();
+    }
+
+    public void translate(Vector3f translation) {
+        transformationMatrix.translate(translation);
+        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+    }
+
+    public void rotateX(float angle) {
+        transformationMatrix.rotateX(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+    }
+
+    public void rotateY(float angle) {
+        transformationMatrix.rotateY(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+    }
+
+    public void rotateZ(float angle) {
+        transformationMatrix.rotateZ(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
     }
 }
