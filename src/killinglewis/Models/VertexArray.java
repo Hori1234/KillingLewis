@@ -34,14 +34,19 @@ public class VertexArray {
     public VertexArray(String modelPath, String texturePath, Shader shader) {
         transformationMatrix = Matrix4f.identityMatrix();
         this.shader = shader;
-        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+        shader.enable();
+
+        shader.setUniformMat4f("transformation", transformationMatrix);
 
         texture = new Texture(texturePath);
+        glActiveTexture(GL_TEXTURE0);
+        shader.setUniform1i("tex", 0);
 
         ModelLoader ml = new ModelLoader();
         ml.loadModel(modelPath);
 
         bindModel(ml);
+        shader.disable();
     }
 
     private void bindModel(ModelLoader ml) {
@@ -84,13 +89,11 @@ public class VertexArray {
     }
 
     public void draw() {
-        glActiveTexture(GL_TEXTURE0);
-        shader.setUniform1i("tex", 0);
+        shader.enable();
         texture.bind();
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
@@ -101,25 +104,34 @@ public class VertexArray {
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
         texture.unbind();
+        shader.disable();
     }
 
     public void translate(Vector3f translation) {
-        transformationMatrix.translate(translation);
-        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+        shader.enable();
+        transformationMatrix = transformationMatrix.translate(translation);
+        shader.setUniformMat4f("transformation", transformationMatrix);
+        shader.disable();
     }
 
     public void rotateX(float angle) {
-        transformationMatrix.rotateX(angle);
-        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+        shader.enable();
+        transformationMatrix = transformationMatrix.rotateX(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix);
+        shader.disable();
     }
 
     public void rotateY(float angle) {
-        transformationMatrix.rotateY(angle);
-        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+        shader.enable();
+        transformationMatrix = transformationMatrix.rotateY(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix);
+        shader.disable();
     }
 
     public void rotateZ(float angle) {
-        transformationMatrix.rotateZ(angle);
-        shader.setUniformMat4f("transformation", transformationMatrix.getMatrix());
+        shader.enable();
+        transformationMatrix = transformationMatrix.rotateZ(angle);
+        shader.setUniformMat4f("transformation", transformationMatrix);
+        shader.disable();
     }
 }

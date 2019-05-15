@@ -32,7 +32,7 @@ public class Matrix4f {
         translated.getMatrix()[13] = translation.getY();
         translated.getMatrix()[14] = translation.getZ();
 
-        translated.multiply(this);
+        translated = translated.multiply(this);
 
         return translated;
     }
@@ -45,7 +45,7 @@ public class Matrix4f {
         rotated.getMatrix()[2 + 1 * 4] = (float) sin(angle);
         rotated.getMatrix()[2 + 2 * 4] = (float) cos(angle);
 
-        rotated.multiply(this);
+        rotated = rotated.multiply(this);
 
         return rotated;
     }
@@ -58,7 +58,7 @@ public class Matrix4f {
         rotated.getMatrix()[2 + 0 * 4] = (float) sin(angle);
         rotated.getMatrix()[2 + 2 * 4] = (float) cos(angle);
 
-        rotated.multiply(this);
+        rotated = rotated.multiply(this);
 
         return rotated;
     }
@@ -71,7 +71,7 @@ public class Matrix4f {
         rotated.getMatrix()[1 + 0 * 4] = (float) (-1.0f * sin(angle));
         rotated.getMatrix()[1 + 1 * 4] = (float) cos(angle);
 
-        rotated.multiply(this);
+        rotated = rotated.multiply(this);
 
         return rotated;
     }
@@ -82,7 +82,7 @@ public class Matrix4f {
             for (int j = 0; j < 4; j++) {
                 float sum = 0.0f;
                 for (int k = 0; k < 4; k++) {
-                    sum += this.getMatrix()[i + k * 4] * other.getMatrix()[j + k * 4];
+                    sum += this.getMatrix()[i + k * 4] * other.getMatrix()[j * 4 + k];
                 }
                 multiplied.getMatrix()[i + j * 4] = sum;
             }

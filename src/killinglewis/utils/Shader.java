@@ -15,7 +15,10 @@ public class Shader {
         id = ShaderLoader.load(vertexPath, fragmentPath);
         enable();
         //Shader.LEWIS_SHADER.setUniformMat4f("projection_matrix", Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f).getMatrix());
-        setUniformMat4f("projection_matrix", Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 16.0f/9.0f, 10.0f * 16.0f/9.0f, -15.0f, 15.0f).getMatrix());
+        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, 15.0f, -15.0f);
+        this.setUniformMat4f("projection_matrix", projectionMatrix);
+
+        disable();
     }
 
     public static void loadShaders() {
@@ -44,13 +47,9 @@ public class Shader {
         glUniform1f(uniform, value);
     }
 
-    public void setUniformMat4f(String name, float[] matrix) {
-        if (matrix.length != 16) {
-            System.err.println("Wrong matrix size! Matrices should be 4x4.");
-            return;
-        }
+    public void setUniformMat4f(String name, Matrix4f matrix) {
 
         int uniform = glGetUniformLocation(id, name);
-        glUniformMatrix4fv(uniform, false, matrix);
+        glUniformMatrix4fv(uniform, false, matrix.getMatrix());
     }
 }
