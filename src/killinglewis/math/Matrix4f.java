@@ -113,11 +113,14 @@ public class Matrix4f {
 
     public Matrix4f getTransformationMatrix(Vector3f translation, float r_X, float r_Y, float r_Z, Vector3f scale){
         Matrix4f transform_matrix = identityMatrix();
-        transform_matrix.translate(translation);
+        transform_matrix.scale(scale);
+
         transform_matrix.rotateX(r_X);
         transform_matrix.rotateY(r_Y);
         transform_matrix.rotateZ(r_Z);
-        transform_matrix.scale(scale);
+
+        transform_matrix.translate(translation);
+
         return  transform_matrix;
     }
 

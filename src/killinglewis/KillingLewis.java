@@ -37,6 +37,8 @@ public class KillingLewis implements Runnable {
     private long window;
     /* Shader the game is using. */
     private int shader;
+    /* Target FPS */
+    private static int TARGET_FPS  = 60;
 
     private VertexArray lewis;
 
@@ -169,9 +171,14 @@ public class KillingLewis implements Runnable {
      * The main game loop.
      */
     private void loop() {
+        double lastTime = glfwGetTime();
         while (!glfwWindowShouldClose(window)) {
-            render();
-            update();
+
+            while (glfwGetTime() < lastTime + 1.0/TARGET_FPS) {
+                render();
+                update();
+            }
+            lastTime += 1.0/TARGET_FPS;
         }
     }
 
