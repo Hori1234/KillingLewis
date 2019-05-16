@@ -1,5 +1,7 @@
 package killinglewis.math;
 
+import java.util.Vector;
+
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
@@ -40,6 +42,8 @@ public class Matrix4f {
     public Matrix4f rotateX(float angle) {
         Matrix4f rotated = identityMatrix();
 
+        angle = (float) (angle * Math.PI / 180.0f);
+
         rotated.getMatrix()[1 + 1 * 4] = (float) cos(angle);
         rotated.getMatrix()[1 + 2 * 4] = (float) (-1.0f * sin(angle));
         rotated.getMatrix()[2 + 1 * 4] = (float) sin(angle);
@@ -52,6 +56,8 @@ public class Matrix4f {
 
     public Matrix4f rotateY(float angle) {
         Matrix4f rotated = identityMatrix();
+
+        angle = (float) (angle * Math.PI / 180.0f);
 
         rotated.getMatrix()[0 + 0 * 4] = (float) cos(angle);
         rotated.getMatrix()[0 + 2 * 4] = (float) (-1.0f * sin(angle));
@@ -66,6 +72,8 @@ public class Matrix4f {
     public Matrix4f rotateZ(float angle) {
         Matrix4f rotated = identityMatrix();
 
+        angle = (float) (angle * Math.PI / 180.0f);
+
         rotated.getMatrix()[0 + 0 * 4] = (float) cos(angle);
         rotated.getMatrix()[0 + 1 * 4] = (float) sin(angle);
         rotated.getMatrix()[1 + 0 * 4] = (float) (-1.0f * sin(angle));
@@ -74,6 +82,18 @@ public class Matrix4f {
         rotated = rotated.multiply(this);
 
         return rotated;
+    }
+
+    public Matrix4f scale(Vector3f scale) {
+        Matrix4f scaled = identityMatrix();
+
+        scaled.getMatrix()[0 + 0 * 4] = scale.getX();
+        scaled.getMatrix()[1 + 1 * 4] = scale.getY();
+        scaled.getMatrix()[2 + 2 * 4] = scale.getZ();
+
+        scaled = scaled.multiply(this);
+
+        return scaled;
     }
 
     public Matrix4f multiply(Matrix4f other) {

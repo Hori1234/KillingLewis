@@ -8,14 +8,15 @@ import static org.lwjgl.opengl.GL20.*;
 public class Shader {
 
     public static Shader LEWIS_SHADER;
+    public static Shader TERRAIN_SHADER;
 
     private int id;
 
     public Shader(String vertexPath, String fragmentPath) {
         id = ShaderLoader.load(vertexPath, fragmentPath);
         enable();
-        //Shader.LEWIS_SHADER.setUniformMat4f("projection_matrix", Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f).getMatrix());
-        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, 15.0f, -15.0f);
+        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, -15.0f, 15.0f);
+        //Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
         this.setUniformMat4f("projection_matrix", projectionMatrix);
 
         disable();
@@ -23,6 +24,7 @@ public class Shader {
 
     public static void loadShaders() {
         LEWIS_SHADER = new Shader("shaders/lewis.vert", "shaders/lewis.frag");
+        TERRAIN_SHADER = new Shader("shaders/terrain.vert", "shaders/terrain.frag");
     }
 
     public int getID() {

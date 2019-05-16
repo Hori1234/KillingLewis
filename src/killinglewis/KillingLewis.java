@@ -1,5 +1,6 @@
 package killinglewis;
 
+import killinglewis.Models.Terrain;
 import killinglewis.Models.VertexArray;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
@@ -38,6 +39,8 @@ public class KillingLewis implements Runnable {
     private int shader;
 
     private VertexArray lewis;
+
+    Terrain terrain;
 
     /**
      * Initialize GLFW window.
@@ -90,7 +93,10 @@ public class KillingLewis implements Runnable {
 
         loadShaders();
 
-        lewis = new VertexArray("res/cow.obj", "textures/wall.jpg", Shader.LEWIS_SHADER);
+        lewis = new VertexArray("res/cow.obj", "textures/cow.jpg", Shader.LEWIS_SHADER);
+        lewis.rotateX(90);
+        lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
+        terrain = new Terrain();
     }
 
     @Override
@@ -132,29 +138,30 @@ public class KillingLewis implements Runnable {
         }
 
         if (KeyboardInput.keys[GLFW_KEY_R]) {
-            lewis.translate(new Vector3f(0.05f, 0.0f, 0.05f));
+            lewis.translate(new Vector3f(0.00f, 0.0f, 0.05f));
         }
 
         if (KeyboardInput.keys[GLFW_KEY_LEFT]) {
-            lewis.rotateY(-0.05f);
+            lewis.rotateY(-0.5f);
         }
 
         if (KeyboardInput.keys[GLFW_KEY_RIGHT]) {
-            lewis.rotateY(0.05f);
+            lewis.rotateY(0.5f);
         }
 
         if (KeyboardInput.keys[GLFW_KEY_UP]) {
-            lewis.rotateX(0.05f);
+            lewis.rotateX(0.5f);
         }
 
         if (KeyboardInput.keys[GLFW_KEY_DOWN]) {
-            lewis.rotateX(-0.05f);
+            lewis.rotateX(-0.5f);
         }
     }
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         lewis.draw();
+        terrain.render();
         glfwSwapBuffers(window);
     }
 

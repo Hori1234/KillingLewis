@@ -114,6 +114,13 @@ public class VertexArray {
         shader.disable();
     }
 
+    public void scale(Vector3f scale) {
+        shader.enable();
+        transformationMatrix = transformationMatrix.scale(scale);
+        shader.setUniformMat4f("transformation", transformationMatrix);
+        shader.disable();
+    }
+
     public void rotateX(float angle) {
         shader.enable();
         transformationMatrix = transformationMatrix.rotateX(angle);
