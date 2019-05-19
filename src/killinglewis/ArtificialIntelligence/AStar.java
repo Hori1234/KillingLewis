@@ -22,6 +22,7 @@ public class AStar {
     private int endX, endY;
     //Blocked cells array
     private static int[][] blocked;
+    private ArrayList<Integer> solutionPath = new ArrayList<>();
 
     public AStar(int width, int height, int si, int sj, int ei, int ej, int[][] blocks) {
         maze = new Cell[width][height];
@@ -189,6 +190,8 @@ public class AStar {
 
             while (current.parent != null) {
                 System.out.print("->" + "[" + current.parent.i + " " + current.parent.j + "]");
+                solutionPath.add(current.parent.i);
+                solutionPath.add(current.parent.j);
                 maze[current.parent.i][current.parent.j].solution = true;
                 current = current.parent;
             }
@@ -215,15 +218,11 @@ public class AStar {
             System.out.println("No possible path");
     }
 
-
-    public static void main(String[] args) throws IOException {
+    public static ArrayList<Integer> getSolutionPath(Maze maze) {
         int[][] theMaze;
         int goalX, goalY, startX, startY, height, width;
 
-        String filepath = "mazes/maze1.txt";
-
         //The maze of our game
-        Maze maze = new Maze(filepath);
         theMaze = maze.getMaze();
 
         //The start cell's coordinates
@@ -260,6 +259,8 @@ public class AStar {
         astar.displayScores(); //Display Scores on grid
         astar.displaySolution(); //Display Solution  Path
 
+        return astar.solutionPath;
     }
+
 }
 

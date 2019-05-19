@@ -80,6 +80,10 @@ public class Lewis {
         lewis.draw();
     }
 
+    public boolean getIsRunning() {
+        return isRunning;
+    }
+
     /**
      * Gets the x-axis coordinate in the maze where this object is currently placed.
      *

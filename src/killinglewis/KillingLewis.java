@@ -93,6 +93,7 @@ public class KillingLewis implements Runnable {
         loadShaders();
 
         level = new Level(new Maze("mazes/maze1.txt"));
+        level.findPath();
     }
 
     @Override
@@ -126,6 +127,11 @@ public class KillingLewis implements Runnable {
             level.runToCell(1, 1);
         }
 
+        if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
+            if (!level.getLewis().getIsRunning()) {
+                level.runToNextCell();
+            }
+        }
 
     }
 

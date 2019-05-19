@@ -1,15 +1,19 @@
 package killinglewis.Models;
 
+import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Maze;
+
+import java.util.ArrayList;
 
 public class Level {
     Lewis lewis;
     Terrain terrain;
     Maze maze;
+    ArrayList<Integer> path;
 
     public Level(Maze maze) {
-        maze = new Maze("mazes/maze1.txt");
+        this.maze = new Maze("mazes/maze1.txt");
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
 
@@ -35,5 +39,25 @@ public class Level {
 
     public Terrain getTerrain() {
         return terrain;
+    }
+
+    public void findPath() {
+        path = AStar.getSolutionPath(maze);
+    }
+
+    public void runToNextCell() {
+        Vector3f next = getNextCell();
+        runToCell((int) next.getX(), (int) next.getY());
+    }
+
+    private Vector3f getNextCell() {
+        if (!path.isEmpty()) {
+            Vector3f next = new Vector3f(path.get(path.size() - 1), path.get(path.size() - 2), 0);
+            path.remove(path.size() - 1);
+            path.remove(path.size() - 1);
+            return next;
+        } else {
+            return new Vector3f(maze.getGoalX(), maze.getGoalY(), 0);
+        }
     }
 }
