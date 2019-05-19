@@ -1,4 +1,5 @@
-package killinglewis.math;
+package killinglewis.utils;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -21,8 +22,8 @@ public class Maze {
     private int goalX = 0;
     private int goalY = 0;
     //The maze's coordinates:
-    private int height = 0;
-    private int width = 0;
+    private int height;
+    private int width;
     //The path to the file:
     private String filepath;
 
@@ -40,9 +41,7 @@ public class Maze {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        Maze ms = new Maze("/Users/ralucaviziteu/Desktop/Maze.txt");
-        ms.buildMaze("/Users/ralucaviziteu/Desktop/Maze.txt");
-        ms.convert(inputMaze, theMaze);
+
     }
 
     /**
@@ -53,8 +52,32 @@ public class Maze {
      */
     public int[][] getMaze() throws IOException{
         buildMaze(filepath);
-        convert(inputMaze, theMaze);
+        theMaze = convert(inputMaze, theMaze);
         return theMaze;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getGoalX() {
+        return goalX;
+    }
+
+    public int getGoalY() {
+        return goalY;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     /**
@@ -71,8 +94,8 @@ public class Maze {
 
             //First line of the file contains the width and height of the maze
             String dimensions = br.readLine();
-            int width = Integer.parseInt(dimensions.substring(0, dimensions.indexOf(' ')));
-            int height = Integer.parseInt((dimensions.substring(dimensions.indexOf(' ') + 1)));
+            width = Integer.parseInt(dimensions.substring(0, dimensions.indexOf(' ')));
+            height = Integer.parseInt((dimensions.substring(dimensions.indexOf(' ') + 1)));
             inputMaze = new char[height][width];
 
             //Second line of the file contains the start coordinates of Lewis in the maze
