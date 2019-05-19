@@ -1,14 +1,17 @@
 package killinglewis.Models;
 
 import killinglewis.math.Vector3f;
+import killinglewis.utils.Maze;
 
 public class Level {
     Lewis lewis;
     Terrain terrain;
+    Maze maze;
 
-    public Level() {
-        lewis = new Lewis(0, 0);
-        terrain = new Terrain();
+    public Level(Maze maze) {
+        maze = new Maze("mazes/maze1.txt");
+        lewis = new Lewis(maze.getStartX(), maze.getStartY());
+        terrain = new Terrain(maze);
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
     }
@@ -28,5 +31,9 @@ public class Level {
 
     public Lewis getLewis() {
         return lewis;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
     }
 }

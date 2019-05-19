@@ -11,7 +11,7 @@ import java.io.IOException;
  */
 
 public class Maze {
-    private static int [][] theMaze; // the maze matrix filled with integers
+    private static int [][] maze; // the maze matrix filled with integers
     private static char [][] inputMaze; // the maze matrix filled with characters
     private File f; // a file f
     private BufferedReader br = null;
@@ -33,27 +33,22 @@ public class Maze {
      */
     public Maze(String filepath){
         this.filepath = filepath;
-    }
+        try {
+            buildMaze(filepath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    /**
-     * Main method - just for testing
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-
+        maze = convert(inputMaze);
     }
 
     /**
      * Method to be called in order to get the integer matrix filled with the
      * maze's characteristics
      * @return
-     * @throws IOException
      */
-    public int[][] getMaze() throws IOException{
-        buildMaze(filepath);
-        theMaze = convert(inputMaze, theMaze);
-        return theMaze;
+    public int[][] getMaze() {
+        return maze;
     }
 
     public int getStartX() {
@@ -137,11 +132,10 @@ public class Maze {
     /**
      * Method which converts a char matrix into a integer matrix
      * @param mat
-     * @param intMat
      * @return
      */
-    private int[][] convert(char mat [][], int intMat [][]) {
-        intMat = new int [mat.length][mat.length];
+    private int[][] convert(char[][] mat) {
+        int[][] intMat = new int[mat.length][mat.length];
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[i].length; j++){
                 intMat[i][j] = Character.getNumericValue(mat[i][j]);

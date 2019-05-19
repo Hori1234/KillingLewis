@@ -1,6 +1,7 @@
 package killinglewis.Models;
 
 import killinglewis.math.Vector3f;
+import killinglewis.utils.Maze;
 import killinglewis.utils.Shader;
 
 import static java.lang.Math.floor;
@@ -8,24 +9,19 @@ import static killinglewis.KillingLewis.*;
 
 public class Terrain {
     private VertexArray terrain;
-    private int[][] maze;
+    private Maze maze;
     private float cellWidth;
     private float cellHeight;
 
-    public Terrain() {
+    public Terrain(Maze maze) {
         terrain = new VertexArray("res/terrain.obj", "textures/bricks.jpg", Shader.TERRAIN_SHADER);
         terrain.translate(new Vector3f(0.0f, 0.0f, -10.0f));
         terrain.scale(new Vector3f(WINDOW_WIDTH, WINDOW_HEIGHT, 1.0f));
 
-        // dummy maze
-        maze = new int[2][2];
-        maze[0][0] = 0;
-        maze[0][1] = 1;
-        maze[1][0] = 2;
-        maze[1][1] = 3;
+        this.maze = maze;
 
-        cellWidth = 1.0f / maze.length;
-        cellHeight = 1.0f / maze[0].length;
+        cellWidth = 1.0f / maze.getWidth();
+        cellHeight = 1.0f / maze.getHeight();
 
     }
 
@@ -37,7 +33,7 @@ public class Terrain {
      * @return
      */
     public int getCell(double x, double y) {
-        return maze[(int) floor((x / WINDOW_WIDTH) / cellWidth)][(int) floor((y / WINDOW_HEIGHT) / cellHeight)];
+        return maze.getMaze()[(int) floor((x / WINDOW_WIDTH) / cellWidth)][(int) floor((y / WINDOW_HEIGHT) / cellHeight)];
     }
 
     public Vector3f getCellPosition(int x, int y) {

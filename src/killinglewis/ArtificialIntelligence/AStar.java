@@ -220,7 +220,7 @@ public class AStar {
         int[][] theMaze;
         int goalX, goalY, startX, startY, height, width;
 
-        String filepath = "/Users/ralucaviziteu/Desktop/Maze.txt";
+        String filepath = "mazes/maze1.txt";
 
         //The maze of our game
         Maze maze = new Maze(filepath);

@@ -8,10 +8,7 @@ import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
-import killinglewis.utils.ModelLoader;
-import killinglewis.utils.Shader;
-import killinglewis.utils.ShaderLoader;
-import killinglewis.utils.Texture;
+import killinglewis.utils.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
@@ -41,12 +38,8 @@ public class KillingLewis implements Runnable {
     private int shader;
     /* Target FPS. */
     private final int TARGET_FPS  = 60;
-
-    private VertexArray lewis;
-
+    /* Level currently displayed. */
     Level level;
-
-    Terrain terrain;
 
     /**
      * Initialize GLFW window.
@@ -99,7 +92,7 @@ public class KillingLewis implements Runnable {
 
         loadShaders();
 
-        level = new Level();
+        level = new Level(new Maze("mazes/maze1.txt"));
     }
 
     @Override
@@ -117,7 +110,7 @@ public class KillingLewis implements Runnable {
         glfwPollEvents();
 
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
-            System.out.println(terrain.getCell(CursorPosition.xpos, CursorPosition.ypos));
+            System.out.println(level.getTerrain().getCell(CursorPosition.xpos, CursorPosition.ypos));
         }
 
         if (KeyboardInput.keys[GLFW_KEY_1]) {
