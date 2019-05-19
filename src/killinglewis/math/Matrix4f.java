@@ -27,19 +27,17 @@ public class Matrix4f {
         return matrix;
     }
 
-    public Matrix4f translate(Vector3f translation) {
+    public void translate(Vector3f translation) {
         Matrix4f translated = identityMatrix();
 
         translated.getMatrix()[12] = translation.getX();
         translated.getMatrix()[13] = translation.getY();
         translated.getMatrix()[14] = translation.getZ();
 
-        translated = translated.multiply(this);
-
-        return translated;
+        matrix = translated.multiply(this).getMatrix();
     }
 
-    public Matrix4f rotateX(float angle) {
+    public void rotateX(float angle) {
         Matrix4f rotated = identityMatrix();
 
         angle = (float) (angle * Math.PI / 180.0f);
@@ -49,12 +47,10 @@ public class Matrix4f {
         rotated.getMatrix()[2 + 1 * 4] = (float) sin(angle);
         rotated.getMatrix()[2 + 2 * 4] = (float) cos(angle);
 
-        rotated = rotated.multiply(this);
-
-        return rotated;
+        matrix = rotated.multiply(this).getMatrix();
     }
 
-    public Matrix4f rotateY(float angle) {
+    public void rotateY(float angle) {
         Matrix4f rotated = identityMatrix();
 
         angle = (float) (angle * Math.PI / 180.0f);
@@ -64,12 +60,10 @@ public class Matrix4f {
         rotated.getMatrix()[2 + 0 * 4] = (float) sin(angle);
         rotated.getMatrix()[2 + 2 * 4] = (float) cos(angle);
 
-        rotated = rotated.multiply(this);
-
-        return rotated;
+        matrix = rotated.multiply(this).getMatrix();
     }
 
-    public Matrix4f rotateZ(float angle) {
+    public void rotateZ(float angle) {
         Matrix4f rotated = identityMatrix();
 
         angle = (float) (angle * Math.PI / 180.0f);
@@ -79,21 +73,17 @@ public class Matrix4f {
         rotated.getMatrix()[1 + 0 * 4] = (float) (-1.0f * sin(angle));
         rotated.getMatrix()[1 + 1 * 4] = (float) cos(angle);
 
-        rotated = rotated.multiply(this);
-
-        return rotated;
+        matrix = rotated.multiply(this).getMatrix();
     }
 
-    public Matrix4f scale(Vector3f scale) {
+    public void scale(Vector3f scale) {
         Matrix4f scaled = identityMatrix();
 
         scaled.getMatrix()[0 + 0 * 4] = scale.getX();
         scaled.getMatrix()[1 + 1 * 4] = scale.getY();
         scaled.getMatrix()[2 + 2 * 4] = scale.getZ();
 
-        scaled = scaled.multiply(this);
-
-        return scaled;
+        matrix = scaled.multiply(this).getMatrix();
     }
 
     public Matrix4f multiply(Matrix4f other) {
@@ -111,17 +101,17 @@ public class Matrix4f {
         return multiplied;
     }
 
-    public Matrix4f getTransformationMatrix(Vector3f translation, float r_X, float r_Y, float r_Z, Vector3f scale){
-        Matrix4f transform_matrix = identityMatrix();
-        transform_matrix.scale(scale);
+    public static Matrix4f getTransformationMatrix(Vector3f scale, Vector3f rotation, Vector3f translation){
+        Matrix4f transformationMatrix = identityMatrix();
+        transformationMatrix.scale(scale);
 
-        transform_matrix.rotateX(r_X);
-        transform_matrix.rotateY(r_Y);
-        transform_matrix.rotateZ(r_Z);
+        transformationMatrix.rotateX(rotation.getX());
+        transformationMatrix.rotateY(rotation.getY());
+        transformationMatrix.rotateZ(rotation.getZ());
 
-        transform_matrix.translate(translation);
+        transformationMatrix.translate(translation);
 
-        return  transform_matrix;
+        return transformationMatrix;
     }
 
     /**

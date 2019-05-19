@@ -37,8 +37,8 @@ public class KillingLewis implements Runnable {
     private long window;
     /* Shader the game is using. */
     private int shader;
-    /* Target FPS */
-    private static int TARGET_FPS  = 60;
+    /* Target FPS. */
+    private final int TARGET_FPS  = 60;
 
     private VertexArray lewis;
 
@@ -172,13 +172,27 @@ public class KillingLewis implements Runnable {
      */
     private void loop() {
         double lastTime = glfwGetTime();
+        double secondTime = lastTime;
+        int frameCounter = 0;
         while (!glfwWindowShouldClose(window)) {
+            // render and update the game state
+            render();
+            update();
+            //increase the frames counter
+            frameCounter++;
 
             while (glfwGetTime() < lastTime + 1.0/TARGET_FPS) {
-                render();
-                update();
+                // do nothing until we can render next frame
             }
-            lastTime += 1.0/TARGET_FPS;
+
+            // print the FPS if the
+            if (lastTime >= secondTime + 1) {
+                System.out.println(frameCounter + " FPS");
+                frameCounter = 0;
+                secondTime = lastTime;
+            }
+
+            lastTime = glfwGetTime();
         }
     }
 
