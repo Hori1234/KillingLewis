@@ -116,50 +116,6 @@ public class KillingLewis implements Runnable {
     private void update() {
         glfwPollEvents();
 
-        if (KeyboardInput.keys[GLFW_KEY_ESCAPE]) {
-            glfwSetWindowShouldClose(window, true);
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_D]) {
-            lewis.translate(new Vector3f(0.05f, 0.0f, 0.0f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_A]) {
-            lewis.translate(new Vector3f(-0.05f, 0.0f, 0.0f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_W]) {
-            lewis.translate(new Vector3f(0.0f, 0.05f, 0.0f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_S]) {
-            lewis.translate(new Vector3f(0.0f, -0.05f, 0.0f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_T]) {
-            lewis.translate(new Vector3f(0.0f, 0.0f, -0.05f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_R]) {
-            lewis.translate(new Vector3f(0.00f, 0.0f, 0.05f));
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_LEFT]) {
-            lewis.rotateY(-0.5f);
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_RIGHT]) {
-            lewis.rotateY(0.5f);
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_UP]) {
-            lewis.rotateX(0.5f);
-        }
-
-        if (KeyboardInput.keys[GLFW_KEY_DOWN]) {
-            lewis.rotateX(-0.5f);
-        }
-
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
             System.out.println(terrain.getCell(CursorPosition.xpos, CursorPosition.ypos));
         }
