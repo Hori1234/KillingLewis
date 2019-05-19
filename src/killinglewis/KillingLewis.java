@@ -30,9 +30,9 @@ public class KillingLewis implements Runnable {
     /* Thread handling the rendering. */
     private Thread graphicsThread;
     /* Window width.*/
-    private final int WINDOW_WIDTH = 1280;
+    public static final int WINDOW_WIDTH = 1280;
     /* Window height. */
-    private final int WINDOW_HEIGHT = 720;
+    public static final int WINDOW_HEIGHT = 720;
     /* Current window. */
     private long window;
     /* Shader the game is using. */
@@ -158,6 +158,12 @@ public class KillingLewis implements Runnable {
         if (KeyboardInput.keys[GLFW_KEY_DOWN]) {
             lewis.rotateX(-0.5f);
         }
+
+        if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
+            System.out.println(terrain.getCell(CursorPosition.xpos, CursorPosition.ypos));
+        }
+
+
     }
 
     private void render() {
@@ -174,6 +180,7 @@ public class KillingLewis implements Runnable {
         double lastTime = glfwGetTime();
         double secondTime = lastTime;
         int frameCounter = 0;
+
         while (!glfwWindowShouldClose(window)) {
             // render and update the game state
             render();
@@ -185,7 +192,7 @@ public class KillingLewis implements Runnable {
                 // do nothing until we can render next frame
             }
 
-            // print the FPS if the
+            // print the FPS if one second has passed
             if (lastTime >= secondTime + 1) {
                 System.out.println(frameCounter + " FPS");
                 frameCounter = 0;
