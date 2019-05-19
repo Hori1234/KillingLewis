@@ -140,7 +140,36 @@ public class VertexArray {
     public void rotateZ(float angle) {
         shader.enable();
         this.rotation = this.rotation.add(new Vector3f(0.0f, 0.0f, angle));
+        this.rotation = new Vector3f(rotation.getX() % 360.0f, rotation.getY() % 360.0f, rotation.getZ() % 360.0f);
         shader.setUniformMat4f("transformation", Matrix4f.getTransformationMatrix(this.scale, this.rotation, this.translation));
         shader.disable();
+    }
+
+    public void resetTranslation() {
+        translation = new Vector3f(0.0f, 0.0f, 0.0f);
+    }
+
+    public void resetRotation() {
+        rotation = new Vector3f(0.0f, 0.0f, 0.0f);
+    }
+
+    public void resetRotationZ() {
+        rotation = new Vector3f(rotation.getX(), rotation.getY(), 0.0f);
+    }
+
+    public void resetScaling() {
+        scale = new Vector3f(1.0f, 1.0f, 1.0f);
+    }
+
+    public Vector3f getTranslation() {
+        return translation;
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+    public Vector3f getScale() {
+        return scale;
     }
 }

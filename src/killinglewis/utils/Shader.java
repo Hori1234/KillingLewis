@@ -1,5 +1,6 @@
 package killinglewis.utils;
 
+import killinglewis.KillingLewis;
 import killinglewis.math.Matrix4f;
 
 import static org.lwjgl.opengl.GL13.*;
@@ -15,7 +16,8 @@ public class Shader {
     public Shader(String vertexPath, String fragmentPath) {
         id = ShaderLoader.load(vertexPath, fragmentPath);
         enable();
-        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(10.0f, -10.0f, 10.0f * 9.0f / 16.0f, -10.0f * 9.0f / 16.0f, -15.0f, 15.0f);
+        Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(KillingLewis.RIGHT, -1.0f * KillingLewis.RIGHT,
+                KillingLewis.RIGHT * 9.0f / 16.0f, -1.0f * KillingLewis.RIGHT * 9.0f / 16.0f, KillingLewis.FAR, -1.0f * KillingLewis.FAR);
         //Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
         this.setUniformMat4f("projection_matrix", projectionMatrix);
 

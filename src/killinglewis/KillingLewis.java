@@ -1,5 +1,6 @@
 package killinglewis;
 
+import killinglewis.Models.Level;
 import killinglewis.Models.Terrain;
 import killinglewis.Models.VertexArray;
 import killinglewis.input.CursorPosition;
@@ -33,6 +34,7 @@ public class KillingLewis implements Runnable {
     public static final int WINDOW_WIDTH = 1280;
     /* Window height. */
     public static final int WINDOW_HEIGHT = 720;
+    public static final float RIGHT = 10.0f, FAR = -15.0f;
     /* Current window. */
     private long window;
     /* Shader the game is using. */
@@ -41,6 +43,8 @@ public class KillingLewis implements Runnable {
     private final int TARGET_FPS  = 60;
 
     private VertexArray lewis;
+
+    Level level;
 
     Terrain terrain;
 
@@ -95,10 +99,7 @@ public class KillingLewis implements Runnable {
 
         loadShaders();
 
-        lewis = new VertexArray("res/cow.obj", "textures/cow.jpg", Shader.LEWIS_SHADER);
-        lewis.rotateX(90);
-        lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
-        terrain = new Terrain();
+        level = new Level();
     }
 
     @Override
@@ -163,13 +164,25 @@ public class KillingLewis implements Runnable {
             System.out.println(terrain.getCell(CursorPosition.xpos, CursorPosition.ypos));
         }
 
+        if (KeyboardInput.keys[GLFW_KEY_1]) {
+            level.runToCell(0, 0);
+        }
+        if (KeyboardInput.keys[GLFW_KEY_2]) {
+            level.runToCell(1, 0);
+        }
+        if (KeyboardInput.keys[GLFW_KEY_3]) {
+            level.runToCell(0, 1);
+        }
+        if (KeyboardInput.keys[GLFW_KEY_4]) {
+            level.runToCell(1, 1);
+        }
+
 
     }
 
     private void render() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        lewis.draw();
-        terrain.render();
+        level.render();
         glfwSwapBuffers(window);
     }
 
