@@ -2,6 +2,7 @@ package killinglewis.utils;
 
 import killinglewis.KillingLewis;
 import killinglewis.math.Matrix4f;
+import killinglewis.math.Vector3f;
 
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -49,6 +50,11 @@ public class Shader {
     public void setUniform1f(String name, float value) {
         int uniform = glGetUniformLocation(id, name);
         glUniform1f(uniform, value);
+    }
+
+    public void setUniform3f(String name, Vector3f value) {
+        int uniform = glGetUniformLocation(id, name);
+        glUniform3f(uniform, value.getX(), value.getY(), value.getZ());
     }
 
     public void setUniformMat4f(String name, Matrix4f matrix) {
