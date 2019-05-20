@@ -14,6 +14,13 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class VertexArray {
 
+    private static final int GET_WIDTH = 0;
+    private static final int GET_HEIGHT = 1;
+    private static final int GET_DEPTH = 2;
+
+    private float width = 0, height = 0, depth = 0;
+    private float min = 0, max = 0;
+
     /* Vertex array object. */
     private int vao;
     /* Vertex buffer object. */
@@ -32,6 +39,7 @@ public class VertexArray {
     private Shader shader;
 
     public VertexArray(String modelPath, String texturePath, Shader shader) {
+
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
         rotation = new Vector3f(0.0f, 0.0f, 0.0f);
         translation = new Vector3f(0.0f, 0.0f, 0.0f);
@@ -46,6 +54,16 @@ public class VertexArray {
 
         ModelLoader ml = new ModelLoader();
         ml.loadModel(modelPath);
+
+        resetMinMax();
+        setMinMax(ml.getVertices(), GET_WIDTH);
+        width = Math.abs(max - min);
+        resetMinMax();
+        setMinMax(ml.getVertices(), GET_HEIGHT);
+        height = Math.abs(max - min);
+        resetMinMax();
+        setMinMax(ml.getVertices(), GET_DEPTH);
+        depth = Math.abs(max - min);
 
         bindModel(ml);
         shader.disable();
@@ -171,5 +189,20 @@ public class VertexArray {
 
     public Vector3f getScale() {
         return scale;
+    }
+
+    protected void resetMinMax () {
+        max = Float.MIN_NORMAL;
+        min = Float.MAX_VALUE;
+    }
+
+    protected void setMinMax (float[] array, int start) {
+        resetMinMax();
+        for (int i = start; i < array.length; i += 3) {
+            if (array[i] >= max)
+                max = array[i];
+            if (array[i] <= min)
+                min = array[i];
+        }
     }
 }

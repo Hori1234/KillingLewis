@@ -12,12 +12,14 @@ public class ModelLoader {
 
     // Data to extract from model file
     private Vector<Float> vertices = new Vector<>();
+    private Vector<Float> normals = new Vector<>();
     private Vector<Float> tCoords = new Vector<>();
     private Vector<Integer> faces = new Vector<>();
 
     public void loadModel (String filePath) {
         // Clear containers before proceeding with the load of data
         vertices.clear();
+        normals.clear();
         tCoords.clear();
         faces.clear();
 
@@ -37,6 +39,13 @@ public class ModelLoader {
                         Matcher m = p.matcher(line);
                         while (m.find()) {
                             vertices.add(Float.parseFloat(m.group()));
+                        }
+                    }
+                    // normals
+                    else if (line.charAt(0) == 'v' && line.charAt(1) == 'n') {
+                        Matcher m = p.matcher(line);
+                        while (m.find()) {
+                            normals.add(Float.parseFloat(m.group()));
                         }
                     }
                     // Line is containing information texture coordinate
@@ -93,6 +102,26 @@ public class ModelLoader {
 
                 while (it.hasNext()) {
                     result[k++] = it.next();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public float[] getNormals() {
+        float[] result = null;
+        try {
+            if (normals.size() == 0) {
+                throw new Exception("No model loaded.");
+            } else {
+                result = new float[normals.size()];
+                int k = 0;
+                Iterator<Float> it = normals.iterator();
+
+                while (it.hasNext()) {
+                    result[k++] = it.next() / 100.0f;
                 }
             }
         } catch (Exception e) {
