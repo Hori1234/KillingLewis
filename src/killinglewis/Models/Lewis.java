@@ -15,7 +15,7 @@ public class Lewis {
     private boolean isRunning;
 
     public Lewis(int mazeX, int mazeY) {
-        lewis = new VertexArray("res/cow.obj", "textures/cow.jpg", Shader.LEWIS_SHADER);
+        lewis = new VertexArray("res/lewis.obj", "textures/cow.jpg", Shader.LEWIS_SHADER);
         lewis.rotateX(90);
         lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
         this.mazeX = mazeX;

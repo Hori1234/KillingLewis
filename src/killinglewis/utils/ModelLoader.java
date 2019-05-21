@@ -35,7 +35,7 @@ public class ModelLoader {
             while (line != null) {
                 if (line.length() >= 1) {
                     // Line is containing information about vertex
-                    if (line.charAt(0) == 'v' && line.charAt(1) != 't') {
+                    if (line.charAt(0) == 'v' && line.charAt(1) != 't' && line.charAt(1) != 'n') {
                         Matcher m = p.matcher(line);
                         while (m.find()) {
                             vertices.add(Float.parseFloat(m.group()));
@@ -81,7 +81,7 @@ public class ModelLoader {
                 Iterator<Float> it = vertices.iterator();
 
                 while (it.hasNext()) {
-                    result[k++] = it.next() / 100.0f;
+                    result[k++] = it.next();
                 }
             }
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class ModelLoader {
                 Iterator<Float> it = normals.iterator();
 
                 while (it.hasNext()) {
-                    result[k++] = it.next() / 100.0f;
+                    result[k++] = it.next();
                 }
             }
         } catch (Exception e) {

@@ -13,14 +13,6 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL30.*;
 
 public class VertexArray {
-
-    private static final int GET_WIDTH = 0;
-    private static final int GET_HEIGHT = 1;
-    private static final int GET_DEPTH = 2;
-
-    private float width = 0, height = 0, depth = 0;
-    private float min = 0, max = 0;
-
     /* Vertex array object. */
     private int vao;
     /* Vertex buffer object. */
@@ -39,6 +31,12 @@ public class VertexArray {
     private Vector3f scale, rotation, translation;
     /* Shader for this model. */
     private Shader shader;
+    /* Width of model. */
+    private float width;
+    /* Height of model. */
+    private float height;
+    /* Depth of model. */
+    private float depth;
 
     public VertexArray(String modelPath, String texturePath, Shader shader) {
 
@@ -57,15 +55,10 @@ public class VertexArray {
         ModelLoader ml = new ModelLoader();
         ml.loadModel(modelPath);
 
-        resetMinMax();
-        setMinMax(ml.getVertices(), GET_WIDTH);
-        width = Math.abs(max - min);
-        resetMinMax();
-        setMinMax(ml.getVertices(), GET_HEIGHT);
-        height = Math.abs(max - min);
-        resetMinMax();
-        setMinMax(ml.getVertices(), GET_DEPTH);
-        depth = Math.abs(max - min);
+        // set sizes of model
+        width = getSize(ml.getVertices(), 0);
+        height = getSize(ml.getVertices(), 1);
+        depth = getSize(ml.getVertices(), 2);
 
         bindModel(ml);
         shader.disable();
@@ -202,18 +195,29 @@ public class VertexArray {
         return scale;
     }
 
-    protected void resetMinMax () {
-        max = Float.MIN_NORMAL;
-        min = Float.MAX_VALUE;
-    }
+    private float getSize(float[] array, int start) {
+        float max = Float.MIN_VALUE;
+        float min = Float.MAX_VALUE;
 
-    protected void setMinMax (float[] array, int start) {
-        resetMinMax();
         for (int i = start; i < array.length; i += 3) {
             if (array[i] >= max)
                 max = array[i];
             if (array[i] <= min)
                 min = array[i];
         }
+
+        return Math.abs(max - min);
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getDepth() {
+        return depth;
     }
 }
