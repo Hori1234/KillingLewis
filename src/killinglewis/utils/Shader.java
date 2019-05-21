@@ -19,7 +19,7 @@ public class Shader {
         enable();
         Matrix4f projectionMatrix = Matrix4f.getOrthographicMatrix(KillingLewis.RIGHT, -1.0f * KillingLewis.RIGHT,
                 KillingLewis.RIGHT * 9.0f / 16.0f, -1.0f * KillingLewis.RIGHT * 9.0f / 16.0f, KillingLewis.FAR, -1.0f * KillingLewis.FAR);
-        //Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
+//Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
         this.setUniformMat4f("projection_matrix", projectionMatrix);
 
         disable();

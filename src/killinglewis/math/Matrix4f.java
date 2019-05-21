@@ -159,7 +159,7 @@ public class Matrix4f {
     public static Matrix4f perspective(float fov, float aspectRatio, float near, float far) {
         Matrix4f projection = new Matrix4f();
 
-        projection.matrix[0 + 0 * 4] = (float)(1.0 / Math.tan((fov * (Math.PI / 180)) / 2.0)) / aspectRatio;
+        projection.matrix[0 + 0 * 4] = (float)(1.0 / Math.tan((fov * (Math.PI / 180)) / 2.0)) * aspectRatio;
         projection.matrix[1 + 1 * 4] = (float)(1.0 / Math.tan((fov * (Math.PI / 180)) / 2.0));
         projection.matrix[2 + 2 * 4] = (far + near) / (near - far);
 

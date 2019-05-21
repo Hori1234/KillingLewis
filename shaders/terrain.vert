@@ -2,6 +2,7 @@
 
 layout (location = 0) in vec4 vertex;
 layout (location = 1) in vec2 tCoord;
+layout (location = 2) in vec4 normal;
 
 out vec2 tc;
 
