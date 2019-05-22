@@ -1,13 +1,10 @@
 package killinglewis;
 
 import killinglewis.Models.Level;
-import killinglewis.Models.Terrain;
-import killinglewis.Models.VertexArray;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
-import killinglewis.math.Matrix4f;
-import killinglewis.math.Vector3f;
+import killinglewis.input.SpellInput;
 import killinglewis.utils.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -15,7 +12,6 @@ import org.lwjgl.opengl.*;
 import static killinglewis.utils.Shader.loadShaders;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -40,6 +36,10 @@ public class KillingLewis implements Runnable {
     private final int TARGET_FPS  = 60;
     /* Level currently displayed. */
     Level level;
+    /* Last key pressed */
+    private int lastKey = GLFW_KEY_TAB;
+    /* SpellInput object*/
+    SpellInput rawPosition = new SpellInput();
 
     /**
      * Initialize GLFW window.
@@ -116,21 +116,36 @@ public class KillingLewis implements Runnable {
 
         if (KeyboardInput.keys[GLFW_KEY_1]) {
             level.runToCell(0, 0);
+            lastKey = GLFW_KEY_1;
         }
         if (KeyboardInput.keys[GLFW_KEY_2]) {
             level.runToCell(1, 0);
+            lastKey = GLFW_KEY_2;
         }
         if (KeyboardInput.keys[GLFW_KEY_3]) {
             level.runToCell(0, 1);
+            lastKey = GLFW_KEY_3;
         }
         if (KeyboardInput.keys[GLFW_KEY_4]) {
             level.runToCell(1, 1);
+            lastKey = GLFW_KEY_4;
         }
 
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();
             }
+            lastKey = GLFW_KEY_SPACE;
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_TAB]) {
+            if (lastKey != GLFW_KEY_TAB) {
+                rawPosition.clear();
+            }
+            rawPosition.addMovement(CursorPosition.xpos, CursorPosition.ypos);
+            if (rawPosition.getSXpos().length == 10)
+                System.out.println(rawPosition.getSXpos().toString());
+            lastKey = GLFW_KEY_TAB;
         }
 
     }

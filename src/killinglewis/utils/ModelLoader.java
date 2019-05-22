@@ -15,6 +15,7 @@ public class ModelLoader {
     private Vector<Float> normals = new Vector<>();
     private Vector<Float> tCoords = new Vector<>();
     private Vector<Integer> faces = new Vector<>();
+    private String PATH = "";
 
     public void loadModel (String filePath) {
         // Clear containers before proceeding with the load of data
@@ -22,6 +23,8 @@ public class ModelLoader {
         normals.clear();
         tCoords.clear();
         faces.clear();
+
+        PATH = filePath;
 
         BufferedReader reader = null;
 
