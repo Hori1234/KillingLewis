@@ -11,6 +11,7 @@ public class Shader {
 
     public static Shader LEWIS_SHADER;
     public static Shader TERRAIN_SHADER;
+    public static Shader WALL_SHADER;
 
     private int id;
 
@@ -28,6 +29,7 @@ public class Shader {
     public static void loadShaders() {
         LEWIS_SHADER = new Shader("shaders/lewis.vert", "shaders/lewis.frag");
         TERRAIN_SHADER = new Shader("shaders/terrain.vert", "shaders/terrain.frag");
+        WALL_SHADER = new Shader("shaders/wall.vert", "shaders/wall.frag");
     }
 
     public int getID() {

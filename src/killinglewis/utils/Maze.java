@@ -11,8 +11,8 @@ import java.io.IOException;
  */
 
 public class Maze {
-    private static int [][] maze; // the maze matrix filled with integers
-    private static char [][] inputMaze; // the maze matrix filled with characters
+    private int [][] maze; // the maze matrix filled with integers
+    private char [][] inputMaze; // the maze matrix filled with characters
     private File f; // a file f
     private BufferedReader br = null;
     //Lewis's start coordinates:
@@ -91,7 +91,6 @@ public class Maze {
             String dimensions = br.readLine();
             width = Integer.parseInt(dimensions.substring(0, dimensions.indexOf(' ')));
             height = Integer.parseInt((dimensions.substring(dimensions.indexOf(' ') + 1)));
-            System.out.println(width + " / " + height);
             inputMaze = new char[height][width];
 
             //Second line of the file contains the start coordinates of Lewis in the maze

@@ -4,14 +4,17 @@ import killinglewis.math.Vector3f;
 import killinglewis.utils.Maze;
 import killinglewis.utils.Shader;
 
+import java.util.ArrayList;
+
 import static java.lang.Math.floor;
 import static killinglewis.KillingLewis.*;
 
 public class Terrain {
     private VertexArray terrain;
     private Maze maze;
-    private float cellWidth;
-    private float cellHeight;
+    private ArrayList<Wall> walls;
+    public float cellWidth;
+    public float cellHeight;
 
     public Terrain(Maze maze) {
         terrain = new VertexArray("res/terrain.obj", "textures/terrain.jpg", Shader.TERRAIN_SHADER);
@@ -22,8 +25,8 @@ public class Terrain {
 
         cellWidth = 1.0f / maze.getWidth();
         cellHeight = 1.0f / maze.getHeight();
-        System.out.println(cellWidth + " " + cellHeight);
 
+        walls = getWalls();
     }
 
     /**
@@ -41,11 +44,29 @@ public class Terrain {
         float xPos = ((x * cellWidth + (x + 1) * cellWidth) / 2.0f) * RIGHT * 2.0f - RIGHT;
         float yPos = ((y * cellHeight + (y + 1) * cellHeight) / 2.0f) * RIGHT * 2.0f * -9.0f / 16.0f - RIGHT * -9.0f / 16.0f;
 
+        //System.out.println(xPos + " - " + x);
+
         return new Vector3f(xPos, yPos, 0.0f);
     }
 
     public void render() {
         terrain.draw();
+        for (Wall w : walls) {
+            w.render();
+        }
+    }
+
+    private ArrayList<Wall> getWalls() {
+        ArrayList<Wall> walls = new ArrayList<>();
+        for (int i = 0; i < maze.getMaze().length; i++) {
+            for (int j = 0; j < maze.getMaze()[i].length; j++) {
+                if (maze.getMaze()[i][j] == 1) {
+                    walls.add(new Wall(getCellPosition(j, i), new Vector3f(cellWidth * RIGHT * 2.0f, cellHeight * RIGHT * 2.0f * -9.0f / 16.0f, 4.0f)));
+                }
+            }
+        }
+
+        return walls;
     }
 
 }
