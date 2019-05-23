@@ -1,5 +1,6 @@
 package killinglewis.utils;
 
+import killinglewis.Entities.Light;
 import killinglewis.KillingLewis;
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
@@ -14,6 +15,7 @@ public class Shader {
     public static Shader WALL_SHADER;
 
     private int id;
+    private  static Light light = new Light(new Vector3f(0,10,-5), new Vector3f(1,1,1));
 
     public Shader(String vertexPath, String fragmentPath) {
         id = ShaderLoader.load(vertexPath, fragmentPath);
@@ -22,6 +24,9 @@ public class Shader {
                 KillingLewis.RIGHT * 9.0f / 16.0f, -1.0f * KillingLewis.RIGHT * 9.0f / 16.0f, KillingLewis.FAR, -1.0f * KillingLewis.FAR);
 //Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
         this.setUniformMat4f("projection_matrix", projectionMatrix);
+        //Adding light uniforms to shaders
+        this.setUniform3f("lightPosition", light.getPosition());
+        this.setUniform3f("lightColor", light.getColor());
 
         disable();
     }
