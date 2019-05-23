@@ -13,9 +13,10 @@ public class Lewis {
     private Vector3f currentPos;
     private Vector3f targetPos;
     private boolean isRunning;
+    private float turnAngle;
 
     public Lewis(int mazeX, int mazeY) {
-        lewis = new VertexArray("res/lewis.obj", "textures/cow.jpg", Shader.LEWIS_SHADER);
+        lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
         lewis.rotateX(90);
         lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
         this.mazeX = mazeX;
@@ -55,13 +56,19 @@ public class Lewis {
 
         Vector3f moveVector = new Vector3f(moveX, moveY, moveZ);
 
-        float angle = (float) (toDegrees(acos(deltaPos.getX() / deltaPos.getLength())));
-
-        System.out.println(angle);
+        float angle = (float) (toDegrees(acos(-deltaPos.getY() / deltaPos.getLength())));
 
         if (!Float.isNaN(angle)) {
-            lewis.resetRotationZ();
-            lewis.rotateZ(angle);
+            if (deltaPos.getX() < 0 || deltaPos.getY() > 0) {
+                angle *= -1;
+            }
+            if (turnAngle < angle) {
+                turnAngle += 10.0f;
+                lewis.rotateZ(- 10.0f);
+            } else if (turnAngle > angle) {
+                turnAngle -= 10.0f;
+                lewis.rotateZ(10.0f);
+            }
         }
 
         lewis.translate(moveVector);

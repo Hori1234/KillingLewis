@@ -114,19 +114,6 @@ public class KillingLewis implements Runnable {
             System.out.println(level.getTerrain().getCell(CursorPosition.xpos, CursorPosition.ypos));
         }
 
-        if (KeyboardInput.keys[GLFW_KEY_1]) {
-            level.runToCell(0, 0);
-        }
-        if (KeyboardInput.keys[GLFW_KEY_2]) {
-            level.runToCell(1, 0);
-        }
-        if (KeyboardInput.keys[GLFW_KEY_3]) {
-            level.runToCell(0, 1);
-        }
-        if (KeyboardInput.keys[GLFW_KEY_4]) {
-            level.runToCell(1, 1);
-        }
-
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();

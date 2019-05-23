@@ -14,9 +14,9 @@ public class Terrain {
     private float cellHeight;
 
     public Terrain(Maze maze) {
-        terrain = new VertexArray("res/terrain.obj", "textures/bricks.jpg", Shader.TERRAIN_SHADER);
+        terrain = new VertexArray("res/terrain.obj", "textures/terrain.jpg", Shader.TERRAIN_SHADER);
         terrain.translate(new Vector3f(0.0f, 0.0f, -10.0f));
-        terrain.scale(new Vector3f(WINDOW_WIDTH, WINDOW_HEIGHT, 1.0f));
+        terrain.scale(new Vector3f(RIGHT * 2, RIGHT * 9.0f/8.0f, 1.0f));
 
         this.maze = maze;
 
