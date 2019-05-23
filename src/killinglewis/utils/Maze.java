@@ -97,14 +97,14 @@ public class Maze {
             String start = br.readLine();
             char temp;
             temp = start.charAt(0);
-            startY = Character.getNumericValue(temp);
-            temp = start.charAt(2);
             startX = Character.getNumericValue(temp);
+            temp = start.charAt(2);
+            startY = Character.getNumericValue(temp);
 
             //Third line of the file contains the coordinates of Lewis's goal in the maze
             String goal = br.readLine();
-            goalY = Integer.parseInt(goal.substring(0, goal.indexOf(' ')));
-            goalX = Integer.parseInt((goal.substring(goal.indexOf(' ') + 1)));
+            goalX = Integer.parseInt(goal.substring(0, goal.indexOf(' ')));
+            goalY = Integer.parseInt((goal.substring(goal.indexOf(' ') + 1)));
 
             //The rest of the file contains the maze's characteristics
             int heightCounter = -1;
