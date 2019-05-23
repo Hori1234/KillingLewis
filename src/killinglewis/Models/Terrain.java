@@ -22,6 +22,7 @@ public class Terrain {
 
         cellWidth = 1.0f / maze.getWidth();
         cellHeight = 1.0f / maze.getHeight();
+        System.out.println(cellWidth + " " + cellHeight);
 
     }
 

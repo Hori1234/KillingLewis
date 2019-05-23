@@ -13,7 +13,7 @@ public class Level {
     ArrayList<Integer> path;
 
     public Level(Maze maze) {
-        this.maze = new Maze("mazes/maze1.txt");
+        this.maze = maze;
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
 

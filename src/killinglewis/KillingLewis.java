@@ -92,7 +92,7 @@ public class KillingLewis implements Runnable {
 
         loadShaders();
 
-        level = new Level(new Maze("mazes/maze1.txt"));
+        level = new Level(new Maze("mazes/BigMaze.txt"));
         level.findPath();
     }
 
