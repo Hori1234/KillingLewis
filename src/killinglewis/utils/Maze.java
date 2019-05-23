@@ -91,6 +91,7 @@ public class Maze {
             String dimensions = br.readLine();
             width = Integer.parseInt(dimensions.substring(0, dimensions.indexOf(' ')));
             height = Integer.parseInt((dimensions.substring(dimensions.indexOf(' ') + 1)));
+            System.out.println(width + " / " + height);
             inputMaze = new char[height][width];
 
             //Second line of the file contains the start coordinates of Lewis in the maze
