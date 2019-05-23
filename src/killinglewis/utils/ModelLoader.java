@@ -14,6 +14,7 @@ public class ModelLoader {
     private Vector<Float> normals = new Vector<>();
     private Vector<Float> tCoords = new Vector<>();
     private Vector<Integer> faces = new Vector<>();
+    private String PATH = "";
 
     private int[] indices;
     private float[] vertex;
@@ -26,6 +27,8 @@ public class ModelLoader {
         normals.clear();
         tCoords.clear();
         faces.clear();
+
+        PATH = filePath;
 
         BufferedReader reader = null;
 

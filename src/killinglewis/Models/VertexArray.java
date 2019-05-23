@@ -73,9 +73,12 @@ public class VertexArray {
         textureCoordsBuffer.put(ml.getTCoords());
         textureCoordsBuffer.flip();
 
-        FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(ml.getNormals().length);
-        normalBuffer.put(ml.getNormals());
-        normalBuffer.flip();
+        FloatBuffer normalBuffer = null;
+        if(ml.getNormals() != null) {
+             normalBuffer = BufferUtils.createFloatBuffer(ml.getNormals().length);
+            normalBuffer.put(ml.getNormals());
+            normalBuffer.flip();
+        }
 
         IntBuffer indexBuffer = BufferUtils.createIntBuffer(ml.getFaces().length);
         indexBuffer.put(ml.getFaces());
@@ -98,11 +101,12 @@ public class VertexArray {
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(1);
 
-        nbo = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, nbo);
-        glBufferData(GL_ARRAY_BUFFER, normalBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(2);
+        if(normalBuffer != null) {
+            nbo = glGenBuffers();
+            glBindBuffer(GL_ARRAY_BUFFER, nbo);
+            glBufferData(GL_ARRAY_BUFFER, normalBuffer, GL_STATIC_DRAW);
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
+        }
 
         ibo = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
