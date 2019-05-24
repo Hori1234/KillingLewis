@@ -15,7 +15,7 @@ public class Shader {
     public static Shader WALL_SHADER;
 
     private int id;
-    private  static Light light = new Light(new Vector3f(0,10,-5), new Vector3f(1,1,1));
+    private static Light light = new Light(new Vector3f(0,5,0), new Vector3f(1,1,1));
 
     public Shader(String vertexPath, String fragmentPath) {
         id = ShaderLoader.load(vertexPath, fragmentPath);

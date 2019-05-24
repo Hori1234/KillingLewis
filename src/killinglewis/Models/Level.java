@@ -57,7 +57,7 @@ public class Level {
             path.remove(path.size() - 1);
             return next;
         } else {
-            return new Vector3f(maze.getGoalX(), maze.getGoalY(), 0);
+            return new Vector3f(maze.getGoalY(), maze.getGoalX(), 0);
         }
     }
 }
