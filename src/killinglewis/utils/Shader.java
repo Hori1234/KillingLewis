@@ -1,5 +1,6 @@
 package killinglewis.utils;
 
+import killinglewis.Entities.Camera;
 import killinglewis.Entities.Light;
 import killinglewis.KillingLewis;
 import killinglewis.math.Matrix4f;
@@ -15,7 +16,9 @@ public class Shader {
     public static Shader WALL_SHADER;
 
     private int id;
-    private static Light light = new Light(new Vector3f(0,5,0), new Vector3f(1,1,1));
+    private static Light light = new Light(new Vector3f(10,100,10), new Vector3f(1,1,1));
+
+    public Camera camera = Camera.getInstance();
 
     public Shader(String vertexPath, String fragmentPath) {
         id = ShaderLoader.load(vertexPath, fragmentPath);
@@ -25,8 +28,8 @@ public class Shader {
 //Matrix4f projectionMatrix = Matrix4f.perspective(30, 16.0f/9.0f, 1.0f, -10.0f);
         this.setUniformMat4f("projection_matrix", projectionMatrix);
         //Adding light uniforms to shaders
-        this.setUniform3f("lightPosition", light.getPosition());
-        this.setUniform3f("lightColor", light.getColor());
+        this.loadLight(light);
+        this.loadViewMatrix(camera);
 
         disable();
     }
@@ -49,6 +52,14 @@ public class Shader {
         glUseProgram(0);
     }
 
+    public void loadLight(Light light){
+        setUniform3f("lightPosition", light.getPosition());
+        setUniform3f("lightColor", light.getColor());
+    }
+    public void loadViewMatrix(Camera camera){
+        Matrix4f viewMatrix = Matrix4f.getViewMatrix(camera);
+        setUniformMat4f("viewMatrix",viewMatrix);
+    }
     public void setUniform1i(String name, int value) {
         int uniform = glGetUniformLocation(id, name);
         glUniform1i(uniform, value);

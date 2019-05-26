@@ -14,7 +14,7 @@ void main() {
     vec3 unitLightDirection = normalize(toLight);
 
     float ndot1 = dot(unitNormal,unitLightDirection);
-    float brightness = max(ndot1, 0.0);
+    float brightness = max(ndot1, 0.3);
 
     vec3 diffuse = brightness * lightColor;
     color = vec4(diffuse,1.0)* texture(tex, tc);

@@ -11,12 +11,13 @@ out vec3 toLight;
 uniform mat4 transformation;
 uniform mat4 projection_matrix;
 uniform vec3 lightPosition;
-
+uniform mat4 viewMatrix;
 
 void main() {
-    vec4 raw_pos = projection_matrix * transformation * vertex;
+    vec4 worldCoords = transformation *vertex;
+    vec4 raw_pos = projection_matrix * viewMatrix * transformation * vertex;
     gl_Position = raw_pos / raw_pos.w;
     surfaceNormal = (transformation*normal).xyz;
-    toLight = lightPosition - (raw_pos.xyz);
+    toLight = lightPosition - (worldCoords.xyz);
     tc = tCoord;
 }
