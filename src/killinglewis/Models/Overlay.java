@@ -10,7 +10,7 @@ public class Overlay {
 
     public Overlay(String texturePath, int position) {
         overlay = new VertexArray("res/terrain.obj", texturePath, Shader.OVERLAY_SHADER);
-        progress = 0.5f;
+        progress = 1.0f;
         this.position = position;
 
         overlay.scale(new Vector3f(1.0f / 3.0f, 1.0f / 16.0f, 1.0f));
