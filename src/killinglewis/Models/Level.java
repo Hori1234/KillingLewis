@@ -11,11 +11,14 @@ public class Level {
     Terrain terrain;
     Maze maze;
     ArrayList<Integer> path;
+    Overlay health, mana;
 
     public Level(Maze maze) {
         this.maze = maze;
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
+        health = new Overlay("textures/health.png", 0);
+        mana = new Overlay("textures/mana.png", 1);
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
     }
@@ -23,6 +26,8 @@ public class Level {
     public void render() {
         terrain.render();
         lewis.render();
+        health.render();
+        mana.render();
     }
 
     public void moveToCell(int x, int y) {
