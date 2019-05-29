@@ -18,7 +18,7 @@ public class Terrain {
 
     public Terrain(Maze maze) {
         terrain = new VertexArray("res/terrain.obj", "textures/terrain.jpg", Shader.TERRAIN_SHADER);
-        terrain.translate(new Vector3f(0.0f, 0.0f, -10.0f));
+        terrain.translate(new Vector3f(0.0f, 0.0f, -2.01f));
         terrain.scale(new Vector3f(RIGHT * 2, RIGHT * 9.0f/8.0f, 1.0f));
 
         this.maze = maze;
