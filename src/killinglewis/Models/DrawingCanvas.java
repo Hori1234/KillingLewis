@@ -53,6 +53,10 @@ public class DrawingCanvas {
     }
 
     public void drawSquare(float x, float y) {
+        if (x > WINDOW_WIDTH || y > WINDOW_HEIGHT || x < 0 || y < 0) {
+            return;
+        }
+
         if (!isDrawing) {
             isDrawing = true;
         }
