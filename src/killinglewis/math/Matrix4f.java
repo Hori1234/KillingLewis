@@ -1,5 +1,7 @@
 package killinglewis.math;
 
+import killinglewis.Entities.Camera;
+
 import java.util.Vector;
 
 import static java.lang.Math.cos;
@@ -167,5 +169,16 @@ public class Matrix4f {
         projection.matrix[2 + 3 * 4] = -1.0f;
 
         return projection;
+    }
+    public static Matrix4f getViewMatrix(Camera camera){
+        Matrix4f viewMatrix = identityMatrix();
+        viewMatrix.rotateX(camera.getPitch());
+        viewMatrix.rotateY(camera.getYaw());
+        viewMatrix.rotateZ(camera.getRoll());
+        Vector3f camPosition  = camera.getPosition();
+        Vector3f minusCamPosition = new Vector3f(-camPosition.getX(), -camPosition.getY(),-camPosition.getZ());
+        viewMatrix.translate(minusCamPosition);
+
+        return viewMatrix;
     }
 }

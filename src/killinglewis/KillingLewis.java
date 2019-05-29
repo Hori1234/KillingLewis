@@ -1,6 +1,8 @@
 package killinglewis;
 
+import killinglewis.Entities.Camera;
 import killinglewis.Models.Level;
+import killinglewis.Models.Terrain;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
@@ -9,7 +11,7 @@ import killinglewis.utils.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
-import static killinglewis.utils.Shader.loadShaders;
+import static killinglewis.utils.Shader.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -40,6 +42,8 @@ public class KillingLewis implements Runnable {
     private int lastKey = GLFW_KEY_TAB;
     /* SpellInput object*/
     SpellInput rawPosition = new SpellInput();
+
+    public Camera camera = Camera.getInstance();
 
     /**
      * Initialize GLFW window.
@@ -110,10 +114,6 @@ public class KillingLewis implements Runnable {
     private void update() {
         glfwPollEvents();
 
-        if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
-            System.out.println(level.getTerrain().getCell(CursorPosition.xpos, CursorPosition.ypos));
-        }
-
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();
@@ -126,14 +126,26 @@ public class KillingLewis implements Runnable {
                 rawPosition.clear();
             }
             rawPosition.addMovement(CursorPosition.xpos, CursorPosition.ypos);
-            if (rawPosition.getSXpos().length == 10)
-                System.out.println(rawPosition.getSXpos().toString());
+            level.setCanvasActive(true);
             lastKey = GLFW_KEY_TAB;
+        } else {
+            level.setCanvasActive(false);
+        }
+
+        if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
+            if (level.getCanvasActive()) {
+                level.drawOnCanvas((float) CursorPosition.xpos, (float) CursorPosition.ypos);
+            }
+        } else {
+            if (level.getCanvasActive() && level.getCanvas().getIsDrawing()) {
+                level.getCanvas().saveDrawing();
+            }
         }
 
     }
 
     private void render() {
+        glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
         glfwSwapBuffers(window);
@@ -150,6 +162,7 @@ public class KillingLewis implements Runnable {
         while (!glfwWindowShouldClose(window)) {
             // render and update the game state
             render();
+            updateCamera();
             update();
             //increase the frames counter
             frameCounter++;
@@ -167,6 +180,18 @@ public class KillingLewis implements Runnable {
 
             lastTime = glfwGetTime();
         }
+    }
+    private void updateCamera(){
+        camera.moveCamera();
+        LEWIS_SHADER.enable();
+        LEWIS_SHADER.loadViewMatrix(camera);
+        LEWIS_SHADER.disable();
+        WALL_SHADER.enable();
+        WALL_SHADER.loadViewMatrix(camera);
+        WALL_SHADER.disable();
+        TERRAIN_SHADER.enable();;
+        TERRAIN_SHADER.loadViewMatrix(camera);
+        TERRAIN_SHADER.disable();
     }
 
     /**

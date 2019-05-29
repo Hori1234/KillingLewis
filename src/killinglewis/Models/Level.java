@@ -7,15 +7,23 @@ import killinglewis.utils.Maze;
 import java.util.ArrayList;
 
 public class Level {
-    Lewis lewis;
-    Terrain terrain;
-    Maze maze;
-    ArrayList<Integer> path;
+    private Lewis lewis;
+    private Terrain terrain;
+    private Maze maze;
+    private DrawingCanvas canvas;
+    private ArrayList<Integer> path;
+    private Overlay health, mana;
+    private boolean canvasActive;
+
 
     public Level(Maze maze) {
         this.maze = maze;
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
+        canvas = new DrawingCanvas();
+        health = new Overlay("textures/health.png", 0);
+        mana = new Overlay("textures/mana.png", 1);
+        canvasActive = false;
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
     }
@@ -23,6 +31,12 @@ public class Level {
     public void render() {
         terrain.render();
         lewis.render();
+        health.render();
+        mana.render();
+
+        if (canvasActive) {
+            canvas.render();
+        }
     }
 
     public void moveToCell(int x, int y) {
@@ -57,7 +71,30 @@ public class Level {
             path.remove(path.size() - 1);
             return next;
         } else {
-            return new Vector3f(maze.getGoalX(), maze.getGoalY(), 0);
+            return new Vector3f(maze.getGoalY(), maze.getGoalX(), 0);
         }
+    }
+
+    public void setCanvasActive(boolean isActive) {
+        if (isActive == canvasActive) {
+            return;
+        }
+
+        canvasActive = isActive;
+
+        if (!isActive) {
+            canvas.resetDrawing();
+        }
+    }
+
+    public boolean getCanvasActive() {
+        return canvasActive;
+    }
+    public void drawOnCanvas(float x, float y) {
+        canvas.drawSquare(x, y);
+    }
+
+    public DrawingCanvas getCanvas() {
+        return canvas;
     }
 }
