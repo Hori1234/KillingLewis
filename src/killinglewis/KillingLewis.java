@@ -177,13 +177,13 @@ public class KillingLewis implements Runnable {
     private void updateCamera(){
         camera.moveCamera();
         LEWIS_SHADER.enable();
-        WALL_SHADER.enable();
-        TERRAIN_SHADER.enable();
         LEWIS_SHADER.loadViewMatrix(camera);
-        WALL_SHADER.loadViewMatrix(camera);
-        TERRAIN_SHADER.loadViewMatrix(camera);
         LEWIS_SHADER.disable();
+        WALL_SHADER.enable();
+        WALL_SHADER.loadViewMatrix(camera);
         WALL_SHADER.disable();
+        TERRAIN_SHADER.enable();;
+        TERRAIN_SHADER.loadViewMatrix(camera);
         TERRAIN_SHADER.disable();
     }
 
