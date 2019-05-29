@@ -36,16 +36,22 @@ public class Camera {
     public void moveCamera() {
 
         if (KeyboardInput.keys[GLFW_KEY_W]) {
-            this.pitch += 0.2f;
+            this.pitch += 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_A]) {
-            this.yaw -= 0.2f;
+            this.yaw -= 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_S]) {
-            this.pitch -= 0.2f;
+            this.pitch -= 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_D]) {
-            this.yaw += 0.2f;
+            this.yaw += 1f;
+        }
+        if (KeyboardInput.keys[GLFW_KEY_Z]) {
+            this.roll -= 1f;
+        }
+        if (KeyboardInput.keys[GLFW_KEY_X]) {
+            this.roll += 1f;
         }
     }
 

@@ -174,6 +174,7 @@ public class Matrix4f {
         Matrix4f viewMatrix = identityMatrix();
         viewMatrix.rotateX(camera.getPitch());
         viewMatrix.rotateY(camera.getYaw());
+        viewMatrix.rotateZ(camera.getRoll());
         Vector3f camPosition  = camera.getPosition();
         Vector3f minusCamPosition = new Vector3f(-camPosition.getX(), -camPosition.getY(),-camPosition.getZ());
         viewMatrix.translate(minusCamPosition);
