@@ -172,6 +172,7 @@ public class Matrix4f {
     }
     public static Matrix4f getViewMatrix(Camera camera){
         Matrix4f viewMatrix = identityMatrix();
+        viewMatrix.scale(new Vector3f(camera.getScale(), camera.getScale(), camera.getScale()));
         viewMatrix.rotateX(camera.getPitch());
         viewMatrix.rotateY(camera.getYaw());
         viewMatrix.rotateZ(camera.getRoll());

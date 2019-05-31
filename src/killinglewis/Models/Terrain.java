@@ -18,8 +18,8 @@ public class Terrain {
 
     public Terrain(Maze maze) {
         terrain = new VertexArray("res/terrain.obj", "textures/terrain.jpg", Shader.TERRAIN_SHADER);
-        terrain.translate(new Vector3f(0.0f, 0.0f, -2.01f));
-        terrain.scale(new Vector3f(RIGHT * 2, RIGHT * 9.0f/8.0f, 1.0f));
+        terrain.translate(new Vector3f(0.0f, 0.0f, -0.51f));
+        terrain.scale(new Vector3f(RIGHT * 2, RIGHT * 9.0f/8.0f, 0.0f));
 
         this.maze = maze;
 
@@ -44,8 +44,6 @@ public class Terrain {
         float xPos = ((x * cellWidth + (x + 1) * cellWidth) / 2.0f) * RIGHT * 2.0f - RIGHT;
         float yPos = ((y * cellHeight + (y + 1) * cellHeight) / 2.0f) * RIGHT * 2.0f * -9.0f / 16.0f - RIGHT * -9.0f / 16.0f;
 
-        //System.out.println(xPos + " - " + x);
-
         return new Vector3f(xPos, yPos, 0.0f);
     }
 
@@ -61,7 +59,7 @@ public class Terrain {
         for (int i = 0; i < maze.getMaze().length; i++) {
             for (int j = 0; j < maze.getMaze()[i].length; j++) {
                 if (maze.getMaze()[i][j] == 1) {
-                    walls.add(new Wall(getCellPosition(j, i), new Vector3f(cellWidth * RIGHT * 2.0f, cellHeight * RIGHT * 2.0f * -9.0f / 16.0f, 4.0f)));
+                    walls.add(new Wall(getCellPosition(j, i), new Vector3f(cellWidth * RIGHT * 2.0f, cellHeight * RIGHT * 2.0f * -9.0f / 16.0f, 1f)));
                 }
             }
         }

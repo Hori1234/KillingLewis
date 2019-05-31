@@ -214,8 +214,8 @@ public class VertexArray {
     }
 
     private float getSize(float[] array, int start) {
-        float max = Float.MIN_VALUE;
-        float min = Float.MAX_VALUE;
+        float max = Float.NEGATIVE_INFINITY;
+        float min = Float.POSITIVE_INFINITY;
 
         for (int i = start; i < array.length; i += 3) {
             if (array[i] >= max)
@@ -237,8 +237,6 @@ public class VertexArray {
                 index = i;
             }
         }
-
-        System.out.println(y);
 
         return new Vector3f(array[index - 1], array[index], array[index + 1]);
     }

@@ -23,8 +23,8 @@ public class Lewis {
 
     public Lewis(int mazeX, int mazeY) {
         lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        lewis.rotateX(90);
         lewis.scale(new Vector3f(SCALE, SCALE, SCALE));
+        lewis.rotateX(90);
         this.mazeX = mazeX;
         this.mazeY = mazeY;
         isRunning = false;
@@ -114,6 +114,7 @@ public class Lewis {
         }
 
         lewis.rotateY(0);
+        lewis.translate(new Vector3f(0.0f, 0.0f, -0.2f));
         torso.draw();
         rotateUpper(upperLArm, l);
         upperLArm.draw();
@@ -131,6 +132,7 @@ public class Lewis {
         upperRLeg.draw();
         rotateLower(upperRLeg, lowerRLeg, l, abs(l / 60.0f * 120));
         lowerRLeg.draw();
+        lewis.translate(new Vector3f(0.0f, 0.0f, 0.2f));
     }
 
     public boolean getIsRunning() {
