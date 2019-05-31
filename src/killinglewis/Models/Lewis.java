@@ -24,7 +24,7 @@ public class Lewis {
     public Lewis(int mazeX, int mazeY) {
         lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
         lewis.rotateX(90);
-        lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
+        //lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
         this.mazeX = mazeX;
         this.mazeY = mazeY;
         isRunning = false;
@@ -97,45 +97,58 @@ public class Lewis {
     }
 
     public void render() {
+        Vector3f c = lewis.getTranslation();
         if (isRunning) {
             runToNext();
         }
 
-        if (l >= 45) {
-            p = true;
-        } else if (l <= -45) {
-            p = false;
-        }
-
-        z = lewis.getRotation().getZ();
-        lewis.resetRotation();
-        lewis.rotateZ(z);
-        lewis.rotateX(90);
+//        if (l >= 45) {
+//            p = true;
+//        } else if (l <= -45) {
+//            p = false;
+//        }
+//
+//        z = lewis.getRotation().getZ();
+//        lewis.resetRotation();
+//        lewis.rotateZ(z);
+//        lewis.rotateX(90);
         torso.draw();
         upperLArm.draw();
         lowerLArm.draw();
         upperRArm.draw();
         lowerRArm.draw();
-        if (p) {
-            r += 3.0f;
-        } else {
-            r -= 3.0f;
-        }
-
-        lewis.resetRotation();
-        lewis.rotateZ(z);
-        lewis.rotateX(r + 90);
+//        if (p) {
+//            r += 3.0f;
+//        } else {
+//            r -= 3.0f;
+//        }
+//
+//        lewis.resetRotation();
+//        lewis.rotateZ(z);
+//        lewis.rotateX(r + 90);
+        Matrix4f  m = Matrix4f.identityMatrix();
+        m.translate(upperLLeg.jointVertex.scale(-1.0f));
+        m.rotateX(-45);
+        m.translate(upperLLeg.jointVertex);
+        m.rotateX(90);
+        m.translate(c);
+        //m.scale(new Vector3f(0.2f, 0.2f, 0.2f));
+        Shader.LEWIS_SHADER.enable();
+        Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
         upperLLeg.draw();
+        m = Matrix4f.identityMatrix();
+        m.translate(lowerLLeg.jointVertex.scale(-1.0f));
+        m.rotateX(90);
+        m.translate(lowerLLeg.jointVertex);
+        m.translate(upperLLeg.jointVertex.scale(-1.0f));
+        m.rotateX(-45);
+        m.translate(upperLLeg.jointVertex);
+        m.rotateX(90);
+        m.translate(c);
+        Shader.LEWIS_SHADER.enable();
+        Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
         lowerLLeg.draw();
-        lewis.resetRotation();
-        if (p) {
-            l -= 3.0f;
-        } else {
-            l += 3.0f;
-        }
-        lewis.resetRotation();
-        lewis.rotateZ(z);
-        lewis.rotateX(l + 90);
+        lewis.rotateY(0);
         upperRLeg.draw();
         lowerRLeg.draw();
     }

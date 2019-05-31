@@ -39,7 +39,7 @@ public class VertexArray {
     /* Depth of model. */
     private float depth;
 
-    private Vector3f jointVertex;
+    public Vector3f jointVertex;
 
     public VertexArray(String modelPath, String texturePath, Shader shader) {
 
@@ -228,15 +228,17 @@ public class VertexArray {
     }
 
     public Vector3f getJointVertex(float[] array) {
-        float y = Float.MIN_VALUE;
+        float y = Float.NEGATIVE_INFINITY;
         int index = -1;
 
-        for (int i = 1; i< array.length; i += 3) {
-            if (array[i] > y) {
+        for (int i = 1; i < array.length; i += 3) {
+            if (array[i] >= y) {
                 y = array[i];
                 index = i;
             }
         }
+
+        System.out.println(y);
 
         return new Vector3f(array[index - 1], array[index], array[index + 1]);
     }

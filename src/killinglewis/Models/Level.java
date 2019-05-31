@@ -29,7 +29,7 @@ public class Level {
     }
 
     public void render() {
-        terrain.render();
+//        terrain.render();
         lewis.render();
         health.render();
         mana.render();
