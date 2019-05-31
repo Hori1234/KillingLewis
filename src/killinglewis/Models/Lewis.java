@@ -1,5 +1,6 @@
 package killinglewis.Models;
 
+import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Shader;
 
@@ -14,17 +15,32 @@ public class Lewis {
     private Vector3f targetPos;
     private boolean isRunning;
     private float turnAngle;
+    private VertexArray torso, upperLArm, lowerLArm, upperRArm, lowerRArm, upperLLeg, lowerLLeg, upperRLeg, lowerRLeg;
+    float r = 0.0f;
+    float l = 0.0f;
+    float z = 0.0f;
+    boolean p = false;
 
     public Lewis(int mazeX, int mazeY) {
         lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
         lewis.rotateX(90);
-        lewis.scale(new Vector3f(0.05f, 0.05f, 0.05f));
+        lewis.scale(new Vector3f(0.2f, 0.2f, 0.2f));
         this.mazeX = mazeX;
         this.mazeY = mazeY;
         isRunning = false;
 
         currentPos = lewis.getTranslation();
         targetPos = lewis.getTranslation();
+
+        torso = new VertexArray("res/lewis_torso.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperLArm = new VertexArray("res/lewis_upper_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerLArm = new VertexArray("res/lewis_lower_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperRArm = new VertexArray("res/lewis_upper_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerRArm = new VertexArray("res/lewis_lower_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperLLeg = new VertexArray("res/lewis_upper_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerLLeg = new VertexArray("res/lewis_lower_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperRLeg = new VertexArray("res/lewis_upper_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerRLeg = new VertexArray("res/lewis_lower_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
     }
 
     /**
@@ -84,7 +100,44 @@ public class Lewis {
         if (isRunning) {
             runToNext();
         }
-        lewis.draw();
+
+        if (l >= 45) {
+            p = true;
+        } else if (l <= -45) {
+            p = false;
+        }
+
+        z = lewis.getRotation().getZ();
+        lewis.resetRotation();
+        lewis.rotateZ(z);
+        lewis.rotateX(90);
+        torso.draw();
+        upperLArm.draw();
+        lowerLArm.draw();
+        upperRArm.draw();
+        lowerRArm.draw();
+        if (p) {
+            r += 3.0f;
+        } else {
+            r -= 3.0f;
+        }
+
+        lewis.resetRotation();
+        lewis.rotateZ(z);
+        lewis.rotateX(r + 90);
+        upperLLeg.draw();
+        lowerLLeg.draw();
+        lewis.resetRotation();
+        if (p) {
+            l -= 3.0f;
+        } else {
+            l += 3.0f;
+        }
+        lewis.resetRotation();
+        lewis.rotateZ(z);
+        lewis.rotateX(l + 90);
+        upperRLeg.draw();
+        lowerRLeg.draw();
     }
 
     public boolean getIsRunning() {
