@@ -188,6 +188,10 @@ public class VertexArray {
         rotation = new Vector3f(rotation.getX(), rotation.getY(), 0.0f);
     }
 
+    public void resetRotationY() {
+        rotation = new Vector3f(rotation.getX(), 0, rotation.getZ());
+    }
+
     public void resetScaling() {
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
     }
