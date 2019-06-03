@@ -114,10 +114,6 @@ public class KillingLewis implements Runnable {
     private void update() {
         glfwPollEvents();
 
-        if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
-            System.out.println(level.getTerrain().getCell(CursorPosition.xpos, CursorPosition.ypos));
-        }
-
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();
@@ -130,9 +126,20 @@ public class KillingLewis implements Runnable {
                 rawPosition.clear();
             }
             rawPosition.addMovement(CursorPosition.xpos, CursorPosition.ypos);
-            if (rawPosition.getSXpos().length == 10)
-                System.out.println(rawPosition.getSXpos().toString());
+            level.setCanvasActive(true);
             lastKey = GLFW_KEY_TAB;
+        } else {
+            level.setCanvasActive(false);
+        }
+
+        if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
+            if (level.getCanvasActive()) {
+                level.drawOnCanvas((float) CursorPosition.xpos, (float) CursorPosition.ypos);
+            }
+        } else {
+            if (level.getCanvasActive() && level.getCanvas().getIsDrawing()) {
+                level.getCanvas().saveDrawing();
+            }
         }
 
     }
@@ -177,13 +184,13 @@ public class KillingLewis implements Runnable {
     private void updateCamera(){
         camera.moveCamera();
         LEWIS_SHADER.enable();
-        WALL_SHADER.enable();
-        TERRAIN_SHADER.enable();
         LEWIS_SHADER.loadViewMatrix(camera);
-        WALL_SHADER.loadViewMatrix(camera);
-        TERRAIN_SHADER.loadViewMatrix(camera);
         LEWIS_SHADER.disable();
+        WALL_SHADER.enable();
+        WALL_SHADER.loadViewMatrix(camera);
         WALL_SHADER.disable();
+        TERRAIN_SHADER.enable();;
+        TERRAIN_SHADER.loadViewMatrix(camera);
         TERRAIN_SHADER.disable();
     }
 

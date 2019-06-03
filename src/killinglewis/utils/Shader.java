@@ -15,6 +15,7 @@ public class Shader {
     public static Shader TERRAIN_SHADER;
     public static Shader WALL_SHADER;
     public static Shader OVERLAY_SHADER;
+    public static Shader CANVAS_SHADER;
 
     private int id;
     private static Light light = new Light(new Vector3f(10,100,10), new Vector3f(1,1,1));
@@ -40,6 +41,7 @@ public class Shader {
         TERRAIN_SHADER = new Shader("shaders/terrain.vert", "shaders/terrain.frag");
         WALL_SHADER = new Shader("shaders/wall.vert", "shaders/wall.frag");
         OVERLAY_SHADER = new Shader("shaders/overlay.vert", "shaders/overlay.frag");
+        CANVAS_SHADER = new Shader("shaders/canvas.vert", "shaders/canvas.frag");
     }
 
     public int getID() {

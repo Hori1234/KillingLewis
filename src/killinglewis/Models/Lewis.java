@@ -1,5 +1,6 @@
 package killinglewis.Models;
 
+import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Shader;
@@ -15,19 +16,34 @@ public class Lewis {
     private Vector3f targetPos;
     private boolean isRunning;
     private float turnAngle;
+    private VertexArray torso, upperLArm, lowerLArm, upperRArm, lowerRArm, upperLLeg, lowerLLeg, upperRLeg, lowerRLeg;
+    float l = 0.0f;
+    private final float SPEED = 0.02f;
+    private final float SCALE = 0.05f;
+    boolean p = false;
 
     public InteractionManager interact = new InteractionManager();
 
     public Lewis(int mazeX, int mazeY) {
         lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lewis.scale(new Vector3f(SCALE, SCALE, SCALE));
         lewis.rotateX(90);
-        lewis.scale(new Vector3f(0.05f, 0.05f, 0.05f));
         this.mazeX = mazeX;
         this.mazeY = mazeY;
         isRunning = false;
 
         currentPos = lewis.getTranslation();
         targetPos = lewis.getTranslation();
+
+        torso = new VertexArray("res/lewis_torso.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperLArm = new VertexArray("res/lewis_upper_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerLArm = new VertexArray("res/lewis_lower_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperRArm = new VertexArray("res/lewis_upper_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerRArm = new VertexArray("res/lewis_lower_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperLLeg = new VertexArray("res/lewis_upper_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerLLeg = new VertexArray("res/lewis_lower_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        upperRLeg = new VertexArray("res/lewis_upper_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        lowerRLeg = new VertexArray("res/lewis_lower_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
     }
 
     /**
@@ -53,9 +69,9 @@ public class Lewis {
 
     private void runToNext() {
         Vector3f deltaPos = targetPos.subtract(currentPos);
-        float moveX = abs(deltaPos.getX()) >= 0.05f ? 0.05f * signum(deltaPos.getX()) : deltaPos.getX();
-        float moveY = abs(deltaPos.getY()) >= 0.05f ? 0.05f * signum(deltaPos.getY()) : deltaPos.getY();
-        float moveZ = abs(deltaPos.getZ()) >= 0.05f ? 0.05f * signum(deltaPos.getZ()) : deltaPos.getZ();
+        float moveX = abs(deltaPos.getX()) >= SPEED ? SPEED * signum(deltaPos.getX()) : deltaPos.getX();
+        float moveY = abs(deltaPos.getY()) >= SPEED ? SPEED * signum(deltaPos.getY()) : deltaPos.getY();
+        float moveZ = abs(deltaPos.getZ()) >= SPEED ? SPEED * signum(deltaPos.getZ()) : deltaPos.getZ();
 
         Vector3f moveVector = new Vector3f(moveX, moveY, moveZ);
 
@@ -87,7 +103,39 @@ public class Lewis {
         if (isRunning) {
             runToNext();
         }
-        lewis.draw();
+
+        if (l >= 60) {
+            p = true;
+        } else if (l <= -60) {
+            p = false;
+        }
+
+        if (p) {
+            l -= SPEED * 250;
+        } else {
+            l += SPEED * 250;
+        }
+
+        lewis.rotateY(0);
+        lewis.translate(new Vector3f(0.0f, 0.0f, -0.2f));
+        torso.draw();
+        rotateUpper(upperLArm, l);
+        upperLArm.draw();
+        rotateLower(upperLArm, lowerLArm, l, -1.0f * abs(l / 60.0f * 120));
+        lowerLArm.draw();
+        rotateUpper(upperRArm, -l);
+        upperRArm.draw();
+        rotateLower(upperLArm, lowerLArm, -l, -1.0f * abs(-l / 60.0f * 120));
+        lowerRArm.draw();
+        rotateUpper(upperLLeg, -l);
+        upperLLeg.draw();
+        rotateLower(upperLLeg, lowerLLeg, -l, abs(-l / 60.0f * 120));
+        lowerLLeg.draw();
+        rotateUpper(upperRLeg, l);
+        upperRLeg.draw();
+        rotateLower(upperRLeg, lowerRLeg, l, abs(l / 60.0f * 120));
+        lowerRLeg.draw();
+        lewis.translate(new Vector3f(0.0f, 0.0f, 0.2f));
     }
 
     public boolean getIsRunning() {
@@ -110,5 +158,34 @@ public class Lewis {
      */
     public int getMazeY() {
         return mazeY;
+    }
+
+    private void rotateUpper(VertexArray upper, float angle) {
+        Matrix4f m = Matrix4f.identityMatrix();
+        m.translate(upper.jointVertex.scale(-1.0f));
+        m.rotateX(angle);
+        m.translate(upper.jointVertex);
+        m.rotateX(90);
+        m.scale(lewis.getScale());
+        m.rotateZ(lewis.getRotation().getZ());
+        m.translate(lewis.getTranslation());
+        Shader.LEWIS_SHADER.enable();
+        Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
+    }
+
+    private void rotateLower(VertexArray upper, VertexArray lower, float angleUpper, float angleLower) {
+        Matrix4f m = Matrix4f.identityMatrix();
+        m.translate(lower.jointVertex.scale(-1.0f));
+        m.rotateX(angleLower);
+        m.translate(lower.jointVertex);
+        m.translate(upper.jointVertex.scale(-1.0f));
+        m.rotateX(angleUpper);
+        m.translate(upper.jointVertex);
+        m.rotateX(90);
+        m.scale(lewis.getScale());
+        m.rotateZ(lewis.getRotation().getZ());
+        m.translate(lewis.getTranslation());
+        Shader.LEWIS_SHADER.enable();
+        Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
     }
 }

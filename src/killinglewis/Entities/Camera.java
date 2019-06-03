@@ -8,15 +8,16 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Camera {
 
     /**Camera's Position**/
-    private Vector3f position = new Vector3f(0,0,0);
+    private Vector3f position = new Vector3f(-0.03f,0,0);
     /**Camera's yaw**/
-    private float yaw = -2 ;
+    private float yaw = -5;
     /**Camera's pitch**/
-    private float pitch = -2;
+    private float pitch = -6;
     /**Camera's Roll**/
-    private float roll = 1;
+    private float roll = 0;
     /**Camera Instance Variable**/
     private static Camera instance = null;
+    private float scale = 1.03f;
 
     private Camera(){}
 
@@ -33,29 +34,38 @@ public class Camera {
     /**
      *Method for moving Camera with keyboard inputs.
      */
-    public void moveCamera(){
+    public void moveCamera() {
 
         if (KeyboardInput.keys[GLFW_KEY_W]) {
-            this.position.add(new Vector3f(0,0, -0.2f));
+            this.pitch += 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_A]) {
-            this.position.add(new Vector3f(-0.2f,0,0));
+            this.yaw -= 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_S]) {
-            this.position.add(new Vector3f(0,0, 0.2f));
+            this.pitch -= 1f;
         }
         if (KeyboardInput.keys[GLFW_KEY_D]) {
-            this.position.add(new Vector3f(0.2f, 0 , 0));
+            this.yaw += 1f;
         }
-        if (KeyboardInput.keys[GLFW_KEY_LEFT_SHIFT]) {
-            this.position.add(new Vector3f(0,0.2f,0));
+        if (KeyboardInput.keys[GLFW_KEY_Z]) {
+            this.roll -= 1f;
         }
-        if (KeyboardInput.keys[GLFW_KEY_RIGHT_SHIFT]) {
-            this.position.add(new Vector3f(0,-0.2f,0));
+        if (KeyboardInput.keys[GLFW_KEY_X]) {
+            this.roll += 1f;
         }
 
-
+        if (KeyboardInput.keys[GLFW_KEY_DOWN]) {
+            if (scale > 1.03f) {
+                this.scale -= 0.01f;
+            }
+        }
+        if (KeyboardInput.keys[GLFW_KEY_UP]) {
+            this.scale += 0.01f;
+        }
     }
+
+
     public Vector3f getPosition() {
         return position;
     }
@@ -70,5 +80,9 @@ public class Camera {
 
     public float getRoll() {
         return roll;
+    }
+
+    public float getScale() {
+        return scale;
     }
 }

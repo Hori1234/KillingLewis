@@ -9,6 +9,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Vector;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -38,6 +39,8 @@ public class VertexArray {
     /* Depth of model. */
     private float depth;
 
+    public Vector3f jointVertex;
+
     public VertexArray(String modelPath, String texturePath, Shader shader) {
 
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
@@ -59,6 +62,8 @@ public class VertexArray {
         width = getSize(ml.getVertices(), 0);
         height = getSize(ml.getVertices(), 1);
         depth = getSize(ml.getVertices(), 2);
+
+        jointVertex = getJointVertex(ml.getVertices());
 
         bindModel(ml);
         shader.disable();
@@ -188,6 +193,10 @@ public class VertexArray {
         rotation = new Vector3f(rotation.getX(), rotation.getY(), 0.0f);
     }
 
+    public void resetRotationY() {
+        rotation = new Vector3f(rotation.getX(), 0, rotation.getZ());
+    }
+
     public void resetScaling() {
         scale = new Vector3f(1.0f, 1.0f, 1.0f);
     }
@@ -205,8 +214,8 @@ public class VertexArray {
     }
 
     private float getSize(float[] array, int start) {
-        float max = Float.MIN_VALUE;
-        float min = Float.MAX_VALUE;
+        float max = Float.NEGATIVE_INFINITY;
+        float min = Float.POSITIVE_INFINITY;
 
         for (int i = start; i < array.length; i += 3) {
             if (array[i] >= max)
@@ -216,6 +225,20 @@ public class VertexArray {
         }
 
         return Math.abs(max - min);
+    }
+
+    public Vector3f getJointVertex(float[] array) {
+        float y = Float.NEGATIVE_INFINITY;
+        int index = -1;
+
+        for (int i = 1; i < array.length; i += 3) {
+            if (array[i] >= y) {
+                y = array[i];
+                index = i;
+            }
+        }
+
+        return new Vector3f(array[index - 1], array[index], array[index + 1]);
     }
 
     public float getWidth() {
