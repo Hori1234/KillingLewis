@@ -1,6 +1,7 @@
 package killinglewis.Models;
 
 import killinglewis.math.Vector3f;
+import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Shader;
 
 import static java.lang.Math.*;
@@ -14,6 +15,8 @@ public class Lewis {
     private Vector3f targetPos;
     private boolean isRunning;
     private float turnAngle;
+
+    public InteractionManager interact = new InteractionManager();
 
     public Lewis(int mazeX, int mazeY) {
         lewis = new VertexArray("res/lewis.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
