@@ -26,6 +26,10 @@ public class Maze {
     private int width;
     //The path to the file:
     private String filepath;
+    //Representations of the spells in the maze
+    public static final int FLAME_SPELL = 2;
+    public static final int HAMER_SPELL = 3;
+    public static final int SOAK_SPELL = 4;
 
     /**
      * Constructor of class Maze
