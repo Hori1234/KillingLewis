@@ -22,6 +22,10 @@ public class Overlay {
         }
     }
 
+    public void setProgress(float progress) {
+        this.progress = progress;
+    }
+
     public void render() {
         overlay.resetTranslation();
         overlay.translate(new Vector3f(0.75f - position * 1.5f, 0.96f, -0.5f));

@@ -2,6 +2,7 @@ package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.math.Vector3f;
+import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Level {
     private ArrayList<Integer> path;
     private Overlay health, mana;
     private boolean canvasActive;
-
+    public InteractionManager interact;
 
     public Level(Maze maze) {
         this.maze = maze;
@@ -23,6 +24,7 @@ public class Level {
         canvas = new DrawingCanvas();
         health = new Overlay("textures/health.png", 0);
         mana = new Overlay("textures/mana.png", 1);
+        interact = new InteractionManager();
         canvasActive = false;
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
@@ -37,6 +39,14 @@ public class Level {
         if (canvasActive) {
             canvas.render();
         }
+
+        update();
+    }
+
+    public void update() {
+        health.setProgress(interact.getHealth());
+
+        interact.reduceHealth(0.1f);
     }
 
     public void moveToCell(int x, int y) {
@@ -90,6 +100,7 @@ public class Level {
     public boolean getCanvasActive() {
         return canvasActive;
     }
+
     public void drawOnCanvas(float x, float y) {
         canvas.drawSquare(x, y);
     }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import killinglewis.Spells.Spell;
 
 public class InteractionManager {
-    private int health;
-    private int stamina;
+    private float health;
+    private float stamina;
     private ArrayList<Spell> spells;
 
     public InteractionManager(int health, int stamina) {
@@ -25,11 +25,19 @@ public class InteractionManager {
         spells.remove(spell);
     }
 
-    public int getHealth() {
+    public float getHealth() {
         return this.health;
     }
 
-    public int getStamina() {
+    public float getStamina() {
         return this.stamina;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public void reduceHealth(float reduction) {
+        this.health = health - reduction;
     }
 }
