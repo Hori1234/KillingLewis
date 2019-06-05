@@ -79,6 +79,14 @@ public class Maze {
         return width;
     }
 
+    public void setWall(int x, int y) {
+        maze[y][x] = 1;
+    }
+
+    public void setPath(int x, int y) {
+        maze[y][x] = 0;
+    }
+
     /**
      * Method which builds a char matrix from a file
      * @param file

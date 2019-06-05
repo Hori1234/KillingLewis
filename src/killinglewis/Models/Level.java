@@ -116,4 +116,12 @@ public class Level {
     public void castSpell(String figure) {
         interact.getSpell(figure).cast(interact);
     }
+
+    /**
+     * @param x mouse coord
+     * @param y mouse coord
+     */
+    public void placeObstruction(double x, double y) {
+        terrain.placeObstruction(x, y);
+    }
 }
