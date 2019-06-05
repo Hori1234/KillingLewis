@@ -1,6 +1,7 @@
 package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
+import killinglewis.Spells.Spell;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
@@ -44,9 +45,8 @@ public class Level {
     }
 
     public void update() {
-        health.setProgress(interact.getHealth());
-
-        interact.reduceHealth(0.1f);
+        health.setProgress(interact.getHealth());   // Set the progress bar to the current health
+        lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
     }
 
     public void moveToCell(int x, int y) {
@@ -107,5 +107,12 @@ public class Level {
 
     public DrawingCanvas getCanvas() {
         return canvas;
+    }
+
+    /** Cast a spell according to the figure that was drawn
+     * @param figure string representation of the figure that was drawn
+     */
+    public void castSpell(String figure) {
+        interact.getSpell(figure).cast(interact);
     }
 }
