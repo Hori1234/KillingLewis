@@ -123,7 +123,10 @@ public class Level {
      * @param y mouse coord
      */
     public void placeObstruction(double x, double y) {
-        terrain.placeObstruction(x, y, lewis.getMazeX(), lewis.getMazeY());
-        findPath();
+        if (interact.getMana() - 0.1f > -0.1f) {
+            interact.reduceMana(0.1f);
+            terrain.placeObstruction(x, y, lewis.getMazeX(), lewis.getMazeY());
+            findPath();
+        }
     }
 }

@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f33874b4-1684-4493-8472-2ab4ef00f4f1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Level.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="74" column="63" selection-start-line="74" selection-start-column="63" selection-end-line="74" selection-end-column="63" />
+            <state relative-caret-position="505">
+              <caret line="125" column="40" lean-forward="true" selection-start-line="125" selection-start-column="40" selection-end-line="125" selection-end-column="40" />
               <folding>
                 <element signature="e#1653#1654#0" expanded="true" />
                 <element signature="e#1711#1712#0" expanded="true" />
@@ -357,12 +354,12 @@
       <workItem from="1557331665981" duration="32000" />
       <workItem from="1559649128542" duration="4804000" />
       <workItem from="1559725441745" duration="3884000" />
-      <workItem from="1559734428953" duration="5201000" />
+      <workItem from="1559734428953" duration="5668000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23098000" />
+    <option name="totallyTimeSpent" value="23565000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -800,8 +797,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Level.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="74" column="63" selection-start-line="74" selection-start-column="63" selection-end-line="74" selection-end-column="63" />
+        <state relative-caret-position="505">
+          <caret line="125" column="40" lean-forward="true" selection-start-line="125" selection-start-column="40" selection-end-line="125" selection-end-column="40" />
           <folding>
             <element signature="e#1653#1654#0" expanded="true" />
             <element signature="e#1711#1712#0" expanded="true" />
