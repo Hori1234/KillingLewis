@@ -1,5 +1,6 @@
 package killinglewis.Models;
 
+import killinglewis.ModelLoader.NNLoader;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Shader;
 
@@ -78,7 +79,7 @@ public class DrawingCanvas {
             }
         }
 
-        File output = new File("output.jpg");
+        File output = new File("NeuralNetwork/testImage2.jpg");
         try {
             ImageIO.write(image, "jpg", output);
         } catch (IOException e) {
@@ -89,6 +90,8 @@ public class DrawingCanvas {
 
         isDrawing = false;
     }
+
+
 
     public boolean getIsDrawing() {
         return isDrawing;

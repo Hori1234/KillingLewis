@@ -1,8 +1,8 @@
 package killinglewis;
 
 import killinglewis.Entities.Camera;
+import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Models.Level;
-import killinglewis.Models.Terrain;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
@@ -10,7 +10,6 @@ import killinglewis.input.SpellInput;
 import killinglewis.utils.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-
 import static killinglewis.utils.Shader.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -23,6 +22,13 @@ import static org.lwjgl.system.MemoryUtil.*;
  */
 public class KillingLewis implements Runnable {
 
+    /* Thread handling the Neural Network. */
+    private Thread nnThread;
+    private String path = "C:\\Users\\swhyo\\Desktop\\PythonCNN\\NeuralNetTest.py";
+    private String inPath = "NeuralNetwork\\NeuralNetTest.py";
+    private boolean isNnRunning = false;
+    /* Neural Network Loader. */
+    private NNLoader loader;
     /* Thread handling the rendering. */
     private Thread graphicsThread;
     /* Window width.*/
@@ -51,6 +57,17 @@ public class KillingLewis implements Runnable {
     private void init() {
         GLFWErrorCallback.createPrint(System.err).set();
 
+        //Initialize Thread of the NN and the NN loader
+        loader = new NNLoader(inPath,true);
+//        try{
+//
+//            nnThread = new Thread(loader);
+//            nnThread.start();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        loader.start();
         // initialize GLFW
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -114,6 +131,16 @@ public class KillingLewis implements Runnable {
     private void update() {
         glfwPollEvents();
 
+        if (isNnRunning) {
+
+            if (!NNLoader.processing) {
+                System.out.println("pizda ma-tii friptule");
+                level.checkResult();
+                isNnRunning = false;
+            }
+        }
+
+
         if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();
@@ -127,6 +154,7 @@ public class KillingLewis implements Runnable {
             }
             rawPosition.addMovement(CursorPosition.xpos, CursorPosition.ypos);
             level.setCanvasActive(true);
+
             lastKey = GLFW_KEY_TAB;
         } else {
             level.setCanvasActive(false);
@@ -139,6 +167,8 @@ public class KillingLewis implements Runnable {
         } else {
             if (level.getCanvasActive() && level.getCanvas().getIsDrawing()) {
                 level.getCanvas().saveDrawing();
+                isNnRunning = true;
+                NNLoader.processing= true;
             }
         }
 
@@ -180,6 +210,8 @@ public class KillingLewis implements Runnable {
 
             lastTime = glfwGetTime();
         }
+
+        loader.interrupt();
     }
     private void updateCamera(){
         camera.moveCamera();
@@ -194,11 +226,15 @@ public class KillingLewis implements Runnable {
         TERRAIN_SHADER.disable();
     }
 
+
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         (new KillingLewis()).start();
     }
+
+
 
 }

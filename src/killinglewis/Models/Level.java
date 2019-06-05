@@ -1,6 +1,7 @@
 package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
+import killinglewis.ModelLoader.NNLoader;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Maze;
 
@@ -94,6 +95,27 @@ public class Level {
         canvas.drawSquare(x, y);
     }
 
+    public void checkResult(){
+        String[] result = NNLoader.result;
+        if (result != null) {
+            for (int j=0; j<result.length; j++){
+                System.out.print(result[j]);
+            }
+            System.out.println();
+            boolean notfound = true;
+            int spellNumber = 0;
+            int i = -1;
+            while (notfound && i < result.length -1 ) {
+                i++;
+                if (result[i].equals("1")) {
+                    //System.out.println(i);
+                    spellNumber = i;
+                    notfound = true;
+                }
+            }
+            System.out.println("Spell " + spellNumber + " " + "casted");
+        }
+    }
     public DrawingCanvas getCanvas() {
         return canvas;
     }
