@@ -46,6 +46,7 @@ public class Level {
 
     public void update() {
         health.setProgress(interact.getHealth());   // Set the progress bar to the current health
+        mana.setProgress(interact.getMana());       //
         lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
     }
 

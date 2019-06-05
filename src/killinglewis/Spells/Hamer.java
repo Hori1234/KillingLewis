@@ -23,5 +23,6 @@ public class Hamer extends Spell {
     @Override
     public void cast(InteractionManager interact) {
         interact.reduceHealth(this.health);
+        interact.reduceMana(this.getManaCost());
     }
 }

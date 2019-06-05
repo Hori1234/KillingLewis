@@ -23,5 +23,6 @@ public class Soak extends Spell {
     @Override
     public void cast(InteractionManager interact) {
         interact.reduceStamina(this.stamina);
+        interact.reduceMana(this.getManaCost());
     }
 }

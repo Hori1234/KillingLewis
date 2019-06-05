@@ -9,22 +9,25 @@ import killinglewis.Spells.Spell;
 public class InteractionManager {
     private float health;   // Lewis' health
     private float stamina;  // Lewis' stamina
+    private float mana;     // Players mana
     private ArrayList<Spell> spells;    // List of spells that can be cast on Lewis
 
     /** Constructor
      * @param health
      * @param stamina
+     * @param mana
      */
-    public InteractionManager(int health, int stamina) {
+    public InteractionManager(float health, float stamina, float mana) {
         this.health = health;
         this.stamina = stamina;
+        this.mana = mana;
     }
 
     /** Default constructor
      * Default settings for health and stamina
      */
     public InteractionManager() {
-        this(100, 100);
+        this(1f, 1f,1f);
     }
 
     public void addSpell(Spell spell) {
@@ -66,5 +69,17 @@ public class InteractionManager {
 
     public void reduceStamina(float reduction) {
         this.stamina = this.stamina - reduction;
+    }
+
+    public void setMana(float mana) {
+        this.mana = mana;
+    }
+
+    public float getMana() {
+        return this.mana;
+    }
+
+    public void reduceMana(float reduction) {
+        this.mana = this.mana - reduction;
     }
 }

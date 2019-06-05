@@ -26,5 +26,6 @@ public class Flame extends Spell {
     public void cast(InteractionManager interact) {
         interact.reduceHealth(this.health);
         interact.reduceStamina(this.speed);
+        interact.reduceMana(this.getManaCost());
     }
 }
