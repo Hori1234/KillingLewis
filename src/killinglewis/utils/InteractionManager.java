@@ -82,4 +82,8 @@ public class InteractionManager {
     public void reduceMana(float reduction) {
         this.mana = this.mana - reduction;
     }
+
+    public boolean enoughMana(float cost) {
+        return this.mana - cost > 0f - cost / 10;
+    }
 }
