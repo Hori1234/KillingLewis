@@ -79,8 +79,11 @@ public class Maze {
         return width;
     }
 
-    public void setWall(int x, int y) {
+    public void setWall(int x, int y, int lewisX, int lewisY) {
         maze[y][x] = 1;
+
+        startX = lewisX;
+        startY = lewisY;
     }
 
     public void setPath(int x, int y) {

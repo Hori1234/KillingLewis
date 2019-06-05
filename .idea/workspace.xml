@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f33874b4-1684-4493-8472-2ab4ef00f4f1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/killinglewis/KillingLewis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/KillingLewis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" afterDir="false" />
     </list>
@@ -20,15 +19,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Level.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
+            <state relative-caret-position="408">
+              <caret line="74" column="63" selection-start-line="74" selection-start-column="63" selection-end-line="74" selection-end-column="63" />
               <folding>
-                <element signature="e#3251#3252#0" expanded="true" />
-                <element signature="e#3297#3298#0" expanded="true" />
+                <element signature="e#1653#1654#0" expanded="true" />
+                <element signature="e#1711#1712#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Lewis.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2467">
+              <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
             </state>
           </provider>
         </entry>
@@ -36,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/KillingLewis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="137" column="75" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="75" />
+            <state relative-caret-position="260">
+              <caret line="95" column="45" selection-start-line="95" selection-start-column="42" selection-end-line="95" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -48,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/ArtificialIntelligence/AStar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-515">
-              <caret line="17" column="25" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="25" />
+            <state relative-caret-position="396">
+              <caret line="228" column="23" selection-start-line="228" selection-start-column="23" selection-end-line="228" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -60,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Terrain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+            <state relative-caret-position="170">
+              <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/Maze.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="82" column="25" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="25" />
+            <state relative-caret-position="578">
+              <caret line="84" column="20" lean-forward="true" selection-start-line="84" selection-start-column="20" selection-end-line="84" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,6 +113,10 @@
       <find>overlay</find>
       <find>SPEED</find>
       <find>render</find>
+      <find>find</find>
+      <find>get</find>
+      <find>getsol</find>
+      <find>mazeX</find>
     </findStrings>
     <replaceStrings>
       <replace>speed</replace>
@@ -131,7 +143,6 @@
         <option value="$PROJECT_DIR$/shaders/vertexShader.vert" />
         <option value="$PROJECT_DIR$/shaders/fragmentShader.frag" />
         <option value="$PROJECT_DIR$/src/killinglewis/utils/FileLoader.java" />
-        <option value="$PROJECT_DIR$/src/killinglewis/ArtificialIntelligence/AStar.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/math/Matrix4f.java" />
         <option value="$PROJECT_DIR$/shaders/lewis.vert" />
         <option value="$PROJECT_DIR$/src/killinglewis/utils/ModelLoader.java" />
@@ -145,7 +156,6 @@
         <option value="$PROJECT_DIR$/shaders/wall.frag" />
         <option value="$PROJECT_DIR$/src/killinglewis/Models/Wall.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/Models/VertexArray.java" />
-        <option value="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/Models/Overlay.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/Spells/Spell.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/Spells/Hamer.java" />
@@ -153,10 +163,12 @@
         <option value="$PROJECT_DIR$/src/killinglewis/Spells/GenericSpell.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/utils/InteractionManager.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/Spells/Flame.java" />
-        <option value="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/KillingLewis.java" />
-        <option value="$PROJECT_DIR$/src/killinglewis/Models/Level.java" />
+        <option value="$PROJECT_DIR$/src/killinglewis/ArtificialIntelligence/AStar.java" />
+        <option value="$PROJECT_DIR$/src/killinglewis/Models/Terrain.java" />
         <option value="$PROJECT_DIR$/src/killinglewis/utils/Maze.java" />
+        <option value="$PROJECT_DIR$/src/killinglewis/Models/Lewis.java" />
+        <option value="$PROJECT_DIR$/src/killinglewis/Models/Level.java" />
       </list>
     </option>
   </component>
@@ -345,12 +357,12 @@
       <workItem from="1557331665981" duration="32000" />
       <workItem from="1559649128542" duration="4804000" />
       <workItem from="1559725441745" duration="3884000" />
-      <workItem from="1559734428953" duration="3860000" />
+      <workItem from="1559734428953" duration="5201000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21757000" />
+    <option name="totallyTimeSpent" value="23098000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -681,13 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Lewis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3094">
-          <caret line="200" column="1" lean-forward="true" selection-start-line="200" selection-start-column="1" selection-end-line="200" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/ArtificialIntelligence/Cell.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -746,31 +751,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Terrain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Level.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
-          <folding>
-            <element signature="e#3251#3252#0" expanded="true" />
-            <element signature="e#3297#3298#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/KillingLewis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="137" column="75" selection-start-line="137" selection-start-column="75" selection-end-line="137" selection-end-column="75" />
+        <state relative-caret-position="260">
+          <caret line="95" column="45" selection-start-line="95" selection-start-column="42" selection-end-line="95" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -779,8 +763,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/ArtificialIntelligence/AStar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-515">
-          <caret line="17" column="25" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="25" />
+        <state relative-caret-position="396">
+          <caret line="228" column="23" selection-start-line="228" selection-start-column="23" selection-end-line="228" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -789,10 +773,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/killinglewis/utils/Maze.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="82" column="25" selection-start-line="82" selection-start-column="25" selection-end-line="82" selection-end-column="25" />
+        <state relative-caret-position="578">
+          <caret line="84" column="20" lean-forward="true" selection-start-line="84" selection-start-column="20" selection-end-line="84" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Terrain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="46" column="40" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Lewis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2467">
+          <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/killinglewis/Models/Level.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="74" column="63" selection-start-line="74" selection-start-column="63" selection-end-line="74" selection-end-column="63" />
+          <folding>
+            <element signature="e#1653#1654#0" expanded="true" />
+            <element signature="e#1711#1712#0" expanded="true" />
           </folding>
         </state>
       </provider>

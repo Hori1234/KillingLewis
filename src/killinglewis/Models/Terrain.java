@@ -40,11 +40,11 @@ public class Terrain {
         return maze.getMaze()[(int) floor((x / WINDOW_WIDTH) / cellWidth)][(int) floor((y / WINDOW_HEIGHT) / cellHeight)];
     }
 
-    public void placeObstruction(double x, double y) {
+    public void placeObstruction(double x, double y, int lewisX, int lewisY) {
         int mazeX = (int) floor((x / WINDOW_WIDTH) / cellWidth);
         int mazeY = (int) floor((y / WINDOW_HEIGHT) / cellHeight);
 
-        maze.setWall(mazeX, mazeY);
+        maze.setWall(mazeX, mazeY, lewisX, lewisY);
 
         walls = getWalls();
     }

@@ -198,4 +198,9 @@ public class Lewis {
     public void changeSpeed(float speedChange) {
         this.speed = speed + speedChange;
     }
+
+    public void updatePosition(int x, int y) {
+        this.mazeX = x;
+        this.mazeY = y;
+    }
 }

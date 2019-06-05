@@ -72,6 +72,7 @@ public class Level {
 
     public void runToNextCell() {
         Vector3f next = getNextCell();
+        lewis.updatePosition((int) next.getY(), (int) next.getX());
         runToCell((int) next.getX(), (int) next.getY());
     }
 
@@ -122,6 +123,7 @@ public class Level {
      * @param y mouse coord
      */
     public void placeObstruction(double x, double y) {
-        terrain.placeObstruction(x, y);
+        terrain.placeObstruction(x, y, lewis.getMazeX(), lewis.getMazeY());
+        findPath();
     }
 }
