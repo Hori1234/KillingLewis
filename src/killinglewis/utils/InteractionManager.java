@@ -10,6 +10,7 @@ public class InteractionManager {
     private float health;   // Lewis' health
     private float stamina;  // Lewis' stamina
     private float mana;     // Players mana
+    private int obstruct = 10;   // nr of obstructions
     private ArrayList<Spell> spells;    // List of spells that can be cast on Lewis
 
     /** Constructor
@@ -40,7 +41,7 @@ public class InteractionManager {
 
     public Spell getSpell(String figure) {
         for (Spell spell : this.spells) {
-            if (spell.getFigure() == figure) {
+            if (spell.getFigure().equals(figure)) {
                 return spell;
             }
         }
@@ -85,5 +86,31 @@ public class InteractionManager {
 
     public boolean enoughMana(float cost) {
         return this.mana - cost > 0f - cost / 10;
+    }
+
+    public int getObstruct() {
+        return this.obstruct;
+    }
+
+    public void setObstruct(int obstruct) {
+        this.obstruct = obstruct;
+    }
+
+    public void reduceObstruct() {
+        this.obstruct = (this.obstruct > 0) ? this.obstruct - 1 : 0;
+    }
+
+    public boolean enoughObstruct() {
+        return this.obstruct > 0;
+    }
+
+    public void regenerate() {
+        this.health += (this.health / 2000);
+        this.mana += (this.mana / 2000);
+        this.stamina += (this.stamina / 2000);
+
+        if (this.health >= 1f) this.health = 1f;
+        if (this.mana >= 1f) this.mana = 1f;
+        if (this.stamina >= 1f) this.stamina = 1f;
     }
 }

@@ -23,8 +23,8 @@ public class Level {
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
         canvas = new DrawingCanvas();
-        health = new Overlay("textures/health.png", 0);
-        mana = new Overlay("textures/mana.png", 1);
+        health = new Overlay("textures/health.png", 0, "textures/lewis_health_txt.png");
+        mana = new Overlay("textures/mana.png", 1, "textures/player_mana_txt.png");
         interact = new InteractionManager();
         canvasActive = false;
 
@@ -48,6 +48,7 @@ public class Level {
         health.setProgress(interact.getHealth());   // Set the progress bar to the current health
         mana.setProgress(interact.getMana());       //
         lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
+        interact.regenerate();
     }
 
     public void moveToCell(int x, int y) {
