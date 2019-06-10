@@ -19,6 +19,12 @@ public class Vector3f {
         this.z = z;
     }
 
+    public Vector3f (Vector4f vector4f) {
+        this.x = vector4f.getX() / vector4f.getW();
+        this.y = vector4f.getY() / vector4f.getW();
+        this.z = vector4f.getZ() / vector4f.getW();
+    }
+
     /**
      * Returns the X coordinate of the vector.
      *
@@ -106,6 +112,21 @@ public class Vector3f {
      */
     public Vector3f subtract(Vector3f otherVector) {
         return new Vector3f(x - otherVector.getX(), y - otherVector.getY(), z - otherVector.getZ());
+    }
+
+    public Vector3f normalise () {
+        float len = this.getLength();
+        this.x = x / len;
+        this.y = y / len;
+        this.z = z / len;
+        return this;
+    }
+
+    public Vector3f negate() {
+        x = -x;
+        y = -y;
+        z = -z;
+        return this;
     }
 
     @Override

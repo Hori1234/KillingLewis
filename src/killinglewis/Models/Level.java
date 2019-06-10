@@ -27,6 +27,7 @@ public class Level {
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
     }
+    
 
     public void render() {
         terrain.render();
@@ -37,6 +38,11 @@ public class Level {
         if (canvasActive) {
             canvas.render();
         }
+    }
+
+    public void renderShadow() {
+        terrain.render();
+        lewis.render();
     }
 
     public void moveToCell(int x, int y) {
@@ -97,4 +103,6 @@ public class Level {
     public DrawingCanvas getCanvas() {
         return canvas;
     }
+
+
 }

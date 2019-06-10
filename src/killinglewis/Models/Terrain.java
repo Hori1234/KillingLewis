@@ -54,7 +54,8 @@ public class Terrain {
         }
     }
 
-    private ArrayList<Wall> getWalls() {
+
+    public ArrayList<Wall> getWalls() {
         ArrayList<Wall> walls = new ArrayList<>();
         for (int i = 0; i < maze.getMaze().length; i++) {
             for (int j = 0; j < maze.getMaze()[i].length; j++) {
@@ -65,6 +66,10 @@ public class Terrain {
         }
 
         return walls;
+    }
+
+    public VertexArray getVertexArray(){
+        return terrain;
     }
 
 }
