@@ -15,6 +15,7 @@ public class Shader {
     public static Shader TERRAIN_SHADER;
     public static Shader WALL_SHADER;
     public static Shader OVERLAY_SHADER;
+    public static Shader OVERLAY_TXT_SHADER;
     public static Shader CANVAS_SHADER;
 
     private int id;
@@ -41,6 +42,7 @@ public class Shader {
         TERRAIN_SHADER = new Shader("shaders/terrain.vert", "shaders/terrain.frag");
         WALL_SHADER = new Shader("shaders/wall.vert", "shaders/wall.frag");
         OVERLAY_SHADER = new Shader("shaders/overlay.vert", "shaders/overlay.frag");
+        OVERLAY_TXT_SHADER = new Shader("shaders/overlay_txt.vert", "shaders/overlay_txt.frag");
         CANVAS_SHADER = new Shader("shaders/canvas.vert", "shaders/canvas.frag");
     }
 
