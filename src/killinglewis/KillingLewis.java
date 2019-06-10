@@ -48,6 +48,8 @@ public class KillingLewis implements Runnable {
     public Camera camera = Camera.getInstance();
     ShadowMapMaker shadowMaker;
 
+    private boolean oKeyDown = false;
+
     /**
      * Initialize GLFW window.
      */
@@ -134,6 +136,10 @@ public class KillingLewis implements Runnable {
             lastKey = GLFW_KEY_TAB;
         } else {
             level.setCanvasActive(false);
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_O]) {
+            level.placeObstruction(CursorPosition.xpos, CursorPosition.ypos);
         }
 
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {

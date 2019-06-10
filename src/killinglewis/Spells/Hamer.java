@@ -1,5 +1,7 @@
 package killinglewis.Spells;
 
+import killinglewis.utils.InteractionManager;
+
 public class Hamer extends Spell {
 
     int health;
@@ -19,7 +21,8 @@ public class Hamer extends Spell {
     }
 
     @Override
-    public void cast() {
-
+    public void cast(InteractionManager interact) {
+        interact.reduceHealth(this.health);
+        interact.reduceMana(this.getManaCost());
     }
 }

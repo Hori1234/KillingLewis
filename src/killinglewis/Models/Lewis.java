@@ -2,6 +2,7 @@ package killinglewis.Models;
 
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
+import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Shader;
 
 import static java.lang.Math.*;
@@ -17,7 +18,7 @@ public class Lewis {
     private float turnAngle;
     private VertexArray torso, upperLArm, lowerLArm, upperRArm, lowerRArm, upperLLeg, lowerLLeg, upperRLeg, lowerRLeg;
     float l = 0.0f;
-    private final float SPEED = 0.02f;
+    private float speed = 0.02f;
     private final float SCALE = 0.05f;
     boolean p = false;
 
@@ -66,9 +67,9 @@ public class Lewis {
 
     private void runToNext() {
         Vector3f deltaPos = targetPos.subtract(currentPos);
-        float moveX = abs(deltaPos.getX()) >= SPEED ? SPEED * signum(deltaPos.getX()) : deltaPos.getX();
-        float moveY = abs(deltaPos.getY()) >= SPEED ? SPEED * signum(deltaPos.getY()) : deltaPos.getY();
-        float moveZ = abs(deltaPos.getZ()) >= SPEED ? SPEED * signum(deltaPos.getZ()) : deltaPos.getZ();
+        float moveX = abs(deltaPos.getX()) >= speed ? speed * signum(deltaPos.getX()) : deltaPos.getX();
+        float moveY = abs(deltaPos.getY()) >= speed ? speed * signum(deltaPos.getY()) : deltaPos.getY();
+        float moveZ = abs(deltaPos.getZ()) >= speed ? speed * signum(deltaPos.getZ()) : deltaPos.getZ();
 
         Vector3f moveVector = new Vector3f(moveX, moveY, moveZ);
 
@@ -108,9 +109,9 @@ public class Lewis {
         }
 
         if (p) {
-            l -= SPEED * 250;
+            l -= speed * 250;
         } else {
-            l += SPEED * 250;
+            l += speed * 250;
         }
 
         lewis.rotateY(0);
@@ -184,5 +185,22 @@ public class Lewis {
         m.translate(lewis.getTranslation());
         Shader.LEWIS_SHADER.enable();
         Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
+    }
+
+    public float getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public void changeSpeed(float speedChange) {
+        this.speed = speed + speedChange;
+    }
+
+    public void updatePosition(int x, int y) {
+        this.mazeX = x;
+        this.mazeY = y;
     }
 }

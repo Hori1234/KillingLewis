@@ -1,5 +1,7 @@
 package killinglewis.Spells;
 
+import killinglewis.utils.InteractionManager;
+
 public class GenericSpell extends Spell {
 
     private int health;
@@ -15,7 +17,7 @@ public class GenericSpell extends Spell {
     }
 
     @Override
-    public void cast() {
+    public void cast(InteractionManager interact) {
 
     }
 }

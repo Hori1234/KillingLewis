@@ -40,6 +40,15 @@ public class Terrain {
         return maze.getMaze()[(int) floor((x / WINDOW_WIDTH) / cellWidth)][(int) floor((y / WINDOW_HEIGHT) / cellHeight)];
     }
 
+    public void placeObstruction(double x, double y, int lewisX, int lewisY) {
+        int mazeX = (int) floor((x / WINDOW_WIDTH) / cellWidth);
+        int mazeY = (int) floor((y / WINDOW_HEIGHT) / cellHeight);
+
+        maze.setWall(mazeX, mazeY, lewisX, lewisY);
+
+        walls = getWalls();
+    }
+
     public Vector3f getCellPosition(int x, int y) {
         float xPos = ((x * cellWidth + (x + 1) * cellWidth) / 2.0f) * RIGHT * 2.0f - RIGHT;
         float yPos = ((y * cellHeight + (y + 1) * cellHeight) / 2.0f) * RIGHT * 2.0f * -9.0f / 16.0f - RIGHT * -9.0f / 16.0f;
