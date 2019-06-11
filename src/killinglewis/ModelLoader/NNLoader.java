@@ -59,7 +59,7 @@ public class NNLoader extends Thread {
     }
 
     private void loadModelJava(){
-        WindImagePipelineNeuralNetwork NNTestImage = new WindImagePipelineNeuralNetwork("NeuralNetwork/output.jpg");
+        WindImagePipelineNeuralNetwork NNTestImage = new WindImagePipelineNeuralNetwork("output.jpg");
         NNTestImage.go();
 
         Float[] evaluations = NNTestImage.getValuesOfOutput();

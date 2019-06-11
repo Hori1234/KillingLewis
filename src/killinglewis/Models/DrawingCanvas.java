@@ -79,7 +79,7 @@ public class DrawingCanvas {
             }
         }
 
-        File output = new File("NeuralNetwork/output.jpg");
+        File output = new File("output.jpg");
         try {
             ImageIO.write(image, "jpg", output);
         } catch (IOException e) {
