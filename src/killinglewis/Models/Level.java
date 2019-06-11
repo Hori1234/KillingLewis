@@ -2,7 +2,9 @@ package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.ModelLoader.NNLoader;
+import killinglewis.Spells.Spell;
 import killinglewis.math.Vector3f;
+import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
 
 import java.util.ArrayList;
@@ -15,19 +17,21 @@ public class Level {
     private ArrayList<Integer> path;
     private Overlay health, mana;
     private boolean canvasActive;
-
+    public InteractionManager interact;
 
     public Level(Maze maze) {
         this.maze = maze;
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
         canvas = new DrawingCanvas();
-        health = new Overlay("textures/health.png", 0);
-        mana = new Overlay("textures/mana.png", 1);
+        health = new Overlay("textures/health.png", 0, "textures/lewis_health_txt.png");
+        mana = new Overlay("textures/mana.png", 1, "textures/player_mana_txt.png");
+        interact = new InteractionManager();
         canvasActive = false;
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
     }
+    
 
     public void render() {
         terrain.render();
@@ -38,6 +42,20 @@ public class Level {
         if (canvasActive) {
             canvas.render();
         }
+
+        update();
+    }
+
+    public void update() {
+        health.setProgress(interact.getHealth());   // Set the progress bar to the current health
+        mana.setProgress(interact.getMana());       //
+        lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
+        interact.regenerate();
+    }
+
+    public void renderShadow() {
+        terrain.render();
+        lewis.render();
     }
 
     public void moveToCell(int x, int y) {
@@ -62,6 +80,7 @@ public class Level {
 
     public void runToNextCell() {
         Vector3f next = getNextCell();
+        lewis.updatePosition((int) next.getY(), (int) next.getX());
         runToCell((int) next.getX(), (int) next.getY());
     }
 
@@ -91,6 +110,7 @@ public class Level {
     public boolean getCanvasActive() {
         return canvasActive;
     }
+
     public void drawOnCanvas(float x, float y) {
         canvas.drawSquare(x, y);
     }
@@ -120,4 +140,26 @@ public class Level {
     public DrawingCanvas getCanvas() {
         return canvas;
     }
+
+
+    /** Cast a spell according to the figure that was drawn
+     * @param figure string representation of the figure that was drawn
+     */
+    public void castSpell(String figure) {
+        interact.getSpell(figure).cast(interact);
+    }
+
+    /**
+     * @param x mouse coord
+     * @param y mouse coord
+     */
+    public void placeObstruction(double x, double y) {
+        if (interact.enoughMana(0.1f) && mana.isAvailable()) {
+            interact.reduceMana(0.1f);
+            terrain.placeObstruction(x, y, lewis.getMazeX(), lewis.getMazeY());
+            findPath();
+            mana.setUnavailable(2000);
+        }
+    }
+    
 }

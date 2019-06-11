@@ -3,6 +3,8 @@ package killinglewis;
 import killinglewis.Entities.Camera;
 import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Models.Level;
+import killinglewis.Models.Terrain;
+import killinglewis.Shadows.ShadowMapMaker;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
@@ -35,6 +37,8 @@ public class KillingLewis implements Runnable {
     public static final int WINDOW_WIDTH = 1280;
     /* Window height. */
     public static final int WINDOW_HEIGHT = 720;
+    /*Aspect Ratio. */
+    public static final float ASPECT_RATIO = (float) WINDOW_WIDTH / (float) WINDOW_HEIGHT;
     public static final float RIGHT = 10.0f, FAR = -15.0f;
     /* Current window. */
     private long window;
@@ -43,13 +47,15 @@ public class KillingLewis implements Runnable {
     /* Target FPS. */
     private final int TARGET_FPS  = 60;
     /* Level currently displayed. */
-    Level level;
+     public Level level;
     /* Last key pressed */
     private int lastKey = GLFW_KEY_TAB;
     /* SpellInput object*/
     SpellInput rawPosition = new SpellInput();
-
     public Camera camera = Camera.getInstance();
+    ShadowMapMaker shadowMaker;
+
+    private boolean oKeyDown = false;
 
     /**
      * Initialize GLFW window.
@@ -115,6 +121,7 @@ public class KillingLewis implements Runnable {
 
         level = new Level(new Maze("mazes/BigMaze.txt"));
         level.findPath();
+        shadowMaker = new ShadowMapMaker(camera);
     }
 
     @Override
@@ -160,6 +167,10 @@ public class KillingLewis implements Runnable {
             level.setCanvasActive(false);
         }
 
+        if (KeyboardInput.keys[GLFW_KEY_O]) {
+            level.placeObstruction(CursorPosition.xpos, CursorPosition.ypos);
+        }
+
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
             if (level.getCanvasActive()) {
                 level.drawOnCanvas((float) CursorPosition.xpos, (float) CursorPosition.ypos);
@@ -178,6 +189,7 @@ public class KillingLewis implements Runnable {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
+        //shadowMaker.render(level,light);
         glfwSwapBuffers(window);
     }
 
@@ -227,6 +239,14 @@ public class KillingLewis implements Runnable {
     }
 
 
+
+    /**
+     *
+     * @return shadow map texture id
+     */
+    private int getShadowMapTexture() {
+        return shadowMaker.getShadowMap();
+    }
 
     /**
      * @param args the command line arguments

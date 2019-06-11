@@ -22,4 +22,8 @@ public class Wall {
         wall.translate(position);
         wall.draw();
     }
+
+    public VertexArray getVertexArray(){
+        return wall;
+    }
 }

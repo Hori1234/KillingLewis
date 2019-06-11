@@ -241,6 +241,42 @@ public class VertexArray {
         return new Vector3f(array[index - 1], array[index], array[index + 1]);
     }
 
+    public int getVao() {
+        return vao;
+    }
+
+    public int getVbo() {
+        return vbo;
+    }
+
+    public int getNbo() {
+        return nbo;
+    }
+
+    public int getTbo() {
+        return tbo;
+    }
+
+    public int getIbo() {
+        return ibo;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Shader getShader() {
+        return shader;
+    }
+
+    public Vector3f getJointVertex() {
+        return jointVertex;
+    }
+
     public float getWidth() {
         return width;
     }

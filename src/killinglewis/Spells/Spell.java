@@ -1,5 +1,7 @@
 package killinglewis.Spells;
 
+import killinglewis.utils.InteractionManager;
+
 /** Generic representation of a spell
  * @author Joris
  */
@@ -18,7 +20,7 @@ public abstract class Spell {
         this.mana = mana;
     }
 
-    public abstract void cast();
+    public abstract void cast(InteractionManager interact);
 
     public String getName() {
         return this.name;

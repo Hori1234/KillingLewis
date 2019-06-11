@@ -26,6 +26,10 @@ public class Maze {
     private int width;
     //The path to the file:
     private String filepath;
+    //Representations of the spells in the maze
+    public static final int FLAME_SPELL = 2;
+    public static final int HAMER_SPELL = 3;
+    public static final int SOAK_SPELL = 4;
 
     /**
      * Constructor of class Maze
@@ -73,6 +77,17 @@ public class Maze {
 
     public int getWidth() {
         return width;
+    }
+
+    public void setWall(int x, int y, int lewisX, int lewisY) {
+        maze[y][x] = 1;
+
+        startX = lewisX;
+        startY = lewisY;
+    }
+
+    public void setPath(int x, int y) {
+        maze[y][x] = 0;
     }
 
     /**

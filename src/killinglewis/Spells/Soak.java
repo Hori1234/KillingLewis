@@ -1,5 +1,7 @@
 package killinglewis.Spells;
 
+import killinglewis.utils.InteractionManager;
+
 public class Soak extends Spell {
 
     int stamina;
@@ -19,7 +21,8 @@ public class Soak extends Spell {
     }
 
     @Override
-    public void cast() {
-
+    public void cast(InteractionManager interact) {
+        interact.reduceStamina(this.stamina);
+        interact.reduceMana(this.getManaCost());
     }
 }

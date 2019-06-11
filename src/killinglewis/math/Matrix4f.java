@@ -6,6 +6,8 @@ import java.util.Vector;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static killinglewis.KillingLewis.WINDOW_HEIGHT;
+import static killinglewis.KillingLewis.WINDOW_WIDTH;
 
 public class Matrix4f {
     private float[] matrix = new float[16];
@@ -88,6 +90,17 @@ public class Matrix4f {
         matrix = scaled.multiply(this).getMatrix();
     }
 
+    public Vector4f multiply (Vector4f other) {
+
+        float x_new = this.getMatrix()[0 + 0 * 4] * other.getX() + this.getMatrix()[1 + 0 * 4] * other.getY() + this.getMatrix()[2 + 0 * 4] * other.getZ() + this.getMatrix()[3 + 0 * 4];
+        float y_new = this.getMatrix()[0 + 1 * 4] * other.getX() + this.getMatrix()[1 + 1 * 4] * other.getY() + this.getMatrix()[2 + 1 * 4] * other.getZ() + this.getMatrix()[3 + 1 * 4];
+        float z_new = this.getMatrix()[0 + 2 * 4] * other.getX() + this.getMatrix()[1 + 2 * 4] * other.getY() + this.getMatrix()[2 + 2 * 4] * other.getZ() + this.getMatrix()[3 + 2 * 4];
+        float w_new = this.getMatrix()[0 + 3 * 4] * other.getX() + this.getMatrix()[1 + 3 * 4] * other.getY() + this.getMatrix()[2 + 3 * 4] * other.getZ() + this.getMatrix()[3 + 3 * 4];
+
+        Vector4f multipied = new Vector4f(x_new, y_new, z_new, w_new);
+        return multipied;
+    }
+
     public Matrix4f multiply(Matrix4f other) {
         Matrix4f multiplied = new Matrix4f();
         for (int i = 0; i < 4; i++) {
@@ -101,6 +114,132 @@ public class Matrix4f {
         }
 
         return multiplied;
+    }
+
+    public static Matrix4f invert(Matrix4f src) {
+        float determinant = src.determinant();
+        Matrix4f dest = new Matrix4f();
+
+        if (determinant != 0) {
+
+            float determinant_inv = 1f/determinant;
+
+            // first row
+            float t00 =  determinant3x3(src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 2], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t01 = -determinant3x3(src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 2], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t02 =  determinant3x3(src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 3]);
+            float t03 = -determinant3x3(src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 2],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2]);
+            // second row
+            float t10 = -determinant3x3(src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 2], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t11 =  determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 2], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t12 = -determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 3]);
+            float t13 =  determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 2],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2]);
+            // third row
+            float t20 =  determinant3x3(src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t21 = -determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t22 =  determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 3],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 3]);
+            float t23 = -determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2],
+                    src.matrix[3 * 4 + 0], src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2]);
+            // fourth row
+            float t30 = -determinant3x3(src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[3 * 4 + 1], src.matrix[3 * 4 + 2], src.matrix[3 * 4 + 3]);
+            float t31 =  determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 2], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 2], src.matrix[1 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 2], src.matrix[2 * 4 + 3]);
+            float t32 = -determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 3],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 3],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 3]);
+            float t33 =  determinant3x3(src.matrix[0 * 4 + 0], src.matrix[0 * 4 + 1], src.matrix[0 * 4 + 2],
+                    src.matrix[1 * 4 + 0], src.matrix[1 * 4 + 1], src.matrix[1 * 4 + 2],
+                    src.matrix[2 * 4 + 0], src.matrix[2 * 4 + 1], src.matrix[2 * 4 + 2]);
+
+            // transpose and divide by the determinant
+            dest.matrix[0 * 4 + 0] = t00*determinant_inv;
+            dest.matrix[1 * 4 + 1] = t11*determinant_inv;
+            dest.matrix[2 * 4 + 2] = t22*determinant_inv;
+            dest.matrix[3 * 4 + 3] = t33*determinant_inv;
+            dest.matrix[0 * 4 + 1] = t10*determinant_inv;
+            dest.matrix[1 * 4 + 0] = t01*determinant_inv;
+            dest.matrix[2 * 4 + 0] = t02*determinant_inv;
+            dest.matrix[0 * 4 + 2] = t20*determinant_inv;
+            dest.matrix[1 * 4 + 2] = t21*determinant_inv;
+            dest.matrix[2 * 4 + 1] = t12*determinant_inv;
+            dest.matrix[0 * 4 + 3] = t30*determinant_inv;
+            dest.matrix[3 * 4 + 0] = t03*determinant_inv;
+            dest.matrix[1 * 4 + 3] = t31*determinant_inv;
+            dest.matrix[3 * 4 + 1] = t13*determinant_inv;
+            dest.matrix[3 * 4 + 2] = t23*determinant_inv;
+            dest.matrix[2 * 4 + 3] = t32*determinant_inv;
+            return dest;
+        } else
+            return null;
+    }
+
+    public float determinant() {
+        float f =
+                this.getMatrix()[0 * 4 + 0] * ((this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 3]
+                        + this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 1]
+                        + this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 2])
+                        - this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 1]
+                        - this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 2]
+                        - this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 3]);
+        f -=
+                this.getMatrix()[0 * 4 + 1] * ((this.getMatrix()[1* 4 + 0] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 3]
+                        + this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 0]
+                        + this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 2])
+                        - this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 0]
+                        - this.getMatrix()[1 * 4 + 0] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 2]
+                        - this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 3]);
+        f -=
+                this.getMatrix()[0 * 4 + 2] * ((this.getMatrix()[1 * 4 + 0] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 3]
+                        + this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 0]
+                        + this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 1])
+                        - this.getMatrix()[1 * 4 + 3] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 0]
+                        - this.getMatrix()[1 * 4 + 0] * this.getMatrix()[2 * 4 + 3] * this.getMatrix()[3 * 4 + 1]
+                        - this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 3]);
+        f -=
+                this.getMatrix()[0 * 4 + 3] * ((this.getMatrix()[1 * 4 + 0] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 2]
+                        + this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 0]
+                        + this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 1])
+                        - this.getMatrix()[1 * 4 + 2] * this.getMatrix()[2 * 4 + 1] * this.getMatrix()[3 * 4 + 0]
+                        - this.getMatrix()[1 * 4 + 0] * this.getMatrix()[2 * 4 + 2] * this.getMatrix()[3 * 4 + 1]
+                        - this.getMatrix()[1 * 4 + 1] * this.getMatrix()[2 * 4 + 0] * this.getMatrix()[3 * 4 + 2]);
+
+
+        return f;
+    }
+
+    public static float determinant3x3(float t00, float t01, float t02,
+                                        float t10, float t11, float t12,
+                                        float t20, float t21, float t22)
+    {
+        return   t00 * (t11 * t22 - t12 * t21)
+                + t01 * (t12 * t20 - t10 * t22)
+                + t02 * (t10 * t21 - t11 * t20);
     }
 
     public static Matrix4f getTransformationMatrix(Vector3f scale, Vector3f rotation, Vector3f translation){
@@ -158,7 +297,7 @@ public class Matrix4f {
         return projection;
     }
 
-    public static Matrix4f perspective(float fov, float aspectRatio, float near, float far) {
+    public static Matrix4f getProjectionMatrix(float fov, float aspectRatio, float near, float far) {
         Matrix4f projection = new Matrix4f();
 
         projection.matrix[0 + 0 * 4] = (float)(1.0 / Math.tan((fov * (Math.PI / 180)) / 2.0)) * aspectRatio;
