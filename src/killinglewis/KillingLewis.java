@@ -12,6 +12,9 @@ import killinglewis.input.SpellInput;
 import killinglewis.utils.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+
+import java.security.Key;
+
 import static killinglewis.utils.Shader.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -162,6 +165,14 @@ public class KillingLewis implements Runnable {
 
         if (KeyboardInput.keys[GLFW_KEY_O]) {
             level.placeObstruction(CursorPosition.xpos, CursorPosition.ypos);
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_I]) {
+            level.openExpOverlay();
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_ESCAPE] && level.expOverlayActive()) {
+            level.closeExpOverlay();
         }
 
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
