@@ -11,9 +11,9 @@ public abstract class Spell {
     private String figure; // figure that has to be drawn
     private String action; // description of the spell effect
 
-    private int mana; // mana cost to cast spell
+    private float mana; // mana cost to cast spell
 
-    public Spell(String name, String figure, String action, int mana) {
+    public Spell(String name, String figure, String action, float mana) {
         this.name = name;
         this.figure = figure;
         this.action = action;
@@ -34,7 +34,7 @@ public abstract class Spell {
         return this.action;
     }
 
-    public int getManaCost() {
+    public float getManaCost() {
         return this.mana;
     }
 }

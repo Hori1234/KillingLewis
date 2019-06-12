@@ -4,17 +4,17 @@ import killinglewis.utils.InteractionManager;
 
 public class Flame extends Spell {
 
-    int health;
-    int speed;
+    float health;
+    float speed;
 
-    public Flame(String name, String figure, String action, int mana, int health, int speed) {
+    public Flame(String name, String figure, String action, float mana, float health, float speed) {
         super(name, figure, action, mana);
 
         this.health = health;
         this.speed = speed;
     }
 
-    public Flame(int mana, int health, int speed) {
+    public Flame(float mana, float health, float speed) {
         this("Flame", "Triangle", "Set Lewis on fire", mana, health, speed);
     }
 

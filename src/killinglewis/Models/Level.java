@@ -2,6 +2,10 @@ package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.ModelLoader.NNLoader;
+import killinglewis.Spells.Flame;
+import killinglewis.Spells.Soak;
+import killinglewis.Spells.Spell;
+import killinglewis.input.CursorPosition;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
@@ -18,6 +22,9 @@ public class Level {
     private Overlay health, mana, instruct_short;
     private progressOverlay healthProgress, manaProgress;
     private boolean canvasActive;
+
+    public boolean placeObstacleClick = false;
+
     public InteractionManager interact;
 
     public Level(Maze maze) {
@@ -27,6 +34,9 @@ public class Level {
         canvas = new DrawingCanvas();
         interact = new InteractionManager();
         canvasActive = false;
+
+        interact.addSpell(new Flame(0.2f, 0.2f, 0.02f));
+        interact.addSpell(new Soak(0.2f, 0.2f));
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
 
@@ -137,26 +147,20 @@ public class Level {
     }
 
     public void checkResult(){
-//        String[] result = NNLoader.result;
-////        if (result != null) {
-////            for (int j=0; j<result.length; j++){
-////                System.out.print(result[j]);
-////            }
-////            System.out.println();
-////            boolean notfound = true;
-////            int spellNumber = 0;
-////            int i = -1;
-////            while (notfound && i < result.length -1 ) {
-////                i++;
-////                if (result[i].equals("1")) {
-////                    //System.out.println(i);
-////                    spellNumber = i;
-////                    notfound = true;
-////                }
-////            }
-////            System.out.println("Spell " + spellNumber + " " + "casted");
-////        }
+
         System.out.print("Spell " + NNLoader.resultedLabel + " " + "casted");
+
+        if (NNLoader.resultedLabel == 2 && interact.getMana() - interact.getSpell("Triangle").getManaCost() >= 0) {
+            this.castSpell("Triangle");
+        }
+
+        else if (NNLoader.resultedLabel == 1 && interact.getMana() - interact.getSpell("Circle").getManaCost() >= 0) {
+            this.castSpell("Circle");
+        }
+
+        else if (NNLoader.resultedLabel == 3) {
+            placeObstacleClick = true;
+        }
     }
     public DrawingCanvas getCanvas() {
         return canvas;

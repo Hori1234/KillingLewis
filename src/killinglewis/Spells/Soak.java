@@ -4,15 +4,15 @@ import killinglewis.utils.InteractionManager;
 
 public class Soak extends Spell {
 
-    int stamina;
+    float stamina;
 
-    public Soak(String name, String figure, String action, int mana, int stamina) {
+    public Soak(String name, String figure, String action, float mana, float stamina) {
         super(name, figure, action, mana);
 
         this.stamina = stamina;
     }
 
-    public Soak(int mana, int stamina) {
+    public Soak(float mana, float stamina) {
         this("Soak", "Circle", "Soak Lewis", mana, stamina);
     }
 
