@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NNLoader extends Thread {
 
@@ -84,6 +83,10 @@ public class NNLoader extends Thread {
                 System.out.println("lalala");
                 //loadModelPython();
                 loadModelJava();
+            }
+
+            if (this.isInterrupted()) {
+                break;
             }
         }
     }
