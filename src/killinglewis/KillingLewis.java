@@ -65,15 +65,8 @@ public class KillingLewis implements Runnable {
 
         //Initialize Thread of the NN and the NN loader
         loader = new NNLoader(inPath,true);
-//        try{
-//
-//            nnThread = new Thread(loader);
-//            nnThread.start();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         loader.start();
+
         // initialize GLFW
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
@@ -175,6 +168,12 @@ public class KillingLewis implements Runnable {
             if (level.getCanvasActive()) {
                 level.drawOnCanvas((float) CursorPosition.xpos, (float) CursorPosition.ypos);
             }
+
+            if(level.placeObstacleClick) {
+                level.placeObstruction(CursorPosition.xpos, CursorPosition.ypos);
+                level.placeObstacleClick = false;
+            }
+
         } else {
             if (level.getCanvasActive() && level.getCanvas().getIsDrawing()) {
                 level.getCanvas().saveDrawing();

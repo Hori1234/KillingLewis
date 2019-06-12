@@ -1,6 +1,8 @@
 package killinglewis.utils;
 
 import java.util.ArrayList;
+
+import killinglewis.Spells.Flame;
 import killinglewis.Spells.Spell;
 
 /** Class that manages all interactions on Lewis
@@ -11,7 +13,7 @@ public class InteractionManager {
     private float stamina;  // Lewis' stamina
     private float mana;     // Players mana
     private int obstruct = 10;   // nr of obstructions
-    private ArrayList<Spell> spells;    // List of spells that can be cast on Lewis
+    private ArrayList<Spell> spells = new ArrayList<>();    // List of spells that can be cast on Lewis
 
     /** Constructor
      * @param health
@@ -22,6 +24,7 @@ public class InteractionManager {
         this.health = health;
         this.stamina = stamina;
         this.mana = mana;
+
     }
 
     /** Default constructor
