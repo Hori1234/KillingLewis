@@ -2,10 +2,10 @@ package killinglewis.Models;
 
 import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.ModelLoader.NNLoader;
-import killinglewis.Spells.Spell;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
+import killinglewis.utils.Shader;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,8 @@ public class Level {
     private Maze maze;
     private DrawingCanvas canvas;
     private ArrayList<Integer> path;
-    private Overlay health, mana;
+    private Overlay health, mana, instruct_short;
+    private progressOverlay healthProgress, manaProgress;
     private boolean canvasActive;
     public InteractionManager interact;
 
@@ -24,20 +25,40 @@ public class Level {
         lewis = new Lewis(maze.getStartX(), maze.getStartY());
         terrain = new Terrain(maze);
         canvas = new DrawingCanvas();
-        health = new Overlay("textures/health.png", 0, "textures/lewis_health_txt.png");
-        mana = new Overlay("textures/mana.png", 1, "textures/player_mana_txt.png");
         interact = new InteractionManager();
         canvasActive = false;
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
+
+        this.createOverlays();
     }
-    
+
+    public void createOverlays() {
+        // health overlay
+        healthProgress = new progressOverlay("textures/health.png", 0.83f, 0.85f, Shader.OVERLAY_SHADER);
+        healthProgress.scale(0.2f, 0.05f, 1f);
+        health = new Overlay("textures/lewis_health_txt.png", 0.85f, 0.91f,  Shader.OVERLAY_TXT_SHADER);
+        health.scale(0.25f, 0.07f, 1f);
+
+        // mana overlay
+        manaProgress = new progressOverlay("textures/mana.png", -0.85f, 0.85f, Shader.OVERLAY_SHADER);
+        manaProgress.scale(0.2f, 0.05f, 1f);
+        mana = new progressOverlay("textures/player_mana_txt.png", -0.85f, 0.91f, Shader.OVERLAY_TXT_SHADER);
+        mana.scale(0.22f, 0.07f, 1f);
+
+        // instructions overlay
+        instruct_short = new Overlay("textures/instructions_short.png", 0.85f, -0.85f, Shader.OVERLAY_TXT_SHADER);
+        instruct_short.scale(0.2f, 0.2f, 1f);
+    }
 
     public void render() {
         terrain.render();
         lewis.render();
+        healthProgress.render();
         health.render();
+        manaProgress.render();
         mana.render();
+        instruct_short.render();
 
         if (canvasActive) {
             canvas.render();
@@ -47,8 +68,8 @@ public class Level {
     }
 
     public void update() {
-        health.setProgress(interact.getHealth());   // Set the progress bar to the current health
-        mana.setProgress(interact.getMana());       //
+        healthProgress.setProgress(interact.getHealth());   // Set the progress bar to the current health
+        manaProgress.setProgress(interact.getMana());       //
         lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
         interact.regenerate();
     }

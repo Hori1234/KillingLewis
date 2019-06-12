@@ -2,90 +2,95 @@ package killinglewis.Models;
 
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Shader;
-import org.lwjgl.system.CallbackI;
 
 public class Overlay {
     VertexArray overlay;
-    VertexArray overlayText = null;
-    float progress;
+    String overlayPath;
+    float pos_x;
+    float pos_y;
+    Shader overlayShader;
+    boolean visible = true;
     boolean available = true;
-    float overlayTextSpacing = 0f;
-    int position;
 
-    public Overlay(String texturePath, int position, String textPath) {
-        overlay = new VertexArray("res/terrain.obj", texturePath, Shader.OVERLAY_SHADER);
-        if (textPath != null) {
-            overlayText = new VertexArray("res/terrain.obj", textPath, Shader.OVERLAY_TXT_SHADER);
-            overlayTextSpacing = -0.08f;
-        }
-        progress = 1.0f;
-        this.position = position;
-
-        overlay.scale(new Vector3f(1.0f / 3.0f, 1.0f / 16.0f, 1.0f));
-        if (overlayText != null) overlayText.scale(new Vector3f(.2f, .05f, 1.0f));
-
+    public Overlay(String overlayPath, float pos_x, float pos_y, Shader shader) {
+        this.overlay = new VertexArray("res/terrain.obj", overlayPath, shader);
+        this.overlayPath = overlayPath;
+        this.pos_x = pos_x;
+        this.pos_y = pos_y;
+        this.overlayShader = shader;
     }
 
-    public Overlay(String texturePath, int position) {
-        this(texturePath, position, null);
+    public Overlay(String overlayPath, Shader shader) {
+        this(overlayPath, 0f, 0f, shader);
     }
 
-    public void changeProgress(float change) {
-        if (progress + change >= 0.0f || progress + change <= 1.0f) {
-            progress += change;
-        }
+    public Overlay(String overlayPath, float pos_x, float pos_y) {
+        this(overlayPath, pos_x, pos_y, Shader.OVERLAY_TXT_SHADER);
+    }
+
+    public Overlay(String overlayPath) {
+        this(overlayPath, 0f, 0f, Shader.OVERLAY_TXT_SHADER);
+    }
+
+    public void setShader(Shader shader) {
+        this.overlay = new VertexArray("res/terrain.obj", this.overlayPath, shader);
+    }
+
+    public void setPos(float x, float y) {
+        this.pos_x = x;
+        this.pos_y = y;
+    }
+
+    public void scale(float x, float y, float z) {
+        this.overlay.scale(new Vector3f(x, y, z));
+    }
+
+    public void show() {
+        this.visible = true;
+    }
+
+    public void hide() {
+        this.visible = false;
+    }
+
+    public boolean isVisible() {
+        return this.visible;
     }
 
     public void setAvailable() {
         this.available = true;
     }
 
-    public void setUnavailable(int timeout) {
-        this.available = false;
-        if (timeout > 0) {
-            new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        setAvailable();
-                    }
-                }, timeout
-            );
-        }
-    }
-
     public void setUnavailable() {
         this.setUnavailable(-1);
     }
 
-    public void changeAvailability() {
-        this.available = !this.available;
+    public void setUnavailable(int timeout) {
+        this.available = false;
+        if (timeout > 0) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            setAvailable();
+                        }
+                    }, timeout
+            );
+        }
     }
 
     public boolean isAvailable() {
         return this.available;
     }
 
-    public void setProgress(float progress) {
-        this.progress = progress;
-    }
-
     public void render() {
-        overlay.resetTranslation();
-        overlay.translate(new Vector3f(0.75f - position * 1.5f, 0.96f + overlayTextSpacing, -0.5f));
-        Shader.OVERLAY_SHADER.enable();
-        Shader.OVERLAY_SHADER.setUniform1f("progress", progress);
-        overlay.draw();
-        if (overlayText != null) {
-            overlayText.resetTranslation();
-            Shader.OVERLAY_TXT_SHADER.enable();
+        if (visible) {
+            this.overlay.resetTranslation();
+            this.overlay.translate(new Vector3f(pos_x, pos_y, -0.5f));
+            this.overlayShader.enable();
             float available_f = (available) ? 1f : 0f;
-            Shader.OVERLAY_TXT_SHADER.setUniform1f("available", available_f);
-            overlayText.translate(new Vector3f(0.68f - position * 1.5f, 0.94f, -0.5f));
-            overlayText.draw();
+            this.overlayShader.setUniform1f("available", available_f);
+            this.overlay.draw();
         }
-
-
-
     }
 }
