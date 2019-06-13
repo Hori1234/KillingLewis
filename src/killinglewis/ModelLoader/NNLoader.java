@@ -80,7 +80,7 @@ public class NNLoader extends Thread {
 
         while (true) {
             if (NNLoader.processing) {
-                System.out.println("lalala");
+                System.out.println("NN processing");
                 //loadModelPython();
                 loadModelJava();
             }

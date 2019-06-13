@@ -148,7 +148,7 @@ public class KillingLewis implements Runnable {
         }
 
 
-        if (KeyboardInput.keys[GLFW_KEY_SPACE]) {
+        if (!KeyboardInput.keys[GLFW_KEY_SPACE]) {
             if (!level.getLewis().getIsRunning()) {
                 level.runToNextCell();
             }
@@ -186,11 +186,6 @@ public class KillingLewis implements Runnable {
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
             if (level.getCanvasActive()) {
                 level.drawOnCanvas((float) CursorPosition.xpos, (float) CursorPosition.ypos);
-            }
-
-            if(level.placeObstacleClick) {
-                level.placeObstruction(CursorPosition.xpos, CursorPosition.ypos);
-                level.placeObstacleClick = false;
             }
 
         } else {

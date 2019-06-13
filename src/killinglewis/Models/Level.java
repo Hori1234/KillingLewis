@@ -19,12 +19,10 @@ public class Level {
     private Maze maze;
     private DrawingCanvas canvas;
     private ArrayList<Integer> path;
-    private Overlay health, mana, instruct_short, instruct_exp, endoverlay;
+    private Overlay health, mana, instruct_short, instruct_exp, endoverlay, obstruct_avail;
     private progressOverlay healthProgress, manaProgress;
     private boolean canvasActive;
     private boolean ongoing; // the level is not finished
-
-    public boolean placeObstacleClick = false;
 
     public InteractionManager interact;
 
@@ -38,8 +36,8 @@ public class Level {
         endoverlay = null;
 
         interact = new InteractionManager();
-        interact.addSpell(new Flame(0.2f, 0.2f, 0.02f));
-        interact.addSpell(new Soak(0.2f, 0.2f));
+        interact.addSpell(new Flame(0.3f, 0.2f, 0.1f));
+        interact.addSpell(new Soak(0.2f, 0.5f));
 
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
 
@@ -61,6 +59,7 @@ public class Level {
             manaProgress.render();
             instruct_short.render();
             instruct_exp.render();
+            obstruct_avail.render();
         }
 
         if (endoverlay != null) {
@@ -78,7 +77,7 @@ public class Level {
         } else {
             healthProgress.setProgress(interact.getHealth());   // Set the progress bar to the current health
             manaProgress.setProgress(interact.getMana());       //
-            lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
+            lewis.setSpeed(interact.getStamina() * 0.01f);  // Set Lewis' speed according to his stamina
             interact.regenerate();
         }
     }
@@ -149,12 +148,14 @@ public class Level {
 
         System.out.print("Spell " + NNLoader.resultedLabel + " " + "casted");
 
-        if (NNLoader.resultedLabel == 2 && interact.getMana() - interact.getSpell("Triangle").getManaCost() >= 0) {
-            this.castSpell("Triangle");
-        } else if (NNLoader.resultedLabel == 1 && interact.getMana() - interact.getSpell("Circle").getManaCost() >= 0) {
-            this.castSpell("Circle");
+        if (NNLoader.resultedLabel == 1 && interact.getMana() - interact.getSpell("Flame").getManaCost() >= 0) {
+            this.castSpell("Flame");
+        } else if (NNLoader.resultedLabel == 2 && interact.getMana() - interact.getSpell("Soak").getManaCost() >= 0) {
+            this.castSpell("Soak");
         } else if (NNLoader.resultedLabel == 3) {
-            placeObstacleClick = true;
+            interact.addObstruct();
+            obstruct_avail.setAvailable();
+            System.out.println("obstructions avail: " + String.valueOf(interact.getObstruct()));
         }
     }
 
@@ -162,26 +163,30 @@ public class Level {
         return canvas;
     }
 
-    /**
-     * Cast a spell according to the figure that was drawn
-     *
-     * @param figure string representation of the figure that was drawn
-     */
-    public void castSpell(String figure) {
-        interact.getSpell(figure).cast(interact);
+    public void castSpell(String name) {
+        interact.getSpell(name).cast(interact);
     }
 
-    /**
-     * @param x mouse coord
-     * @param y mouse coord
-     */
     public void placeObstruction(double x, double y) {
-        if (interact.enoughMana(0.1f) && mana.isAvailable()) {
-            interact.reduceMana(0.1f);
+        if (interact.enoughMana(0.2f) && mana.isAvailable() && interact.enoughObstruct()) {
+            interact.reduceMana(interact.obstructionCost());
             terrain.placeObstruction(x, y, lewis.getMazeX(), lewis.getMazeY());
             findPath();
             mana.setUnavailable(2000);
+            interact.reduceObstruct();
+            if (!interact.enoughObstruct()) obstruct_avail.setUnavailable();
         }
+    }
+
+    public void endGame(String winner) {
+        this.ongoing = false;
+
+        String overlayPath = "textures/end_" + winner + "_win.png";
+        endoverlay = new Overlay(overlayPath, 0,0, Shader.OVERLAY_TXT_SHADER);
+    }
+
+    public boolean finished() {
+        return !this.ongoing;
     }
 
     public void openExpOverlay() {
@@ -196,17 +201,6 @@ public class Level {
 
     public boolean expOverlayActive() {
         return !instruct_short.isVisible();
-    }
-
-    public void endGame(String winner) {
-        this.ongoing = false;
-
-        String overlayPath = "textures/end_" + winner + "_win.png";
-        endoverlay = new Overlay(overlayPath, 0,0, Shader.OVERLAY_TXT_SHADER);
-    }
-
-    public boolean finished() {
-        return !this.ongoing;
     }
 
     public void createOverlays() {
@@ -228,5 +222,10 @@ public class Level {
         instruct_exp = new Overlay("textures/instructions_expand.png", 0f, 0f, Shader.OVERLAY_TXT_SHADER);
         instruct_exp.scale(1f, 1f, 1f);
         instruct_exp.hide();
+
+        // obstruction available
+        obstruct_avail = new Overlay("textures/obstruct_avail.png", -0.8f, -0.9f, Shader.OVERLAY_TXT_SHADER);
+        obstruct_avail.scale(0.3f, 0.1f, 1f);
+        obstruct_avail.setUnavailable();
     }
 }

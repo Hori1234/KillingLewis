@@ -5,17 +5,17 @@ import killinglewis.utils.InteractionManager;
 public class Flame extends Spell {
 
     float health;
-    float speed;
+    float stamina;
 
-    public Flame(String name, String figure, String action, float mana, float health, float speed) {
+    public Flame(String name, String figure, String action, float mana, float health, float stamina) {
         super(name, figure, action, mana);
 
         this.health = health;
-        this.speed = speed;
+        this.stamina = stamina;
     }
 
-    public Flame(float mana, float health, float speed) {
-        this("Flame", "Triangle", "Set Lewis on fire", mana, health, speed);
+    public Flame(float mana, float health, float stamina) {
+        this("Flame", "Triangle", "Set Lewis on fire", mana, health, stamina);
     }
 
     public Flame() {
@@ -25,7 +25,7 @@ public class Flame extends Spell {
     @Override
     public void cast(InteractionManager interact) {
         interact.reduceHealth(this.health);
-        interact.reduceStamina(this.speed);
+        interact.reduceStamina(this.stamina);
         interact.reduceMana(this.getManaCost());
     }
 }
