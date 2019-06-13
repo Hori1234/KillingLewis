@@ -16,7 +16,7 @@ public class InteractionManager {
     private int obstruct = 0;   // nr of obstructions
     private ArrayList<Spell> spells = new ArrayList<>();    // List of spells that can be cast on Lewis
     private static float HEALTH_REGEN = 0.0001f;
-    private static float STAMINA_REGEN = 0.0001f;
+    private static float STAMINA_REGEN = 0.001f;
     private static float MANA_REGEN = 0.0005f;
 
     /** Constructor

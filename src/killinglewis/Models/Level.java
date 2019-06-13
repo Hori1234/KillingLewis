@@ -182,7 +182,7 @@ public class Level {
         this.ongoing = false;
 
         String overlayPath = "textures/end_" + winner + "_win.png";
-        endoverlay = new Overlay(overlayPath, 0,0, Shader.OVERLAY_TXT_SHADER);
+        if (endoverlay == null) endoverlay = new Overlay(overlayPath, 0,0, Shader.OVERLAY_TXT_SHADER);
     }
 
     public boolean finished() {
