@@ -94,8 +94,8 @@ public class ShadowBox {
         float y = (minY + maxY) / 2f;
         float z = (minZ + maxZ) / 2f;
         Vector4f cen = new Vector4f(x, y, z, 1);
-        Matrix4f invertedLight = Matrix4f.invert(lightViewMatrix);
-        Vector4f multi = invertedLight.multiply(cen);
+        Matrix4f invertedLight = lightViewMatrix.invert();
+        Vector4f multi = lightViewMatrix.multiply(cen);
         return new Vector3f(multi);
     }
 
@@ -192,9 +192,8 @@ public class ShadowBox {
      * @param FOV camera's field of view
      */
     private void calculateWidthsAndHeights(float FOV) {
-        farWidth = (float) (SHADOW_DISTANCE * Math.tan(Math.toRadians(FOV)));
-        nearWidth = (float) (NEAR
-                * Math.tan(Math.toRadians(FOV)));
+        farWidth = (float) (SHADOW_DISTANCE);
+        nearWidth = (float) (NEAR);
         farHeight = farWidth / ASPECT_RATIO;
         nearHeight = nearWidth / ASPECT_RATIO;
     }
