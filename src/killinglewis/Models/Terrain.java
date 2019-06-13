@@ -46,6 +46,7 @@ public class Terrain {
 
         if (mazeX == lewisY && mazeY == lewisX) { // maze X,Y and lewis X,Y are flipped
             System.out.println("Cannot place obstruction on Lewis");
+            maze.setWall(-1,-1, lewisX, lewisY); // update lewis' position anyways
         } else {
             maze.setWall(mazeX, mazeY, lewisX, lewisY);
             walls = getWalls();
