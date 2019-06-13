@@ -100,8 +100,51 @@ public class Lewis {
     public void render() {
         if (isRunning) {
             runToNext();
+            drawMoving();
         }
+        drawStatic();
+    }
 
+    public boolean getIsRunning() {
+        return isRunning;
+    }
+
+    /**
+     * Gets the x-axis coordinate in the maze where this object is currently placed.
+     *
+     * @return x-axis maze coordinate
+     */
+    public int getMazeX() {
+        return mazeX;
+    }
+
+    /**
+     * Gets the y-axis coordinate in the maze where this object is currently placed.
+     *
+     * @return y-axis maze coordinate
+     */
+    public int getMazeY() {
+        return mazeY;
+    }
+
+    public float getSpeed() {
+        return this.speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public void changeSpeed(float speedChange) {
+        this.speed = speed + speedChange;
+    }
+
+    public void updatePosition(int x, int y) {
+        this.mazeX = x;
+        this.mazeY = y;
+    }
+
+    private void drawMoving() {
         if (l >= 60) {
             p = true;
         } else if (l <= -60) {
@@ -136,26 +179,16 @@ public class Lewis {
         lewis.translate(new Vector3f(0.0f, 0.0f, 0.2f));
     }
 
-    public boolean getIsRunning() {
-        return isRunning;
-    }
-
-    /**
-     * Gets the x-axis coordinate in the maze where this object is currently placed.
-     *
-     * @return x-axis maze coordinate
-     */
-    public int getMazeX() {
-        return mazeX;
-    }
-
-    /**
-     * Gets the y-axis coordinate in the maze where this object is currently placed.
-     *
-     * @return y-axis maze coordinate
-     */
-    public int getMazeY() {
-        return mazeY;
+    private void drawStatic() {
+        torso.draw();
+        upperLArm.draw();
+        lowerLArm.draw();
+        upperRArm.draw();
+        lowerRArm.draw();
+        upperLLeg.draw();
+        lowerLLeg.draw();
+        upperRLeg.draw();
+        lowerRLeg.draw();
     }
 
     private void rotateUpper(VertexArray upper, float angle) {
@@ -185,22 +218,5 @@ public class Lewis {
         m.translate(lewis.getTranslation());
         Shader.LEWIS_SHADER.enable();
         Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
-    }
-
-    public float getSpeed() {
-        return this.speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public void changeSpeed(float speedChange) {
-        this.speed = speed + speedChange;
-    }
-
-    public void updatePosition(int x, int y) {
-        this.mazeX = x;
-        this.mazeY = y;
     }
 }

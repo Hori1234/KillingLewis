@@ -83,13 +83,17 @@ public class Maze {
         if (x >= 0 && y >= 0) {
             maze[y][x] = 1;
         }
-        
+
         startX = lewisX;
         startY = lewisY;
     }
 
     public void setPath(int x, int y) {
         maze[y][x] = 0;
+    }
+
+    public boolean reachedGoal(int lewisX, int lewisY) {
+        return lewisX == this.goalX && lewisY == this.goalY;
     }
 
     /**

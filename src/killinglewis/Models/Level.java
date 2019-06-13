@@ -19,9 +19,10 @@ public class Level {
     private Maze maze;
     private DrawingCanvas canvas;
     private ArrayList<Integer> path;
-    private Overlay health, mana, instruct_short, instruct_exp;
+    private Overlay health, mana, instruct_short, instruct_exp, endoverlay;
     private progressOverlay healthProgress, manaProgress;
     private boolean canvasActive;
+    private boolean ongoing; // the level is not finished
 
     public boolean placeObstacleClick = false;
 
@@ -33,6 +34,8 @@ public class Level {
         terrain = new Terrain(maze);
         canvas = new DrawingCanvas();
         canvasActive = false;
+        ongoing = true;
+        endoverlay = null;
 
         interact = new InteractionManager();
         interact.addSpell(new Flame(0.2f, 0.2f, 0.02f));
@@ -46,25 +49,38 @@ public class Level {
     public void render() {
         terrain.render();
         lewis.render();
-        health.render();
-        mana.render();
-        healthProgress.render();
-        manaProgress.render();
-        instruct_short.render();
-        instruct_exp.render();
 
         if (canvasActive) {
             canvas.render();
+        }
+
+        if (ongoing) {  // Render the overlays while the game is running
+            health.render();
+            mana.render();
+            healthProgress.render();
+            manaProgress.render();
+            instruct_short.render();
+            instruct_exp.render();
+        }
+
+        if (endoverlay != null) {
+            endoverlay.render();
         }
 
         update();
     }
 
     public void update() {
-        healthProgress.setProgress(interact.getHealth());   // Set the progress bar to the current health
-        manaProgress.setProgress(interact.getMana());       //
-        lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
-        interact.regenerate();
+        if (maze.reachedGoal(lewis.getMazeX(), lewis.getMazeY())) { // Lewis won
+            endGame("lewis");
+        } else if (interact.getHealth() == 0) {
+            endGame("player");
+        } else {
+            healthProgress.setProgress(interact.getHealth());   // Set the progress bar to the current health
+            manaProgress.setProgress(interact.getMana());       //
+            lewis.setSpeed(interact.getStamina() * 0.02f);  // Set Lewis' speed according to his stamina
+            interact.regenerate();
+        }
     }
 
     public void renderShadow() {
@@ -180,6 +196,17 @@ public class Level {
 
     public boolean expOverlayActive() {
         return !instruct_short.isVisible();
+    }
+
+    public void endGame(String winner) {
+        this.ongoing = false;
+
+        String overlayPath = "textures/end_" + winner + "_win.png";
+        endoverlay = new Overlay(overlayPath, 0,0, Shader.OVERLAY_TXT_SHADER);
+    }
+
+    public boolean finished() {
+        return !this.ongoing;
     }
 
     public void createOverlays() {

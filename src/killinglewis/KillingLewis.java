@@ -60,6 +60,8 @@ public class KillingLewis implements Runnable {
 
     private boolean oKeyDown = false;
 
+    private static boolean NEW_WINDOW_ON_RESTART = false;
+
     /**
      * Initialize GLFW window.
      */
@@ -81,8 +83,10 @@ public class KillingLewis implements Runnable {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-        // create the window
-        window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Killing Lewis", NULL, NULL);
+        // create the window if it does not exist yet
+        if (window == NULL || NEW_WINDOW_ON_RESTART) {
+            window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Killing Lewis", NULL, NULL);
+        }
 
         // throw exception if window creation has failed
         if (window == NULL) {
@@ -173,6 +177,10 @@ public class KillingLewis implements Runnable {
 
         if (KeyboardInput.keys[GLFW_KEY_ESCAPE] && level.expOverlayActive()) {
             level.closeExpOverlay();
+        }
+
+        if (KeyboardInput.keys[GLFW_KEY_ENTER] && level.finished()) {
+            this.run();
         }
 
         if (MouseInput.mouseButton[GLFW_MOUSE_BUTTON_LEFT]) {
