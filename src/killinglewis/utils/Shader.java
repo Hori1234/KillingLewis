@@ -26,7 +26,7 @@ public class Shader {
 
 
     private int id;
-    public static Light light = new Light(new Vector3f(10000,100000,10000), new Vector3f(1,1,1));
+    public static Light light = new Light(new Vector3f(10000,10000,10000), new Vector3f(1,1,1));
 
     public Camera camera = Camera.getInstance();
 
