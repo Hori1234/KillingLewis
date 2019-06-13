@@ -15,6 +15,9 @@ public class InteractionManager {
     private float obstructCost = 0.2f;
     private int obstruct = 0;   // nr of obstructions
     private ArrayList<Spell> spells = new ArrayList<>();    // List of spells that can be cast on Lewis
+    private static float HEALTH_REGEN = 0.0001f;
+    private static float STAMINA_REGEN = 0.0001f;
+    private static float MANA_REGEN = 0.0005f;
 
     /** Constructor
      * @param health
@@ -113,9 +116,9 @@ public class InteractionManager {
     }
 
     public void regenerate() {
-        this.health += (this.health / 1000);
-        this.mana += (this.mana / 1000);
-        this.stamina += (this.stamina / 1000);
+        this.health += HEALTH_REGEN;
+        this.mana += MANA_REGEN;
+        this.stamina += STAMINA_REGEN;
 
         if (this.health >= 1f) this.health = 1f;
         if (this.mana >= 1f) this.mana = 1f;
