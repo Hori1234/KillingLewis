@@ -44,9 +44,12 @@ public class Terrain {
         int mazeX = (int) floor((x / WINDOW_WIDTH) / cellWidth);
         int mazeY = (int) floor((y / WINDOW_HEIGHT) / cellHeight);
 
-        maze.setWall(mazeX, mazeY, lewisX, lewisY);
-
-        walls = getWalls();
+        if (mazeX == lewisY && mazeY == lewisX) { // maze X,Y and lewis X,Y are flipped
+            System.out.println("Cannot place obstruction on Lewis");
+        } else {
+            maze.setWall(mazeX, mazeY, lewisX, lewisY);
+            walls = getWalls();
+        }
     }
 
     public Vector3f getCellPosition(int x, int y) {
