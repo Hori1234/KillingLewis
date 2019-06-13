@@ -12,7 +12,8 @@ public class InteractionManager {
     private float health;   // Lewis' health
     private float stamina;  // Lewis' stamina
     private float mana;     // Players mana
-    private int obstruct = 10;   // nr of obstructions
+    private float obstructCost = 0.2f;
+    private int obstruct = 0;   // nr of obstructions
     private ArrayList<Spell> spells = new ArrayList<>();    // List of spells that can be cast on Lewis
 
     /** Constructor
@@ -42,9 +43,9 @@ public class InteractionManager {
         this.spells.remove(spell);
     }
 
-    public Spell getSpell(String figure) {
+    public Spell getSpell(String name) {
         for (Spell spell : this.spells) {
-            if (spell.getFigure().equals(figure)) {
+            if (spell.getName().equals(name)) {
                 return spell;
             }
         }
@@ -60,7 +61,7 @@ public class InteractionManager {
     }
 
     public void reduceHealth(float reduction) {
-        this.health = this.health - reduction;
+        this.health = (this.health - reduction > 0) ? this.health - reduction : 0f;
     }
 
     public float getStamina() {
@@ -72,7 +73,7 @@ public class InteractionManager {
     }
 
     public void reduceStamina(float reduction) {
-        this.stamina = this.stamina - reduction;
+        this.stamina = (this.stamina - reduction > 0) ? this.stamina - reduction : 0f;
     }
 
     public void setMana(float mana) {
@@ -84,7 +85,7 @@ public class InteractionManager {
     }
 
     public void reduceMana(float reduction) {
-        this.mana = this.mana - reduction;
+        this.mana = (this.mana - reduction > 0) ? this.mana - reduction : 0f;
     }
 
     public boolean enoughMana(float cost) {
@@ -95,8 +96,8 @@ public class InteractionManager {
         return this.obstruct;
     }
 
-    public void setObstruct(int obstruct) {
-        this.obstruct = obstruct;
+    public void addObstruct() {
+        this.obstruct = this.obstruct + 1;
     }
 
     public void reduceObstruct() {
@@ -107,10 +108,14 @@ public class InteractionManager {
         return this.obstruct > 0;
     }
 
+    public float obstructionCost() {
+        return this.obstructCost;
+    }
+
     public void regenerate() {
-        this.health += (this.health / 2000);
-        this.mana += (this.mana / 2000);
-        this.stamina += (this.stamina / 2000);
+        this.health += (this.health / 1000);
+        this.mana += (this.mana / 1000);
+        this.stamina += (this.stamina / 1000);
 
         if (this.health >= 1f) this.health = 1f;
         if (this.mana >= 1f) this.mana = 1f;
