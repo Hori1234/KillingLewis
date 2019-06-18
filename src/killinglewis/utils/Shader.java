@@ -6,7 +6,6 @@ import killinglewis.KillingLewis;
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
 
-import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
 
 public class Shader {
@@ -26,7 +25,7 @@ public class Shader {
 
 
     private int id;
-    public static Light light = new Light(new Vector3f(10000,10000,10000), new Vector3f(1,1,1));
+    public static Light light = new Light(new Vector3f(0,0,500), new Vector3f(1,1,1));
 
     public Camera camera = Camera.getInstance();
 

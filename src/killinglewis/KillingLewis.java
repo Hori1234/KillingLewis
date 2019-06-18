@@ -3,22 +3,20 @@ package killinglewis;
 import killinglewis.Entities.Camera;
 import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Models.Level;
-import killinglewis.Models.Terrain;
 import killinglewis.Shadows.ShadowMapMaker;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
 import killinglewis.input.SpellInput;
-import killinglewis.utils.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-
-import java.security.Key;
+import killinglewis.utils.Maze;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 
 import static killinglewis.utils.Shader.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 
 /**
@@ -27,9 +25,6 @@ import static org.lwjgl.system.MemoryUtil.*;
  */
 public class KillingLewis implements Runnable {
 
-    /* Thread handling the Neural Network. */
-    private Thread nnThread;
-    private String path = "C:\\Users\\swhyo\\Desktop\\PythonCNN\\NeuralNetTest.py";
     private String inPath = "NeuralNetwork\\NeuralNetTest.py";
     private boolean isNnRunning = false;
     /* Neural Network Loader. */
@@ -57,8 +52,6 @@ public class KillingLewis implements Runnable {
     SpellInput rawPosition = new SpellInput();
     public Camera camera = Camera.getInstance();
     ShadowMapMaker shadowMaker;
-
-    private boolean oKeyDown = false;
 
     private static boolean NEW_WINDOW_ON_RESTART = false;
 

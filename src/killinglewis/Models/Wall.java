@@ -20,6 +20,7 @@ public class Wall {
         wall.resetScaling();
         wall.scale(size);
         wall.translate(position);
+        wall.translate(new Vector3f(0.0f, 0.0f, 0.5f));
         wall.draw();
     }
 

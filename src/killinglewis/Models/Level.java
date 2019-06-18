@@ -4,8 +4,6 @@ import killinglewis.ArtificialIntelligence.AStar;
 import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Spells.Flame;
 import killinglewis.Spells.Soak;
-import killinglewis.Spells.Spell;
-import killinglewis.input.CursorPosition;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;

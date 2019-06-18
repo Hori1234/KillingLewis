@@ -2,11 +2,9 @@ package killinglewis.Models;
 
 import killinglewis.math.Matrix4f;
 import killinglewis.math.Vector3f;
-import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Shader;
 
 import static java.lang.Math.*;
-import static killinglewis.KillingLewis.*;
 
 public class Lewis {
     private VertexArray lewis;
@@ -33,15 +31,15 @@ public class Lewis {
         currentPos = lewis.getTranslation();
         targetPos = lewis.getTranslation();
 
-        torso = new VertexArray("res/lewis_torso.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        upperLArm = new VertexArray("res/lewis_upper_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        lowerLArm = new VertexArray("res/lewis_lower_la.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        upperRArm = new VertexArray("res/lewis_upper_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        lowerRArm = new VertexArray("res/lewis_lower_ra.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        upperLLeg = new VertexArray("res/lewis_upper_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        lowerLLeg = new VertexArray("res/lewis_lower_ll.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        upperRLeg = new VertexArray("res/lewis_upper_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
-        lowerRLeg = new VertexArray("res/lewis_lower_rl.obj", "textures/lewis.png", Shader.LEWIS_SHADER);
+        torso = new VertexArray("res/lewis_torso.obj", "textures/Torso.png", Shader.LEWIS_SHADER);
+        upperLArm = new VertexArray("res/lewis_upper_la.obj", "textures/HandLU.png", Shader.LEWIS_SHADER);
+        lowerLArm = new VertexArray("res/lewis_lower_la.obj", "textures/HandLD.png", Shader.LEWIS_SHADER);
+        upperRArm = new VertexArray("res/lewis_upper_ra.obj", "textures/HandRU.png", Shader.LEWIS_SHADER);
+        lowerRArm = new VertexArray("res/lewis_lower_ra.obj", "textures/HandRD.png", Shader.LEWIS_SHADER);
+        upperLLeg = new VertexArray("res/lewis_upper_ll.obj", "textures/LegLU.png", Shader.LEWIS_SHADER);
+        lowerLLeg = new VertexArray("res/lewis_lower_ll.obj", "textures/LegLD.png", Shader.LEWIS_SHADER);
+        upperRLeg = new VertexArray("res/lewis_upper_rl.obj", "textures/LegRU.png", Shader.LEWIS_SHADER);
+        lowerRLeg = new VertexArray("res/lewis_lower_rl.obj", "textures/LegRD.png", Shader.LEWIS_SHADER);
     }
 
     /**
@@ -101,8 +99,9 @@ public class Lewis {
         if (isRunning) {
             runToNext();
             drawMoving();
+        } else {
+            drawStatic();
         }
-        drawStatic();
     }
 
     public boolean getIsRunning() {
@@ -158,7 +157,7 @@ public class Lewis {
         }
 
         lewis.rotateY(0);
-        lewis.translate(new Vector3f(0.0f, 0.0f, -0.2f));
+        lewis.translate(new Vector3f(0.0f, 0.0f, 0.3f));
         torso.draw();
         rotateUpper(upperLArm, l);
         upperLArm.draw();
@@ -176,7 +175,7 @@ public class Lewis {
         upperRLeg.draw();
         rotateLower(upperRLeg, lowerRLeg, l, abs(l / 60.0f * 120));
         lowerRLeg.draw();
-        lewis.translate(new Vector3f(0.0f, 0.0f, 0.2f));
+        lewis.translate(new Vector3f(0.0f, 0.0f, -0.3f));
     }
 
     private void drawStatic() {
