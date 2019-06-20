@@ -5,7 +5,6 @@ import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Models.Level;
 import killinglewis.Models.Lewis;
 import killinglewis.Models.Particle;
-import killinglewis.Models.VertexArray;
 import killinglewis.Shadows.ShadowMapMaker;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
@@ -143,7 +142,6 @@ public class KillingLewis implements Runnable {
         if (isNnRunning) {
 
             if (!NNLoader.processing) {
-                System.out.println("pizda ma-tii friptule");
                 level.checkResult();
                 isNnRunning = false;
             }
@@ -170,7 +168,7 @@ public class KillingLewis implements Runnable {
         }
         if (KeyboardInput.keys[GLFW_KEY_T]) {
             Lewis lewis  = level.getLewis();
-            new Particle(new Vector3f(lewis.getMazeX() , lewis.getMazeY(),1.5f), new Vector3f(0,0,1), 1,  4, 0,1);
+            new Particle(lewis.getCurrentPos(), new Vector3f(0,0,1), 1,  4, 0,1);
         }
 
         if (KeyboardInput.keys[GLFW_KEY_O]) {
@@ -209,7 +207,6 @@ public class KillingLewis implements Runnable {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
-        ParticleManager.renderParticles();
         //shadowMaker.render(level,light);
         glfwSwapBuffers(window);
     }

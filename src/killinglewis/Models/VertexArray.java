@@ -9,7 +9,6 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.Vector;
 
 import static org.lwjgl.opengl.GL30.*;
 
