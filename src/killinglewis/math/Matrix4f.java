@@ -21,7 +21,7 @@ public class Matrix4f {
     m20 m21 m22 m23
     m30 m31 m32 m33
      */
-    private float[] matrix = new float[16];
+    public float[] matrix = new float[16];
 
     /**
      * Returns the identity matrix in the form of a Matrix4f.
@@ -332,4 +332,6 @@ public class Matrix4f {
 
         return viewMatrix;
     }
+
+
 }

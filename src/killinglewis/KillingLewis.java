@@ -3,12 +3,17 @@ package killinglewis;
 import killinglewis.Entities.Camera;
 import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Models.Level;
+import killinglewis.Models.Lewis;
+import killinglewis.Models.Particle;
+import killinglewis.Models.VertexArray;
 import killinglewis.Shadows.ShadowMapMaker;
 import killinglewis.input.CursorPosition;
 import killinglewis.input.KeyboardInput;
 import killinglewis.input.MouseInput;
 import killinglewis.input.SpellInput;
+import killinglewis.math.Vector3f;
 import killinglewis.utils.Maze;
+import killinglewis.utils.ParticleManager;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -115,6 +120,8 @@ public class KillingLewis implements Runnable {
         level = new Level(new Maze("mazes/BigMaze.txt"));
         level.findPath();
         shadowMaker = new ShadowMapMaker(camera);
+        updateCamera();
+        ParticleManager.intitialize();
     }
 
     @Override
@@ -130,6 +137,8 @@ public class KillingLewis implements Runnable {
 
     private void update() {
         glfwPollEvents();
+
+        ParticleManager.update();
 
         if (isNnRunning) {
 
@@ -158,6 +167,10 @@ public class KillingLewis implements Runnable {
             lastKey = GLFW_KEY_TAB;
         } else {
             level.setCanvasActive(false);
+        }
+        if (KeyboardInput.keys[GLFW_KEY_T]) {
+            Lewis lewis  = level.getLewis();
+            new Particle(new Vector3f(lewis.getMazeX() , lewis.getMazeY(),1.5f), new Vector3f(0,0,1), 1,  4, 0,1);
         }
 
         if (KeyboardInput.keys[GLFW_KEY_O]) {
@@ -192,9 +205,11 @@ public class KillingLewis implements Runnable {
     }
 
     private void render() {
+        glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
+        ParticleManager.renderParticles();
         //shadowMaker.render(level,light);
         glfwSwapBuffers(window);
     }
@@ -209,9 +224,9 @@ public class KillingLewis implements Runnable {
 
         while (!glfwWindowShouldClose(window)) {
             // render and update the game state
-            render();
             updateCamera();
             update();
+            render();
             //increase the frames counter
             frameCounter++;
 
@@ -242,6 +257,12 @@ public class KillingLewis implements Runnable {
         TERRAIN_SHADER.enable();;
         TERRAIN_SHADER.loadViewMatrix(camera);
         TERRAIN_SHADER.disable();
+        SHADOW_SHADER.enable();
+        SHADOW_SHADER.loadViewMatrix(camera);
+        SHADOW_SHADER.disable();
+        PARTICLE_SHADER.enable();
+        PARTICLE_SHADER.loadViewMatrix(camera);
+        PARTICLE_SHADER.disable();
     }
 
 

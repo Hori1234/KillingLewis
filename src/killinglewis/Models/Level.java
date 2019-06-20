@@ -7,9 +7,11 @@ import killinglewis.Spells.Soak;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.InteractionManager;
 import killinglewis.utils.Maze;
+import killinglewis.utils.ParticleManager;
 import killinglewis.utils.Shader;
 
 import java.util.ArrayList;
+
 
 public class Level {
     private Lewis lewis;
@@ -36,7 +38,6 @@ public class Level {
         interact = new InteractionManager();
         interact.addSpell(new Flame(0.3f, 0.2f, 0.1f));
         interact.addSpell(new Soak(0.2f, 0.5f));
-
         lewis.moveTo(terrain.getCellPosition(lewis.getMazeX(), lewis.getMazeY()));
 
         this.createOverlays();
@@ -45,6 +46,9 @@ public class Level {
     public void render() {
         terrain.render();
         lewis.render();
+        ParticleManager.renderParticles();
+
+
 
         if (canvasActive) {
             canvas.render();
@@ -63,6 +67,7 @@ public class Level {
         if (endoverlay != null) {
             endoverlay.render();
         }
+
 
         update();
     }

@@ -79,7 +79,7 @@ public class Lewis {
             }
             if (turnAngle < angle) {
                 turnAngle += 10.0f;
-                lewis.rotateZ(- 10.0f);
+                lewis.rotateZ(-10.0f);
             } else if (turnAngle > angle) {
                 turnAngle -= 10.0f;
                 lewis.rotateZ(10.0f);
@@ -90,7 +90,7 @@ public class Lewis {
 
         currentPos = lewis.getTranslation();
 
-        if(deltaPos.getX() == 0.0f && deltaPos.getY() == 0.0f && deltaPos.getZ() == 0.0f) {
+        if (deltaPos.getX() == 0.0f && deltaPos.getY() == 0.0f && deltaPos.getZ() == 0.0f) {
             isRunning = false;
         }
     }
@@ -217,5 +217,9 @@ public class Lewis {
         m.translate(lewis.getTranslation());
         Shader.LEWIS_SHADER.enable();
         Shader.LEWIS_SHADER.setUniformMat4f("transformation", m);
+    }
+
+    public Vector3f getCurrentPos() {
+        return currentPos;
     }
 }

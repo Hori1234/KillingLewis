@@ -19,7 +19,7 @@ import static killinglewis.utils.Shader.*;
 
 public class ShadowMapMaker {
 
-    private static final int SHADOW_MAP_SIZE = 2048;
+    private static final int SHADOW_MAP_SIZE = 1024;
     /** Frame Buffer that will contain the depth values**/
     private DepthFrameBuffer shadowFbo;
     /**Shadow box that pertains info about the view cuboid**/
@@ -95,12 +95,10 @@ public class ShadowMapMaker {
      * @param box the shadow box
      */
     private void prepare(Vector3f lightDirection, ShadowBox box) {
-        updateOrthoProjectionMatrix(box.getWidth(), box.getHeight(), box.getLength());
-        updateLightViewMatrix(lightDirection, box.getCenter());
+        updateOrthoProjectionMatrix();
+        updateLightViewMatrix(lightDirection);
         projectionViewMatrix =  projectionMatrix.multiply(lightViewMatrix);
         shadowFbo.bindFB();
-        glEnable(GL_DEPTH_TEST);
-        glClear(GL_DEPTH_BUFFER_BIT);
         SHADOW_SHADER.enable();
     }
 
@@ -128,9 +126,9 @@ public class ShadowMapMaker {
      * @param center
      *            - the center of the "view cuboid" in world space.
      */
-    private void updateLightViewMatrix(Vector3f direction, Vector3f center) {
+    private void updateLightViewMatrix(Vector3f direction) {
         direction.normalise();
-        center.negate();
+        Vector3f center = new Vector3f(0,0,0);
         lightViewMatrix =  identityMatrix();
         float pitch = (float) Math.acos(new Vector2f(direction.getX(), direction.getZ()).length());
         lightViewMatrix.rotateX(pitch);
@@ -148,12 +146,9 @@ public class ShadowMapMaker {
      * @param height shadow box height.
      * @param length shadow box length.
      */
-    private void updateOrthoProjectionMatrix(float width, float height, float length) {
-        projectionMatrix = identityMatrix();
-        projectionMatrix.getMatrix()[0 * 4 + 0] = 2f / width;
-        projectionMatrix.getMatrix()[1 * 4 + 1]= 2f / height;
-        projectionMatrix.getMatrix()[2 * 4 + 2] = -2f / length;
-        projectionMatrix.getMatrix()[3 * 4 + 3] = 1;
+    private void updateOrthoProjectionMatrix() {
+        projectionMatrix = Matrix4f.getOrthographicMatrix(1.0f*KillingLewis.RIGHT, LEFT,
+                TOP, BOTTOM, 1.0f * KillingLewis.FAR, NEAR);
     }
 
     /**

@@ -32,7 +32,7 @@ public class ShadowBox {
     protected ShadowBox(Matrix4f lightViewMatrix, Camera camera) {
         this.lightViewMatrix = lightViewMatrix;
         this.camera = camera;
-        calculateWidthsAndHeights(60);
+        calculateWidthsAndHeights();
     }
 
     /**
@@ -121,8 +121,8 @@ public class ShadowBox {
     }
 
     /**
-     * Calculates the vertices positions for all corners of the view frustum
-     * in light coordinates.
+     * Calculates the vertices positions forall corners of the view frustum
+     *      * in light coordinates.
      *
      * @param rotation camera's rotation.
      * @param forwardVector the direction that the camera is aiming, and thus the
@@ -181,21 +181,21 @@ public class ShadowBox {
      */
     private Matrix4f calculateCameraRotationMatrix() {
         Matrix4f rotation = new Matrix4f();
-        rotation.rotateY((float) Math.toRadians(-camera.getYaw()));
         rotation.rotateX((float) Math.toRadians(-camera.getPitch()));
+        rotation.rotateY((float) Math.toRadians(-camera.getYaw()));
+
         return rotation;
     }
 
     /**
      * Calculates the width and height of the near and far planes of the
      * camera's view frustum.
-     * @param FOV camera's field of view
      */
-    private void calculateWidthsAndHeights(float FOV) {
-        farWidth = (float) (SHADOW_DISTANCE);
-        nearWidth = (float) (NEAR);
-        farHeight = farWidth / ASPECT_RATIO;
-        nearHeight = nearWidth / ASPECT_RATIO;
+    private void calculateWidthsAndHeights() {
+        farWidth =  FAR;
+        nearWidth = NEAR;
+        farHeight = farWidth;
+        nearHeight = nearWidth;
     }
 
 }
