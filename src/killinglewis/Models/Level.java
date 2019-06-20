@@ -5,12 +5,11 @@ import killinglewis.ModelLoader.NNLoader;
 import killinglewis.Spells.Flame;
 import killinglewis.Spells.Soak;
 import killinglewis.math.Vector3f;
-import killinglewis.utils.InteractionManager;
-import killinglewis.utils.Maze;
-import killinglewis.utils.ParticleManager;
-import killinglewis.utils.Shader;
+import killinglewis.utils.*;
 
 import java.util.ArrayList;
+
+import static killinglewis.KillingLewis.particleSystem;
 
 
 public class Level {
@@ -46,7 +45,6 @@ public class Level {
     public void render() {
         terrain.render();
         lewis.render();
-        ParticleManager.renderParticles();
 
 
 
@@ -168,6 +166,19 @@ public class Level {
 
     public void castSpell(String name) {
         interact.getSpell(name).cast(interact);
+        Lewis lewis = getLewis();
+        if (name.equals("Flame")) {
+            ParticleManager.setParticle(0);
+            for (int i = 0; i < 15; i++) {
+                particleSystem.generateParticles(lewis.getCurrentPos());
+            }
+        } else if (name.equals("Soak")) {
+            ParticleManager.setParticle(1);
+            for (int i = 0; i < 15; i++) {
+                particleSystem.generateParticles(lewis.getCurrentPos());
+            }
+        }
+
     }
 
     public void placeObstruction(double x, double y) {

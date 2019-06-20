@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public class Particle {
 
-    public static final float GRAVITY = -50;
+    public static final float GRAVITY = -2;
 
     VertexArray particle;
     String texturePath;
@@ -21,7 +21,7 @@ public class Particle {
     private float rotation;
     private float size;
     private float timeElapsed = 0.0f;
-    private float startTime = (float)System.currentTimeMillis()/1000;
+    private float startTime;
 
 
     public Particle(String texturePath, Shader shader, Vector3f position, Vector3f velocity, float gravityEffect, float life, float rotation, float size) {
@@ -34,6 +34,7 @@ public class Particle {
         this.life = life;
         this.rotation = rotation;
         this.size = size;
+        this.startTime = (float)glfwGetTime();
         ParticleManager.addParticle(this);
     }
     public Particle(Vector3f position, Vector3f velocity, float gravityEffect, float life, float rotation, float size) {
@@ -43,6 +44,7 @@ public class Particle {
         this.life = life;
         this.rotation = rotation;
         this.size = size;
+        this.startTime = (float)glfwGetTime();
         ParticleManager.addParticle(this);
     }
 
@@ -60,11 +62,12 @@ public class Particle {
     }
 
     public boolean update() {
-        float y_velocity = GRAVITY * gravityEffect * (float)System.currentTimeMillis()/1000;
-        Vector3f change = velocity.add(new Vector3f(1,1,1));
-        change = change.scale((float) System.currentTimeMillis()/1000);
-        position = position.add(change);
-        timeElapsed  = (float)System.currentTimeMillis()/1000 - startTime;
+        float y_velocity = GRAVITY * gravityEffect * (float)glfwGetTime()/1000;
+        this.velocity = new Vector3f(velocity.getX(), velocity.getY() + y_velocity, velocity.getZ() + y_velocity);
+        Vector3f change = velocity.add(new Vector3f(0,y_velocity,y_velocity ));
+        change = change.scale((float) glfwGetTime()/1000);
+        this.position = position.add(change);
+        timeElapsed  += (float)glfwGetTime() - startTime;
         return timeElapsed < life;
     }
 

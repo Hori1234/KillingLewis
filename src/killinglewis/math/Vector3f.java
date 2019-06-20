@@ -13,6 +13,11 @@ public class Vector3f {
     /* Normal Z vector. */
     public final static Vector3f zVector = new Vector3f(0, 0, 1);
 
+    public Vector3f(Vector3f vector3f) {
+        this.x = vector3f.getX();
+        this.y = vector3f.getY();
+        this.z = vector3f.getZ();
+    }
     public Vector3f(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -114,12 +119,11 @@ public class Vector3f {
         return new Vector3f(x - otherVector.getX(), y - otherVector.getY(), z - otherVector.getZ());
     }
 
-    public Vector3f normalise () {
+    public void normalise () {
         float len = this.getLength();
         this.x = x / len;
         this.y = y / len;
         this.z = z / len;
-        return this;
     }
 
     public Vector3f negate() {

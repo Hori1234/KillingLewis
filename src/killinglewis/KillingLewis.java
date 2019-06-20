@@ -13,6 +13,7 @@ import killinglewis.input.SpellInput;
 import killinglewis.math.Vector3f;
 import killinglewis.utils.Maze;
 import killinglewis.utils.ParticleManager;
+import killinglewis.utils.ParticleSystem;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -56,6 +57,8 @@ public class KillingLewis implements Runnable {
     SpellInput rawPosition = new SpellInput();
     public Camera camera = Camera.getInstance();
     ShadowMapMaker shadowMaker;
+    public static ParticleSystem particleSystem = new ParticleSystem(150f,45f,0.2f,15f);
+
 
     private static boolean NEW_WINDOW_ON_RESTART = false;
 
@@ -167,8 +170,7 @@ public class KillingLewis implements Runnable {
             level.setCanvasActive(false);
         }
         if (KeyboardInput.keys[GLFW_KEY_T]) {
-            Lewis lewis  = level.getLewis();
-            new Particle(lewis.getCurrentPos(), new Vector3f(0,0,1), 1,  4, 0,1);
+
         }
 
         if (KeyboardInput.keys[GLFW_KEY_O]) {
@@ -207,6 +209,7 @@ public class KillingLewis implements Runnable {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
+        ParticleManager.renderParticles();
         //shadowMaker.render(level,light);
         glfwSwapBuffers(window);
     }

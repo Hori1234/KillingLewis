@@ -14,7 +14,11 @@ public class ParticleManager {
     private static ParticleMaker particleMaker;
 
     public static void intitialize() {
-        particleMaker = new ParticleMaker("textures/nr_1.png");
+        particleMaker = new ParticleMaker(0);
+    }
+
+    public static void setParticle(int type){
+        particleMaker = new ParticleMaker(type);
     }
 
     public static void update() {

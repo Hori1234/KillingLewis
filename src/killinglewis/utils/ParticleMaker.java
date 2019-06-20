@@ -13,13 +13,17 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ParticleMaker {
 
-    private VertexArray quad;
-    private Shader shader;
-    private String texturePath;
+    protected VertexArray quad;
+    protected Shader shader;
+    private int  type;
 
-    public ParticleMaker(String texturePath) {
-        this.texturePath = texturePath;
-        quad = new VertexArray("res/wall.obj", "textures/cow.jpg", PARTICLE_SHADER);
+    public ParticleMaker(int type) {
+        this.type = type;
+        if(type == 0) {
+            quad = new VertexArray("res/wall.obj", "textures/fire.png", PARTICLE_SHADER);
+        }else if(type == 1) {
+            quad = new VertexArray("res/wall.obj", "textures/bubble.png", PARTICLE_SHADER);
+        }
         this.shader = PARTICLE_SHADER;
     }
 
@@ -44,16 +48,12 @@ public class ParticleMaker {
      */
     private void prepare() {
         shader.enable();
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDepthMask(false);
+
         shader.disable();
     }
 
     private void finish() {
         shader.enable();
-        glDepthMask(true);
-        glDisable(GL_BLEND);
-        shader.disable();
+
     }
 }
