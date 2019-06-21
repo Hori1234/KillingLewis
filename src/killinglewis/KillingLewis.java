@@ -122,6 +122,10 @@ public class KillingLewis implements Runnable {
         shadowMaker = new ShadowMapMaker(camera);
         updateCamera();
         ParticleManager.intitialize();
+
+        int[] x = new int[1], y = new int[1];
+        glfwGetFramebufferSize(window, x, y);
+        glViewport(0, 0, x[0], y[0]);
     }
 
     @Override
@@ -203,9 +207,6 @@ public class KillingLewis implements Runnable {
     }
 
     private void render() {
-        int[] x = new int[1], y = new int[1];
-        glfwGetFramebufferSize(window, x, y);
-        glViewport(0, 0, x[0], y[0]);
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         level.render();
