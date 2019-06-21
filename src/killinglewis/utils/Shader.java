@@ -27,7 +27,7 @@ public class Shader {
     public static Matrix4f PROJECTION_MATRIX = Matrix4f.getOrthographicMatrix(1.0f*KillingLewis.RIGHT, LEFT,
             TOP, BOTTOM, 1.0f * KillingLewis.FAR, NEAR);
 
-    public static Light light = new Light(new Vector3f(0,500000,500000), new Vector3f(1,1,1));
+    public static Light light = new Light(new Vector3f(0,0,500), new Vector3f(1,1,1));
 
     public Camera camera = Camera.getInstance();
 

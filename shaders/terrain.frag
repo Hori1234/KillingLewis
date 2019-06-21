@@ -9,8 +9,8 @@ in vec3 toCamera;
 
 uniform sampler2D tex;
 uniform vec3 lightColor;
-float shine = 50;
-float reflectivity = 1;
+float shine = 10;
+float reflectivity = 0.5;
 
 void main() {
     vec3 unitNormal = normalize(surfaceNormal);
@@ -26,5 +26,5 @@ void main() {
     float ndot1 = dot(unitNormal,unitToLight);
     float brightness = max(ndot1, 0.3);
     vec3 diffuse = brightness * lightColor;
-    color = vec4(specular,1.0) + vec4(diffuse,1.0)* texture(tex, tc);
+    color = (vec4(specular,1.0) + vec4(diffuse,1.0))* texture(tex, tc);
 }

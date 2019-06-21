@@ -20,7 +20,7 @@ void main() {
     gl_Position = raw_pos;
     surfaceNormal = (transformation*normal).xyz;
     toLight = lightPosition - (worldCoords.xyz);
-    toCamera = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldCoords.xyz;
+    toCamera = (inverse(viewMatrix) * vec4(1.0,1.0,1.0,1.0)).xyz - worldCoords.xyz;
     tc = tCoord;
 
 }
